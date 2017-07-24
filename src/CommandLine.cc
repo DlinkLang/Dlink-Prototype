@@ -8,7 +8,7 @@ namespace Dlink
 	 * @brief 빈 ParsedCommandLine 인스턴스를 만듭니다.
 	 * @param type ParsedCommandLine의 타입입니다.
 	 */
-	ParsedCommandLine::ParsedCommandLine(ParsedCommandLineType type)
+	ParsedCommandLine::ParsedCommandLine(Type type)
 		: type(type), x(0), y(0), z(0)
 	{}
 	/**
@@ -16,7 +16,7 @@ namespace Dlink
 	 * @param type ParsedCommandLine의 타입입니다.
 	 * @param x 첫번째 값입니다.
 	 */
-	ParsedCommandLine::ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x)
+	ParsedCommandLine::ParsedCommandLine(Type type, std::uintptr_t x)
 		: type(type), x(x), y(0), z(0)
 	{}
 	/**
@@ -25,7 +25,7 @@ namespace Dlink
 	 * @param x 첫번째 값입니다.
 	 * @param y 두번째 값입니다.
 	 */
-	ParsedCommandLine::ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x, std::uintptr_t y)
+	ParsedCommandLine::ParsedCommandLine(Type type, std::uintptr_t x, std::uintptr_t y)
 		: type(type), x(x), y(y), z(0)
 	{}
 	/**
@@ -34,7 +34,7 @@ namespace Dlink
 	 * @param x 첫번째 값입니다.
 	 * @param y 두번째 값입니다.
 	 */
-	ParsedCommandLine::ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x, std::uintptr_t y, std::uintptr_t z)
+	ParsedCommandLine::ParsedCommandLine(Type type, std::uintptr_t x, std::uintptr_t y, std::uintptr_t z)
 		: type(type), x(x), y(y), z(z)
 	{}
 
@@ -63,6 +63,7 @@ namespace Dlink
 	 * @brief 명령줄을 파싱합니다.
 	 * @param argc 명령줄의 개수입니다.
 	 * @param argv 명령줄 배열입니다.
+	 * @exception "std::pair<ParsedCommandLine::Error, std::string>" 파싱 중에 발견된 잘못된 명령의 오류 타입과 오류가 난 명령입니다.
 	 * @return 파싱된 명령줄 데이터 리스트입니다.
 	 */
 	std::vector<ParsedCommandLine> ParseCommandLine(int argc, char** argv)
@@ -82,6 +83,13 @@ namespace Dlink
 				long long level = std::stoll(cmdline.substr(2));
 				result.push_back(ParsedCommandLine(ParsedCommandLine::Optimize, level));
 			}
+
+			else if (cmdline[0] == '/')
+				throw std::make_pair(ParsedCommandLine::Unknown, cmdline);
+			else
+			{
+				result.push_back(ParsedCommandLine(ParsedCommandLine::Input, reinterpret_cast<std::uintptr_t>(new std::string(cmdline))));
+			}
 		}
 
 		return result;
@@ -89,13 +97,15 @@ namespace Dlink
 	/**
 	 * @brief 파싱된 명령줄 데이터 리스트에 오류가 있는지 확인합니다.
 	 * @param parsed_command_line 파싱된 명령줄 데이터 리스트입니다.
-	 * @return 오류가 있으면 true, 없으면 false를 반환합니다.
+	 * @return 가장 처음으로 발견된 명령줄 오류의 타입과 발생 인덱스입니다.
 	 */
-	bool CheckError_ParsedCommandLine(const std::vector<ParsedCommandLine>& parsed_command_line)
+	std::pair<ParsedCommandLine::Error, std::size_t> CheckError_ParsedCommandLine(const std::vector<ParsedCommandLine>& parsed_command_line)
 	{
 		bool have_I = false;
 		bool have_O = false;
+		bool have_i = false;
 
+		std::size_t index = 0;
 		for (const auto& cmdline : parsed_command_line)
 		{
 			switch (cmdline.type)
@@ -108,7 +118,7 @@ namespace Dlink
 				}
 				else
 				{
-					return true;
+					return std::make_pair(ParsedCommandLine::Multi_IR, index);
 				}
 				break;
 			}
@@ -120,14 +130,19 @@ namespace Dlink
 					have_O = true;
 					if (cmdline.x >= 5)
 					{
-						return true;
+						return std::make_pair(ParsedCommandLine::Invalid_Value, index);
 					}
 				}
 				else
 				{
-					return true;
+					return std::make_pair(ParsedCommandLine::Multi_Optimize, index);
 				}
 				break;
+			}
+
+			case ParsedCommandLine::Input:
+			{
+				have_i = true;
 			}
 
 			default:
@@ -135,6 +150,10 @@ namespace Dlink
 			}
 		}
 
-		return false;
+		if (!have_i)
+		{
+			return std::make_pair(ParsedCommandLine::CouldntFind_Input, -1);
+		}
+		return std::make_pair(ParsedCommandLine::Done, -1);
 	}
 }

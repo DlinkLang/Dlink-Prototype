@@ -8,6 +8,7 @@
  */
 
 #include <cstdint>
+#include <utility>
 #include <vector>
 
 namespace Dlink
@@ -21,19 +22,36 @@ namespace Dlink
 		/**
 		 * @brief 파싱된 명령줄 데이터 타입입니다.
 		 */
-		enum ParsedCommandLineType
+		enum Type
 		{
 			None = 0,
 			
 			IR, /**< LLVM IR로 된 파일로 번역합니다. */
 			Optimize, /**< 최적화 수준입니다. */
+			Input, /**< 컴파일할 소스 파일입니다. */
+		};
+		/**
+		 * @brief 파싱하는 도중 발생한 오류 타입입니다.
+		 */
+		enum Error
+		{
+			Done, /**< 명령줄에 오류가 없습니다. */
+			Unknown, /**< 명령줄에 알 수 없는 명령이 있습니다. */
+
+			Multi_IR, /**< 명령줄에 /IR이 여러개 있습니다. */
+			Multi_Optimize, /**< 명령줄에 /O가 여러개 있습니다. */
+
+			No_Input, /**< 컴파일할 소스 파일이 없습니다. */
+
+			CouldntFind_Input, /**< 컴파일할 소스 파일을 찾지 못했습니다. */
+			Invalid_Value, /**< 명령의 설정 값에 오류가 있습니다. */
 		};
 
 	public:
-		ParsedCommandLine(ParsedCommandLineType type);
-		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x);
-		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x, std::uintptr_t y);
-		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x, std::uintptr_t y, std::uintptr_t z);
+		ParsedCommandLine(Type type);
+		ParsedCommandLine(Type type, std::uintptr_t x);
+		ParsedCommandLine(Type type, std::uintptr_t x, std::uintptr_t y);
+		ParsedCommandLine(Type type, std::uintptr_t x, std::uintptr_t y, std::uintptr_t z);
 		/**
 		 * @brief ParsedCommandLine 인스턴스를 복사해 새 인스턴스를 만듭니다.
 		 * @param parsed_command_line 복사할 인스턴스입니다.
@@ -52,12 +70,12 @@ namespace Dlink
 		bool operator!=(const ParsedCommandLine& parsed_command_line) const noexcept;
 
 	public:
-		ParsedCommandLineType type;
+		Type type;
 		std::uintptr_t x;
 		std::uintptr_t y;
 		std::uintptr_t z;
 	};
 
 	std::vector<ParsedCommandLine> ParseCommandLine(int argc, char** argv);
-	bool CheckError_ParsedCommandLine(const std::vector<ParsedCommandLine>& parsed_command_line);
+	std::pair<ParsedCommandLine::Error, std::size_t> CheckError_ParsedCommandLine(const std::vector<ParsedCommandLine>& parsed_command_line);
 }
