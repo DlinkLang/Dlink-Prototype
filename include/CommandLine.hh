@@ -34,11 +34,18 @@ namespace Dlink
 		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x);
 		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x, std::uintptr_t y);
 		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x, std::uintptr_t y, std::uintptr_t z);
-		ParsedCommandLine(const ParsedCommandLine& parsed_command_line);
-		ParsedCommandLine(ParsedCommandLine&& parsed_command_line) noexcept;
+		ParsedCommandLine(const ParsedCommandLine& parsed_command_line) = default;
+		ParsedCommandLine(ParsedCommandLine&& parsed_command_line) noexcept = default;
 		~ParsedCommandLine() = default;
 
 	public:
+		ParsedCommandLine& operator=(const ParsedCommandLine& parsed_command_line) = default;
+		ParsedCommandLine& operator=(ParsedCommandLine&& parsed_command_line) noexcept = default;
+		bool operator==(const ParsedCommandLine& parsed_command_line) const noexcept;
+		bool operator!=(const ParsedCommandLine& parsed_command_line) const noexcept;
+
+	public:
+		ParsedCommandLineType type;
 		std::uintptr_t x;
 		std::uintptr_t y;
 		std::uintptr_t z;
