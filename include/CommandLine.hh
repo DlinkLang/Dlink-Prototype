@@ -4,7 +4,7 @@
  * @file CommandLine.hh
  * @date 2017.07.24
  * @author kmc7468
- * @brief ¸í·ÉÁÙ°ú °ü·ÃµÈ ±â´ÉµéÀÇ ÁıÇÕÀÔ´Ï´Ù.
+ * @brief ëª…ë ¹ì¤„ê³¼ ê´€ë ¨ëœ ê¸°ëŠ¥ë“¤ì˜ ì§‘í•©ì…ë‹ˆë‹¤.
  */
 
 #include <cstdint>
@@ -14,37 +14,37 @@
 namespace Dlink
 {
 	/**
-	 * @brief ÆÄ½ÌµÈ ¸í·ÉÁÙ µ¥ÀÌÅÍÀÔ´Ï´Ù.
+	 * @brief íŒŒì‹±ëœ ëª…ë ¹ì¤„ ë°ì´í„°ì…ë‹ˆë‹¤.
 	 */
 	class ParsedCommandLine final
 	{
 	public:
 		/**
-		 * @brief ÆÄ½ÌµÈ ¸í·ÉÁÙ µ¥ÀÌÅÍ Å¸ÀÔÀÔ´Ï´Ù.
+		 * @brief íŒŒì‹±ëœ ëª…ë ¹ì¤„ ë°ì´í„° íƒ€ì…ì…ë‹ˆë‹¤.
 		 */
 		enum Type
 		{
 			None = 0,
 			
-			IR, /**< LLVM IR·Î µÈ ÆÄÀÏ·Î ¹ø¿ªÇÕ´Ï´Ù. */
-			Optimize, /**< ÃÖÀûÈ­ ¼öÁØÀÔ´Ï´Ù. */
-			Input, /**< ÄÄÆÄÀÏÇÒ ¼Ò½º ÆÄÀÏÀÔ´Ï´Ù. */
+			IR, /**< LLVM IRë¡œ ëœ íŒŒì¼ë¡œ ë²ˆì—­í•©ë‹ˆë‹¤. */
+			Optimize, /**< ìµœì í™” ìˆ˜ì¤€ì…ë‹ˆë‹¤. */
+			Input, /**< ì»´íŒŒì¼í•  ì†ŒìŠ¤ íŒŒì¼ì…ë‹ˆë‹¤. */
 		};
 		/**
-		 * @brief ÆÄ½ÌÇÏ´Â µµÁß ¹ß»ıÇÑ ¿À·ù Å¸ÀÔÀÔ´Ï´Ù.
+		 * @brief íŒŒì‹±í•˜ëŠ” ë„ì¤‘ ë°œìƒí•œ ì˜¤ë¥˜ íƒ€ì…ì…ë‹ˆë‹¤.
 		 */
 		enum Error
 		{
-			Done, /**< ¸í·ÉÁÙ¿¡ ¿À·ù°¡ ¾ø½À´Ï´Ù. */
-			Unknown, /**< ¸í·ÉÁÙ¿¡ ¾Ë ¼ö ¾ø´Â ¸í·ÉÀÌ ÀÖ½À´Ï´Ù. */
+			Done, /**< ëª…ë ¹ì¤„ì— ì˜¤ë¥˜ê°€ ì—†ìŠµë‹ˆë‹¤. */
+			Unknown, /**< ëª…ë ¹ì¤„ì— ì•Œ ìˆ˜ ì—†ëŠ” ëª…ë ¹ì´ ìˆìŠµë‹ˆë‹¤. */
 
-			Multi_IR, /**< ¸í·ÉÁÙ¿¡ /IRÀÌ ¿©·¯°³ ÀÖ½À´Ï´Ù. */
-			Multi_Optimize, /**< ¸í·ÉÁÙ¿¡ /O°¡ ¿©·¯°³ ÀÖ½À´Ï´Ù. */
+			Multi_IR, /**< ëª…ë ¹ì¤„ì— /IRì´ ì—¬ëŸ¬ê°œ ìˆìŠµë‹ˆë‹¤. */
+			Multi_Optimize, /**< ëª…ë ¹ì¤„ì— /Oê°€ ì—¬ëŸ¬ê°œ ìˆìŠµë‹ˆë‹¤. */
 
-			No_Input, /**< ÄÄÆÄÀÏÇÒ ¼Ò½º ÆÄÀÏÀÌ ¾ø½À´Ï´Ù. */
+			No_Input, /**< ì»´íŒŒì¼í•  ì†ŒìŠ¤ íŒŒì¼ì´ ì—†ìŠµë‹ˆë‹¤. */
 
-			CouldntFind_Input, /**< ÄÄÆÄÀÏÇÒ ¼Ò½º ÆÄÀÏÀ» Ã£Áö ¸øÇß½À´Ï´Ù. */
-			Invalid_Value, /**< ¸í·ÉÀÇ ¼³Á¤ °ª¿¡ ¿À·ù°¡ ÀÖ½À´Ï´Ù. */
+			CouldntFind_Input, /**< ì»´íŒŒì¼í•  ì†ŒìŠ¤ íŒŒì¼ì„ ì°¾ì§€ ëª»í–ˆìŠµë‹ˆë‹¤. */
+			Invalid_Value, /**< ëª…ë ¹ì˜ ì„¤ì • ê°’ì— ì˜¤ë¥˜ê°€ ìˆìŠµë‹ˆë‹¤. */
 		};
 
 	public:
@@ -53,17 +53,17 @@ namespace Dlink
 		ParsedCommandLine(Type type, std::uintptr_t x, std::uintptr_t y);
 		ParsedCommandLine(Type type, std::uintptr_t x, std::uintptr_t y, std::uintptr_t z);
 		/**
-		 * @brief ParsedCommandLine ÀÎ½ºÅÏ½º¸¦ º¹»çÇØ »õ ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-		 * @param parsed_command_line º¹»çÇÒ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+		 * @brief ParsedCommandLine ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë³µì‚¬í•´ ìƒˆ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+		 * @param parsed_command_line ë³µì‚¬í•  ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 		 */
 		ParsedCommandLine(const ParsedCommandLine& parsed_command_line) = default;
 		~ParsedCommandLine() = default;
 
 	public:
 		/**
-		 * @brief ParsedCommandLine ÀÎ½ºÅÏ½º¸¦ ÇöÀç ÀÎ½ºÅÏ½º¿¡ ´ëÀÔÇÕ´Ï´Ù.
-		 * @param parsed_command_line ´ëÀÔÇÒ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-		 * @return ÇöÀç ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+		 * @brief ParsedCommandLine ì¸ìŠ¤í„´ìŠ¤ë¥¼ í˜„ì¬ ì¸ìŠ¤í„´ìŠ¤ì— ëŒ€ì…í•©ë‹ˆë‹¤.
+		 * @param parsed_command_line ëŒ€ì…í•  ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
+		 * @return í˜„ì¬ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 		 */
 		ParsedCommandLine& operator=(const ParsedCommandLine& parsed_command_line) = default;
 		bool operator==(const ParsedCommandLine& parsed_command_line) const noexcept;

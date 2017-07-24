@@ -5,43 +5,43 @@
 namespace Dlink
 {
 	/**
-	 * @brief ºó ParsedCommandLine ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param type ParsedCommandLineÀÇ Å¸ÀÔÀÔ´Ï´Ù.
+	 * @brief ë¹ˆ ParsedCommandLine ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param type ParsedCommandLineì˜ íƒ€ì…ì…ë‹ˆë‹¤.
 	 */
 	ParsedCommandLine::ParsedCommandLine(Type type)
 		: type(type), x(0), y(0), z(0)
 	{}
 	/**
-	 * @brief °ªÀÌ ÇÏ³ª ÀÖ´Â ParsedCommandLine ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param type ParsedCommandLineÀÇ Å¸ÀÔÀÔ´Ï´Ù.
-	 * @param x Ã¹¹øÂ° °ªÀÔ´Ï´Ù.
+	 * @brief ê°’ì´ í•˜ë‚˜ ìˆëŠ” ParsedCommandLine ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param type ParsedCommandLineì˜ íƒ€ì…ì…ë‹ˆë‹¤.
+	 * @param x ì²«ë²ˆì§¸ ê°’ì…ë‹ˆë‹¤.
 	 */
 	ParsedCommandLine::ParsedCommandLine(Type type, std::uintptr_t x)
 		: type(type), x(x), y(0), z(0)
 	{}
 	/**
-	 * @brief °ªÀÌ µÎ°³ ÀÖ´Â ParsedCommandLine ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param type ParsedCommandLineÀÇ Å¸ÀÔÀÔ´Ï´Ù.
-	 * @param x Ã¹¹øÂ° °ªÀÔ´Ï´Ù.
-	 * @param y µÎ¹øÂ° °ªÀÔ´Ï´Ù.
+	 * @brief ê°’ì´ ë‘ê°œ ìˆëŠ” ParsedCommandLine ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param type ParsedCommandLineì˜ íƒ€ì…ì…ë‹ˆë‹¤.
+	 * @param x ì²«ë²ˆì§¸ ê°’ì…ë‹ˆë‹¤.
+	 * @param y ë‘ë²ˆì§¸ ê°’ì…ë‹ˆë‹¤.
 	 */
 	ParsedCommandLine::ParsedCommandLine(Type type, std::uintptr_t x, std::uintptr_t y)
 		: type(type), x(x), y(y), z(0)
 	{}
 	/**
-	 * @brief °ªÀÌ µÎ°³ ÀÖ´Â ParsedCommandLine ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param type ParsedCommandLineÀÇ Å¸ÀÔÀÔ´Ï´Ù.
-	 * @param x Ã¹¹øÂ° °ªÀÔ´Ï´Ù.
-	 * @param y µÎ¹øÂ° °ªÀÔ´Ï´Ù.
+	 * @brief ê°’ì´ ë‘ê°œ ìˆëŠ” ParsedCommandLine ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param type ParsedCommandLineì˜ íƒ€ì…ì…ë‹ˆë‹¤.
+	 * @param x ì²«ë²ˆì§¸ ê°’ì…ë‹ˆë‹¤.
+	 * @param y ë‘ë²ˆì§¸ ê°’ì…ë‹ˆë‹¤.
 	 */
 	ParsedCommandLine::ParsedCommandLine(Type type, std::uintptr_t x, std::uintptr_t y, std::uintptr_t z)
 		: type(type), x(x), y(y), z(z)
 	{}
 
 	/**
-	 * @brief µÎ ParsedCommandLine ÀÎ½ºÅÏ½º°¡ °°ÀºÁö ºñ±³ÇÕ´Ï´Ù.
-	 * @param parsed_command_line ºñ±³ÇÒ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @return °°À¸¸é true, ´Ù¸£¸é fasle¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+	 * @brief ë‘ ParsedCommandLine ì¸ìŠ¤í„´ìŠ¤ê°€ ê°™ì€ì§€ ë¹„êµí•©ë‹ˆë‹¤.
+	 * @param parsed_command_line ë¹„êµí•  ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
+	 * @return ê°™ìœ¼ë©´ true, ë‹¤ë¥´ë©´ fasleë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	bool ParsedCommandLine::operator==(const ParsedCommandLine& parsed_command_line) const noexcept
 	{
@@ -49,9 +49,9 @@ namespace Dlink
 			x == parsed_command_line.x && y == parsed_command_line.y && z == parsed_command_line.z;
 	}
 	/**
-	 * @brief µÎ ParsedCommandLine ÀÎ½ºÅÏ½º°¡ ´Ù¸¥Áö ºñ±³ÇÕ´Ï´Ù.
-	 * @param parsed_command_line ºñ±³ÇÒ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @return °°À¸¸é false, ´Ù¸£¸é true¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+	 * @brief ë‘ ParsedCommandLine ì¸ìŠ¤í„´ìŠ¤ê°€ ë‹¤ë¥¸ì§€ ë¹„êµí•©ë‹ˆë‹¤.
+	 * @param parsed_command_line ë¹„êµí•  ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
+	 * @return ê°™ìœ¼ë©´ false, ë‹¤ë¥´ë©´ trueë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	bool ParsedCommandLine::operator!=(const ParsedCommandLine& parsed_command_line) const noexcept
 	{
@@ -60,11 +60,11 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief ¸í·ÉÁÙÀ» ÆÄ½ÌÇÕ´Ï´Ù.
-	 * @param argc ¸í·ÉÁÙÀÇ °³¼öÀÔ´Ï´Ù.
-	 * @param argv ¸í·ÉÁÙ ¹è¿­ÀÔ´Ï´Ù.
-	 * @exception "std::pair<ParsedCommandLine::Error, std::string>" ÆÄ½Ì Áß¿¡ ¹ß°ßµÈ Àß¸øµÈ ¸í·ÉÀÇ ¿À·ù Å¸ÀÔ°ú ¿À·ù°¡ ³­ ¸í·ÉÀÔ´Ï´Ù.
-	 * @return ÆÄ½ÌµÈ ¸í·ÉÁÙ µ¥ÀÌÅÍ ¸®½ºÆ®ÀÔ´Ï´Ù.
+	 * @brief ëª…ë ¹ì¤„ì„ íŒŒì‹±í•©ë‹ˆë‹¤.
+	 * @param argc ëª…ë ¹ì¤„ì˜ ê°œìˆ˜ì…ë‹ˆë‹¤.
+	 * @param argv ëª…ë ¹ì¤„ ë°°ì—´ì…ë‹ˆë‹¤.
+	 * @exception "std::pair<ParsedCommandLine::Error, std::string>" íŒŒì‹± ì¤‘ì— ë°œê²¬ëœ ì˜ëª»ëœ ëª…ë ¹ì˜ ì˜¤ë¥˜ íƒ€ì…ê³¼ ì˜¤ë¥˜ê°€ ë‚œ ëª…ë ¹ì…ë‹ˆë‹¤.
+	 * @return íŒŒì‹±ëœ ëª…ë ¹ì¤„ ë°ì´í„° ë¦¬ìŠ¤íŠ¸ì…ë‹ˆë‹¤.
 	 */
 	std::vector<ParsedCommandLine> ParseCommandLine(int argc, char** argv)
 	{
@@ -95,9 +95,9 @@ namespace Dlink
 		return result;
 	}
 	/**
-	 * @brief ÆÄ½ÌµÈ ¸í·ÉÁÙ µ¥ÀÌÅÍ ¸®½ºÆ®¿¡ ¿À·ù°¡ ÀÖ´ÂÁö È®ÀÎÇÕ´Ï´Ù.
-	 * @param parsed_command_line ÆÄ½ÌµÈ ¸í·ÉÁÙ µ¥ÀÌÅÍ ¸®½ºÆ®ÀÔ´Ï´Ù.
-	 * @return °¡Àå Ã³À½À¸·Î ¹ß°ßµÈ ¸í·ÉÁÙ ¿À·ùÀÇ Å¸ÀÔ°ú ¹ß»ı ÀÎµ¦½ºÀÔ´Ï´Ù.
+	 * @brief íŒŒì‹±ëœ ëª…ë ¹ì¤„ ë°ì´í„° ë¦¬ìŠ¤íŠ¸ì— ì˜¤ë¥˜ê°€ ìˆëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤.
+	 * @param parsed_command_line íŒŒì‹±ëœ ëª…ë ¹ì¤„ ë°ì´í„° ë¦¬ìŠ¤íŠ¸ì…ë‹ˆë‹¤.
+	 * @return ê°€ì¥ ì²˜ìŒìœ¼ë¡œ ë°œê²¬ëœ ëª…ë ¹ì¤„ ì˜¤ë¥˜ì˜ íƒ€ì…ê³¼ ë°œìƒ ì¸ë±ìŠ¤ì…ë‹ˆë‹¤.
 	 */
 	std::pair<ParsedCommandLine::Error, std::size_t> CheckError_ParsedCommandLine(const std::vector<ParsedCommandLine>& parsed_command_line)
 	{
