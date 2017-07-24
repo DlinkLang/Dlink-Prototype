@@ -1,6 +1,6 @@
-#line 2 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
+#line 2 "./src/lex.yy.cc"
 
-#line 4 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
+#line 4 "./src/lex.yy.cc"
 
 #define  YY_INT_ALIGNED short int
 
@@ -431,7 +431,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[12] =
     {   0,
-        0,    0,    6,    5,    1,    4,    2,    3,    2,    3,
+        0,    0,    6,    5,    1,    1,    2,    3,    2,    3,
         0
     } ;
 
@@ -508,8 +508,8 @@ static yyconst flex_int16_t yy_rule_linenum[5] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "/home/gear/Documents/projects/Dlink/src/lexer.l"
-#line 2 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 1 "./src/lexer.l"
+#line 2 "./src/lexer.l"
 
 #include <string>
 
@@ -522,7 +522,7 @@ using token = Dlink::Parser::token;
 
 #define YY_USER_ACTION loc->step(); loc->columns(yyleng);
 
-#line 526 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
+#line 526 "./src/lex.yy.cc"
 
 #define INITIAL 0
 
@@ -719,14 +719,14 @@ YY_DECL
 
 	{
 /* %% [7.0] user's declarations go here */
-#line 22 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 22 "./src/lexer.l"
 
 
 
 	yylval = lval;
 
 
-#line 730 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
+#line 730 "./src/lex.yy.cc"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -806,13 +806,14 @@ do_action:	/* This label is used only to access EOF actions. */
 			goto yy_find_action;
 
 case 1:
+/* rule 1 can match eol */
 YY_RULE_SETUP
-#line 28 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 28 "./src/lexer.l"
 ;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 29 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 29 "./src/lexer.l"
 {
 				yylval->build<int>(std::stoi(yytext));
 				return(token::INTEGER);
@@ -820,7 +821,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 34 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 34 "./src/lexer.l"
 {
 				yylval->build<std::string>(yytext);
 				return(token::IDENTIFIER);
@@ -829,7 +830,7 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 39 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 39 "./src/lexer.l"
 {
 				loc->lines();
 				return(token::NEWLINE);
@@ -837,10 +838,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 44 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 44 "./src/lexer.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 844 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
+#line 845 "./src/lex.yy.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1952,7 +1953,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 44 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 44 "./src/lexer.l"
 
 
 

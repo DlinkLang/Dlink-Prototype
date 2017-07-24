@@ -31,16 +31,16 @@
 // version 2.2 of Bison.
 
 /**
- ** \file /home/gear/Documents/projects/Dlink/src/parser.tab.hh
+ ** \file ./src/parser.tab.hh
  ** Define the Dlink::parser class.
  */
 
 // C++ LALR(1) parser skeleton written by Akim Demaille.
 
-#ifndef YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_PARSER_TAB_HH_INCLUDED
-# define YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_PARSER_TAB_HH_INCLUDED
+#ifndef YY_YY_SRC_PARSER_TAB_HH_INCLUDED
+# define YY_YY_SRC_PARSER_TAB_HH_INCLUDED
 // //                    "%code requires" blocks.
-#line 8 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:377
+#line 8 "./src/parser.yy" // lalr1.cc:377
 
    namespace Dlink 
    {
@@ -49,7 +49,7 @@
    }
 
 
-#line 53 "/home/gear/Documents/projects/Dlink/src/parser.tab.hh" // lalr1.cc:377
+#line 53 "./src/parser.tab.hh" // lalr1.cc:377
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -124,9 +124,9 @@
 # define YYDEBUG 1
 #endif
 
-#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:377
+#line 5 "./src/parser.yy" // lalr1.cc:377
 namespace Dlink {
-#line 130 "/home/gear/Documents/projects/Dlink/src/parser.tab.hh" // lalr1.cc:377
+#line 130 "./src/parser.tab.hh" // lalr1.cc:377
 
 
 
@@ -665,11 +665,11 @@ namespace Dlink {
   };
 
 
-#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:377
+#line 5 "./src/parser.yy" // lalr1.cc:377
 } // Dlink
-#line 671 "/home/gear/Documents/projects/Dlink/src/parser.tab.hh" // lalr1.cc:377
+#line 671 "./src/parser.tab.hh" // lalr1.cc:377
 
 
 
 
-#endif // !YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_PARSER_TAB_HH_INCLUDED
+#endif // !YY_YY_SRC_PARSER_TAB_HH_INCLUDED

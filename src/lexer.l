@@ -25,7 +25,7 @@ using token = Dlink::Parser::token;
 	yylval = lval;
 %}
 
-[ \t]		;
+[ \t\n]		;
 [1-9][0-9]* {
 				yylval->build<int>(std::stoi(yytext));
 				return(token::INTEGER);

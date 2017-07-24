@@ -31,18 +31,18 @@
 // version 2.2 of Bison.
 
 /**
- ** \file /home/gear/Documents/projects/Dlink/src/location.hh
+ ** \file ./src/location.hh
  ** Define the Dlink::location class.
  */
 
-#ifndef YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_LOCATION_HH_INCLUDED
-# define YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_LOCATION_HH_INCLUDED
+#ifndef YY_YY_SRC_LOCATION_HH_INCLUDED
+# define YY_YY_SRC_LOCATION_HH_INCLUDED
 
 # include "position.hh"
 
-#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // location.cc:296
+#line 5 "./src/parser.yy" // location.cc:296
 namespace Dlink {
-#line 46 "/home/gear/Documents/projects/Dlink/src/location.hh" // location.cc:296
+#line 46 "./src/location.hh" // location.cc:296
   /// Abstract a location.
   class location
   {
@@ -186,7 +186,7 @@ namespace Dlink {
     return ostr;
   }
 
-#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // location.cc:296
+#line 5 "./src/parser.yy" // location.cc:296
 } // Dlink
-#line 192 "/home/gear/Documents/projects/Dlink/src/location.hh" // location.cc:296
-#endif // !YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_LOCATION_HH_INCLUDED
+#line 192 "./src/location.hh" // location.cc:296
+#endif // !YY_YY_SRC_LOCATION_HH_INCLUDED

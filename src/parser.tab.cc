@@ -33,7 +33,7 @@
 
 // First part of user declarations.
 
-#line 37 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:404
+#line 37 "./src/parser.tab.cc" // lalr1.cc:404
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -47,9 +47,9 @@
 
 // User implementation prologue.
 
-#line 51 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:412
+#line 51 "./src/parser.tab.cc" // lalr1.cc:412
 // Unqualified %code blocks.
-#line 20 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:413
+#line 20 "./src/parser.yy" // lalr1.cc:413
 
    #include <iostream>
    #include <cstdlib>
@@ -60,7 +60,7 @@
    #undef yylex
    #define yylex scanner.yylex
 
-#line 64 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:413
+#line 64 "./src/parser.tab.cc" // lalr1.cc:413
 
 
 #ifndef YY_
@@ -144,9 +144,9 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:479
+#line 5 "./src/parser.yy" // lalr1.cc:479
 namespace Dlink {
-#line 150 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:479
+#line 150 "./src/parser.tab.cc" // lalr1.cc:479
 
   /// Build a parser object.
   Parser::Parser (Scanner& scanner_yyarg, Driver& driver_yyarg)
@@ -723,25 +723,25 @@ namespace Dlink {
           switch (yyn)
             {
   case 6:
-#line 51 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:859
+#line 51 "./src/parser.yy" // lalr1.cc:859
     { std::cout << "WORD\n"; 	}
-#line 729 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:859
+#line 729 "./src/parser.tab.cc" // lalr1.cc:859
     break;
 
   case 7:
-#line 52 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:859
+#line 52 "./src/parser.yy" // lalr1.cc:859
     { std::cout << "INTEGER\n";  }
-#line 735 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:859
+#line 735 "./src/parser.tab.cc" // lalr1.cc:859
     break;
 
   case 8:
-#line 53 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:859
+#line 53 "./src/parser.yy" // lalr1.cc:859
     { std::cout << "NEWLINE\n"; }
-#line 741 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:859
+#line 741 "./src/parser.tab.cc" // lalr1.cc:859
     break;
 
 
-#line 745 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:859
+#line 745 "./src/parser.tab.cc" // lalr1.cc:859
             default:
               break;
             }
@@ -1065,10 +1065,10 @@ namespace Dlink {
       return undef_token_;
   }
 
-#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:1167
+#line 5 "./src/parser.yy" // lalr1.cc:1167
 } // Dlink
-#line 1071 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:1167
-#line 56 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:1168
+#line 1071 "./src/parser.tab.cc" // lalr1.cc:1167
+#line 56 "./src/parser.yy" // lalr1.cc:1168
 
 void Dlink::Parser::error( const location_type &l, const std::string &err_message )
 {

@@ -31,12 +31,12 @@
 // version 2.2 of Bison.
 
 /**
- ** \file /home/gear/Documents/projects/Dlink/src/position.hh
+ ** \file ./src/position.hh
  ** Define the Dlink::position class.
  */
 
-#ifndef YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_POSITION_HH_INCLUDED
-# define YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_POSITION_HH_INCLUDED
+#ifndef YY_YY_SRC_POSITION_HH_INCLUDED
+# define YY_YY_SRC_POSITION_HH_INCLUDED
 
 # include <algorithm> // std::max
 # include <iostream>
@@ -50,9 +50,9 @@
 #  endif
 # endif
 
-#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // location.cc:296
+#line 5 "./src/parser.yy" // location.cc:296
 namespace Dlink {
-#line 56 "/home/gear/Documents/projects/Dlink/src/position.hh" // location.cc:296
+#line 56 "./src/position.hh" // location.cc:296
   /// Abstract a position.
   class position
   {
@@ -174,7 +174,7 @@ namespace Dlink {
     return ostr << pos.line << '.' << pos.column;
   }
 
-#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // location.cc:296
+#line 5 "./src/parser.yy" // location.cc:296
 } // Dlink
-#line 180 "/home/gear/Documents/projects/Dlink/src/position.hh" // location.cc:296
-#endif // !YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_POSITION_HH_INCLUDED
+#line 180 "./src/position.hh" // location.cc:296
+#endif // !YY_YY_SRC_POSITION_HH_INCLUDED
