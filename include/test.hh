@@ -1,0 +1,4 @@
+namespace Dlink
+{
+	int f();
+}
