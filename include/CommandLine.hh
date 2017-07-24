@@ -52,4 +52,5 @@ namespace Dlink
 	};
 
 	std::vector<ParsedCommandLine> ParseCommandLine(int argc, char** argv);
+	bool CheckError_ParsedCommandLine(const std::vector<ParsedCommandLine>& parsed_command_line);
 }
