@@ -8,4 +8,17 @@
       <UniqueIdentifier>{8c996171-4739-4716-bcd5-b5670bc49d86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CommandLine.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\CommandLine.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
