@@ -1,8 +1,10 @@
 #include <iostream>
+#include <memory>
 
-#include "test.hh"
+#include "Driver.hh"
 
 int main()
 {
-	std::cout << Dlink::f() << std::endl;
+	Dlink::Driver driver;
+	driver.parse(std::cin);
 }

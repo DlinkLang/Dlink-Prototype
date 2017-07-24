@@ -1,4 +1,0 @@
-namespace Dlink
-{
-	int f();
-}
