@@ -33,7 +33,7 @@
 
 // First part of user declarations.
 
-#line 37 "parser.tab.cc" // lalr1.cc:404
+#line 37 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:404
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -47,9 +47,9 @@
 
 // User implementation prologue.
 
-#line 51 "parser.tab.cc" // lalr1.cc:412
+#line 51 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:412
 // Unqualified %code blocks.
-#line 20 "parser.yy" // lalr1.cc:413
+#line 20 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:413
 
    #include <iostream>
    #include <cstdlib>
@@ -60,7 +60,7 @@
    #undef yylex
    #define yylex scanner.yylex
 
-#line 64 "parser.tab.cc" // lalr1.cc:413
+#line 64 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:413
 
 
 #ifndef YY_
@@ -144,9 +144,9 @@
 #define YYERROR         goto yyerrorlab
 #define YYRECOVERING()  (!!yyerrstatus_)
 
-#line 5 "parser.yy" // lalr1.cc:479
+#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:479
 namespace Dlink {
-#line 150 "parser.tab.cc" // lalr1.cc:479
+#line 150 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:479
 
   /// Build a parser object.
   Parser::Parser (Scanner& scanner_yyarg, Driver& driver_yyarg)
@@ -189,7 +189,11 @@ namespace Dlink {
   {
       switch (other.type_get ())
     {
-      case 3: // WORD
+      case 4: // INTEGER
+        value.copy< int > (other.value);
+        break;
+
+      case 3: // IDENTIFIER
         value.copy< std::string > (other.value);
         break;
 
@@ -210,7 +214,11 @@ namespace Dlink {
     (void) v;
       switch (this->type_get ())
     {
-      case 3: // WORD
+      case 4: // INTEGER
+        value.copy< int > (v);
+        break;
+
+      case 3: // IDENTIFIER
         value.copy< std::string > (v);
         break;
 
@@ -226,6 +234,13 @@ namespace Dlink {
   Parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const location_type& l)
     : Base (t)
     , value ()
+    , location (l)
+  {}
+
+  template <typename Base>
+  Parser::basic_symbol<Base>::basic_symbol (typename Base::kind_type t, const int v, const location_type& l)
+    : Base (t)
+    , value (v)
     , location (l)
   {}
 
@@ -262,7 +277,11 @@ namespace Dlink {
     // Type destructor.
     switch (yytype)
     {
-      case 3: // WORD
+      case 4: // INTEGER
+        value.template destroy< int > ();
+        break;
+
+      case 3: // IDENTIFIER
         value.template destroy< std::string > ();
         break;
 
@@ -289,7 +308,11 @@ namespace Dlink {
     super_type::move(s);
       switch (this->type_get ())
     {
-      case 3: // WORD
+      case 4: // INTEGER
+        value.move< int > (s.value);
+        break;
+
+      case 3: // IDENTIFIER
         value.move< std::string > (s.value);
         break;
 
@@ -345,9 +368,15 @@ namespace Dlink {
   }
 
   Parser::symbol_type
-  Parser::make_WORD (const std::string& v, const location_type& l)
+  Parser::make_IDENTIFIER (const std::string& v, const location_type& l)
   {
-    return symbol_type (token::WORD, v, l);
+    return symbol_type (token::IDENTIFIER, v, l);
+  }
+
+  Parser::symbol_type
+  Parser::make_INTEGER (const int& v, const location_type& l)
+  {
+    return symbol_type (token::INTEGER, v, l);
   }
 
   Parser::symbol_type
@@ -410,7 +439,11 @@ namespace Dlink {
   {
       switch (that.type_get ())
     {
-      case 3: // WORD
+      case 4: // INTEGER
+        value.move< int > (that.value);
+        break;
+
+      case 3: // IDENTIFIER
         value.move< std::string > (that.value);
         break;
 
@@ -429,7 +462,11 @@ namespace Dlink {
     state = that.state;
       switch (that.type_get ())
     {
-      case 3: // WORD
+      case 4: // INTEGER
+        value.copy< int > (that.value);
+        break;
+
+      case 3: // IDENTIFIER
         value.copy< std::string > (that.value);
         break;
 
@@ -660,7 +697,11 @@ namespace Dlink {
          when using variants.  */
         switch (yyr1_[yyn])
     {
-      case 3: // WORD
+      case 4: // INTEGER
+        yylhs.value.build< int > ();
+        break;
+
+      case 3: // IDENTIFIER
         yylhs.value.build< std::string > ();
         break;
 
@@ -682,19 +723,25 @@ namespace Dlink {
           switch (yyn)
             {
   case 6:
-#line 50 "parser.yy" // lalr1.cc:859
-    { std::cout << yystack_[0].value.as< std::string > () << "\n"; }
-#line 688 "parser.tab.cc" // lalr1.cc:859
+#line 51 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:859
+    { std::cout << "WORD\n"; 	}
+#line 729 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:859
     break;
 
   case 7:
-#line 51 "parser.yy" // lalr1.cc:859
+#line 52 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:859
+    { std::cout << "INTEGER\n";  }
+#line 735 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:859
+    break;
+
+  case 8:
+#line 53 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:859
     { std::cout << "NEWLINE\n"; }
-#line 694 "parser.tab.cc" // lalr1.cc:859
+#line 741 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:859
     break;
 
 
-#line 698 "parser.tab.cc" // lalr1.cc:859
+#line 745 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:859
             default:
               break;
             }
@@ -860,65 +907,67 @@ namespace Dlink {
   }
 
 
-  const signed char Parser::yypact_ninf_ = -1;
+  const signed char Parser::yypact_ninf_ = -5;
 
   const signed char Parser::yytable_ninf_ = -1;
 
   const signed char
   Parser::yypact_[] =
   {
-       0,    -1,    -1,     2,     1,    -1,     3,    -1,    -1,    -1,
-      -1
+       0,    -5,    -5,    -5,    -5,     1,     6,    -5,    -5,    -5,
+      -5
   };
 
   const unsigned char
   Parser::yydefact_[] =
   {
-       0,     2,     6,     0,     0,     4,     0,     1,     3,     5,
-       7
+       0,     2,     6,     7,     8,     0,     0,     4,     1,     3,
+       5
   };
 
   const signed char
   Parser::yypgoto_[] =
   {
-      -1,    -1,    -1,     4,    -1
+      -5,    -5,    -5,    -4
   };
 
   const signed char
   Parser::yydefgoto_[] =
   {
-      -1,     3,     4,     5,     6
+      -1,     5,     6,     7
   };
 
   const unsigned char
   Parser::yytable_[] =
   {
-       1,     8,     7,     2,     2,     0,     0,    10,     9
+       1,     8,    10,     2,     3,     4,     9,     0,     0,     2,
+       3,     4
   };
 
   const signed char
   Parser::yycheck_[] =
   {
-       0,     0,     0,     3,     3,    -1,    -1,     4,     4
+       0,     0,     6,     3,     4,     5,     0,    -1,    -1,     3,
+       4,     5
   };
 
   const unsigned char
   Parser::yystos_[] =
   {
-       0,     0,     3,     6,     7,     8,     9,     0,     0,     8,
-       4
+       0,     0,     3,     4,     5,     7,     8,     9,     0,     0,
+       9
   };
 
   const unsigned char
   Parser::yyr1_[] =
   {
-       0,     5,     6,     6,     7,     7,     9,     8
+       0,     6,     7,     7,     8,     8,     9,     9,     9
   };
 
   const unsigned char
   Parser::yyr2_[] =
   {
-       0,     2,     1,     2,     1,     2,     0,     3
+       0,     2,     1,     2,     1,     2,     1,     1,     1
   };
 
 
@@ -928,15 +977,15 @@ namespace Dlink {
   const char*
   const Parser::yytname_[] =
   {
-  "\"end of file\"", "error", "$undefined", "WORD", "NEWLINE", "$accept",
-  "list_option", "list", "item", "$@1", YY_NULLPTR
+  "\"end of file\"", "error", "$undefined", "IDENTIFIER", "INTEGER",
+  "NEWLINE", "$accept", "list_option", "list", "item", YY_NULLPTR
   };
 
 
   const unsigned char
   Parser::yyrline_[] =
   {
-       0,    42,    42,    42,    45,    46,    50,    50
+       0,    43,    43,    43,    46,    47,    51,    52,    53
   };
 
   // Print the state stack on the debug stream.
@@ -1002,9 +1051,10 @@ namespace Dlink {
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     1,     2,     3,     4
+       2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
+       5
     };
-    const unsigned int user_token_number_max_ = 259;
+    const unsigned int user_token_number_max_ = 260;
     const token_number_type undef_token_ = 2;
 
     if (static_cast<int>(t) <= yyeof_)
@@ -1015,10 +1065,10 @@ namespace Dlink {
       return undef_token_;
   }
 
-#line 5 "parser.yy" // lalr1.cc:1167
+#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:1167
 } // Dlink
-#line 1021 "parser.tab.cc" // lalr1.cc:1167
-#line 54 "parser.yy" // lalr1.cc:1168
+#line 1071 "/home/gear/Documents/projects/Dlink/src/parser.tab.cc" // lalr1.cc:1167
+#line 56 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:1168
 
 void Dlink::Parser::error( const location_type &l, const std::string &err_message )
 {

@@ -32,8 +32,9 @@
 %define parse.assert
 
 %token               END    0     "end of file"
-%token <std::string> WORD
-%token NEWLINE
+%token <std::string> IDENTIFIER
+%token <int>		 INTEGER
+%token 				 NEWLINE
 
 %locations
 
@@ -47,8 +48,9 @@ list
 	;
 
 item
-  : WORD    { std::cout << $1 << "\n"; }
-  	NEWLINE { std::cout << "NEWLINE\n"; }
+  : IDENTIFIER    { std::cout << "WORD\n"; 	}
+  |	INTEGER 	  { std::cout << "INTEGER\n";  }
+  | NEWLINE 	  { std::cout << "NEWLINE\n"; }
 	;
 
 %%

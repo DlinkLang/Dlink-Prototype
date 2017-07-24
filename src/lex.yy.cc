@@ -1,5 +1,6 @@
+#line 2 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
 
-#line 3 "lex.yy.cc"
+#line 4 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
 
 #define  YY_INT_ALIGNED short int
 
@@ -419,8 +420,8 @@ int yyFlexLexer::yylex()
 	(yy_c_buf_p) = yy_cp;
 
 /* %% [4.0] data tables for the DFA and the user's section 1 definitions go here */
-#define YY_NUM_RULES 3
-#define YY_END_OF_BUFFER 4
+#define YY_NUM_RULES 5
+#define YY_END_OF_BUFFER 6
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -428,27 +429,28 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_accept[9] =
+static yyconst flex_int16_t yy_accept[12] =
     {   0,
-        0,    0,    4,    3,    2,    1,    1,    0
+        0,    0,    6,    5,    1,    4,    2,    3,    2,    3,
+        0
     } ;
 
 static yyconst YY_CHAR yy_ec[256] =
     {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
+        1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        1,    1,    1,    1,    1,    1,    3,    3,    3,    3,
+        1,    2,    1,    1,    1,    1,    1,    1,    1,    1,
+        1,    1,    1,    1,    1,    1,    1,    4,    5,    5,
+        5,    5,    5,    5,    5,    5,    5,    1,    1,    1,
+        1,    1,    1,    1,    6,    6,    6,    6,    6,    6,
+        6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
+        6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
+        1,    1,    1,    1,    1,    1,    6,    6,    6,    6,
 
-        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    1,    1,    1,    1,    1,    1,    1,    1,
+        6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
+        6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
+        6,    6,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -465,34 +467,38 @@ static yyconst YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst YY_CHAR yy_meta[4] =
+static yyconst YY_CHAR yy_meta[7] =
     {   0,
-        1,    1,    2
+        1,    1,    1,    2,    2,    3
     } ;
 
-static yyconst flex_uint16_t yy_base[10] =
+static yyconst flex_uint16_t yy_base[14] =
     {   0,
-        0,    0,    5,    6,    6,    0,    0,    6,    2
+        0,    0,    9,   10,   10,   10,    0,    0,    0,    0,
+       10,    6,    4
     } ;
 
-static yyconst flex_int16_t yy_def[10] =
+static yyconst flex_int16_t yy_def[14] =
     {   0,
-        8,    1,    8,    8,    8,    9,    9,    0,    8
+       11,    1,   11,   11,   11,   11,   12,   13,   12,   13,
+        0,   11,   11
     } ;
 
-static yyconst flex_uint16_t yy_nxt[10] =
+static yyconst flex_uint16_t yy_nxt[17] =
     {   0,
-        4,    5,    6,    7,    8,    3,    8,    8,    8
+        4,    5,    6,    4,    7,    8,   10,    9,   11,    3,
+       11,   11,   11,   11,   11,   11
     } ;
 
-static yyconst flex_int16_t yy_chk[10] =
+static yyconst flex_int16_t yy_chk[17] =
     {   0,
-        1,    1,    1,    9,    3,    8,    8,    8,    8
+        1,    1,    1,    1,    1,    1,   13,   12,    3,   11,
+       11,   11,   11,   11,   11,   11
     } ;
 
-static yyconst flex_int16_t yy_rule_linenum[3] =
+static yyconst flex_int16_t yy_rule_linenum[5] =
     {   0,
-       28,   33
+       28,   29,   34,   39
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -502,8 +508,8 @@ static yyconst flex_int16_t yy_rule_linenum[3] =
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-#line 1 "lexer.l"
-#line 2 "lexer.l"
+#line 1 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+#line 2 "/home/gear/Documents/projects/Dlink/src/lexer.l"
 
 #include <string>
 
@@ -516,7 +522,7 @@ using token = Dlink::Parser::token;
 
 #define YY_USER_ACTION loc->step(); loc->columns(yyleng);
 
-#line 520 "lex.yy.cc"
+#line 526 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
 
 #define INITIAL 0
 
@@ -713,14 +719,14 @@ YY_DECL
 
 	{
 /* %% [7.0] user's declarations go here */
-#line 22 "lexer.l"
+#line 22 "/home/gear/Documents/projects/Dlink/src/lexer.l"
 
 
 
 	yylval = lval;
 
 
-#line 724 "lex.yy.cc"
+#line 730 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -749,13 +755,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 9 )
+				if ( yy_current_state >= 12 )
 					yy_c = yy_meta[(unsigned int) yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 6 );
+		while ( yy_base[yy_current_state] != 10 );
 
 yy_find_action:
 /* %% [10.0] code to find the action number goes here */
@@ -778,12 +784,12 @@ do_action:	/* This label is used only to access EOF actions. */
 			{
 			if ( yy_act == 0 )
 				std::cerr << "--scanner backing up\n";
-			else if ( yy_act < 3 )
+			else if ( yy_act < 5 )
 				std::cerr << "--accepting rule at line " << yy_rule_linenum[yy_act] <<
 				         "(\"" << yytext << "\")\n";
-			else if ( yy_act == 3 )
+			else if ( yy_act == 5 )
 				std::cerr << "--accepting default rule (\"" << yytext << "\")\n";
-			else if ( yy_act == 4 )
+			else if ( yy_act == 6 )
 				std::cerr << "--(end of buffer or a NUL)\n";
 			else
 				std::cerr << "--EOF (start condition " << YY_START << ")\n";
@@ -801,27 +807,40 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 28 "lexer.l"
-{
-	yylval->build<std::string>(yytext);
-	return(token::WORD);
-}
+#line 28 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+;
 	YY_BREAK
 case 2:
-/* rule 2 can match eol */
 YY_RULE_SETUP
-#line 33 "lexer.l"
+#line 29 "/home/gear/Documents/projects/Dlink/src/lexer.l"
 {
-	loc->lines();
-	return(token::NEWLINE);
-}
+				yylval->build<int>(std::stoi(yytext));
+				return(token::INTEGER);
+			}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 38 "lexer.l"
+#line 34 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+{
+				yylval->build<std::string>(yytext);
+				return(token::IDENTIFIER);
+			}
+	YY_BREAK
+case 4:
+/* rule 4 can match eol */
+YY_RULE_SETUP
+#line 39 "/home/gear/Documents/projects/Dlink/src/lexer.l"
+{
+				loc->lines();
+				return(token::NEWLINE);
+			}
+	YY_BREAK
+case 5:
+YY_RULE_SETUP
+#line 44 "/home/gear/Documents/projects/Dlink/src/lexer.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 825 "lex.yy.cc"
+#line 844 "/home/gear/Documents/projects/Dlink/src/lex.yy.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1258,7 +1277,7 @@ int yyFlexLexer::yy_get_next_buffer()
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 9 )
+			if ( yy_current_state >= 12 )
 				yy_c = yy_meta[(unsigned int) yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
@@ -1291,11 +1310,11 @@ int yyFlexLexer::yy_get_next_buffer()
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 9 )
+		if ( yy_current_state >= 12 )
 			yy_c = yy_meta[(unsigned int) yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-	yy_is_jam = (yy_current_state == 8);
+	yy_is_jam = (yy_current_state == 11);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -1933,7 +1952,7 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 38 "lexer.l"
+#line 44 "/home/gear/Documents/projects/Dlink/src/lexer.l"
 
 
 

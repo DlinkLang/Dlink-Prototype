@@ -31,16 +31,16 @@
 // version 2.2 of Bison.
 
 /**
- ** \file parser.tab.hh
+ ** \file /home/gear/Documents/projects/Dlink/src/parser.tab.hh
  ** Define the Dlink::parser class.
  */
 
 // C++ LALR(1) parser skeleton written by Akim Demaille.
 
-#ifndef YY_YY_PARSER_TAB_HH_INCLUDED
-# define YY_YY_PARSER_TAB_HH_INCLUDED
+#ifndef YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_PARSER_TAB_HH_INCLUDED
+# define YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_PARSER_TAB_HH_INCLUDED
 // //                    "%code requires" blocks.
-#line 8 "parser.yy" // lalr1.cc:377
+#line 8 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:377
 
    namespace Dlink 
    {
@@ -49,7 +49,7 @@
    }
 
 
-#line 53 "parser.tab.hh" // lalr1.cc:377
+#line 53 "/home/gear/Documents/projects/Dlink/src/parser.tab.hh" // lalr1.cc:377
 
 # include <cassert>
 # include <cstdlib> // std::abort
@@ -124,9 +124,9 @@
 # define YYDEBUG 1
 #endif
 
-#line 5 "parser.yy" // lalr1.cc:377
+#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:377
 namespace Dlink {
-#line 130 "parser.tab.hh" // lalr1.cc:377
+#line 130 "/home/gear/Documents/projects/Dlink/src/parser.tab.hh" // lalr1.cc:377
 
 
 
@@ -293,8 +293,11 @@ namespace Dlink {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
-      // WORD
-      char dummy1[sizeof(std::string)];
+      // INTEGER
+      char dummy1[sizeof(int)];
+
+      // IDENTIFIER
+      char dummy2[sizeof(std::string)];
 };
 
     /// Symbol semantic values.
@@ -318,8 +321,9 @@ namespace Dlink {
       enum yytokentype
       {
         END = 0,
-        WORD = 258,
-        NEWLINE = 259
+        IDENTIFIER = 258,
+        INTEGER = 259,
+        NEWLINE = 260
       };
     };
 
@@ -356,6 +360,8 @@ namespace Dlink {
       /// Constructor for valueless symbols, and symbols from each type.
 
   basic_symbol (typename Base::kind_type t, const location_type& l);
+
+  basic_symbol (typename Base::kind_type t, const int v, const location_type& l);
 
   basic_symbol (typename Base::kind_type t, const std::string v, const location_type& l);
 
@@ -432,7 +438,11 @@ namespace Dlink {
 
     static inline
     symbol_type
-    make_WORD (const std::string& v, const location_type& l);
+    make_IDENTIFIER (const std::string& v, const location_type& l);
+
+    static inline
+    symbol_type
+    make_INTEGER (const int& v, const location_type& l);
 
     static inline
     symbol_type
@@ -640,12 +650,12 @@ namespace Dlink {
     enum
     {
       yyeof_ = 0,
-      yylast_ = 8,     ///< Last index in yytable_.
-      yynnts_ = 5,  ///< Number of nonterminal symbols.
-      yyfinal_ = 7, ///< Termination state number.
+      yylast_ = 11,     ///< Last index in yytable_.
+      yynnts_ = 4,  ///< Number of nonterminal symbols.
+      yyfinal_ = 8, ///< Termination state number.
       yyterror_ = 1,
       yyerrcode_ = 256,
-      yyntokens_ = 5  ///< Number of tokens.
+      yyntokens_ = 6  ///< Number of tokens.
     };
 
 
@@ -655,11 +665,11 @@ namespace Dlink {
   };
 
 
-#line 5 "parser.yy" // lalr1.cc:377
+#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // lalr1.cc:377
 } // Dlink
-#line 661 "parser.tab.hh" // lalr1.cc:377
+#line 671 "/home/gear/Documents/projects/Dlink/src/parser.tab.hh" // lalr1.cc:377
 
 
 
 
-#endif // !YY_YY_PARSER_TAB_HH_INCLUDED
+#endif // !YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_PARSER_TAB_HH_INCLUDED

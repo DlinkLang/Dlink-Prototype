@@ -31,18 +31,18 @@
 // version 2.2 of Bison.
 
 /**
- ** \file stack.hh
+ ** \file /home/gear/Documents/projects/Dlink/src/stack.hh
  ** Define the Dlink::stack class.
  */
 
-#ifndef YY_YY_STACK_HH_INCLUDED
-# define YY_YY_STACK_HH_INCLUDED
+#ifndef YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_STACK_HH_INCLUDED
+# define YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_STACK_HH_INCLUDED
 
 # include <vector>
 
-#line 5 "parser.yy" // stack.hh:132
+#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // stack.hh:132
 namespace Dlink {
-#line 46 "stack.hh" // stack.hh:132
+#line 46 "/home/gear/Documents/projects/Dlink/src/stack.hh" // stack.hh:132
   template <class T, class S = std::vector<T> >
   class stack
   {
@@ -150,8 +150,8 @@ namespace Dlink {
     unsigned int range_;
   };
 
-#line 5 "parser.yy" // stack.hh:132
+#line 5 "/home/gear/Documents/projects/Dlink/src/parser.yy" // stack.hh:132
 } // Dlink
-#line 156 "stack.hh" // stack.hh:132
+#line 156 "/home/gear/Documents/projects/Dlink/src/stack.hh" // stack.hh:132
 
-#endif // !YY_YY_STACK_HH_INCLUDED
+#endif // !YY_YY_HOME_GEAR_DOCUMENTS_PROJECTS_DLINK_SRC_STACK_HH_INCLUDED

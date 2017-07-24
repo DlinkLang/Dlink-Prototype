@@ -25,14 +25,20 @@ using token = Dlink::Parser::token;
 	yylval = lval;
 %}
 
-[a-zA-Z]+ {
-	yylval->build<std::string>(yytext);
-	return(token::WORD);
-}
+[ \t]		;
+[1-9][0-9]* {
+				yylval->build<int>(std::stoi(yytext));
+				return(token::INTEGER);
+			}
 
-\n {
-	loc->lines();
-	return(token::NEWLINE);
-}
+[a-zA-Z]+ 	{
+				yylval->build<std::string>(yytext);
+				return(token::IDENTIFIER);
+			}
+
+\n 			{
+				loc->lines();
+				return(token::NEWLINE);
+			}
 
 %%

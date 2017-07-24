@@ -8,6 +8,7 @@ namespace Dlink
 		{
 			return;
 		}
+
 		parse_helper(stream); 
 	}
 
@@ -16,7 +17,8 @@ namespace Dlink
 
 		scanner = std::make_unique<Dlink::Scanner>(&stream);
 		parser = std::make_unique<Dlink::Parser>((*scanner), (*this));
-		const int accept( 0 );
+
+		const int accept = 0;
 		if( parser->parse() != accept )
 		{
 			std::cerr << "Parse failed!!\n";
