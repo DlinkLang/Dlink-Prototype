@@ -34,13 +34,20 @@ namespace Dlink
 		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x);
 		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x, std::uintptr_t y);
 		ParsedCommandLine(ParsedCommandLineType type, std::uintptr_t x, std::uintptr_t y, std::uintptr_t z);
+		/**
+		 * @brief ParsedCommandLine 인스턴스를 복사해 새 인스턴스를 만듭니다.
+		 * @param parsed_command_line 복사할 인스턴스입니다.
+		 */
 		ParsedCommandLine(const ParsedCommandLine& parsed_command_line) = default;
-		ParsedCommandLine(ParsedCommandLine&& parsed_command_line) noexcept = default;
 		~ParsedCommandLine() = default;
 
 	public:
+		/**
+		 * @brief ParsedCommandLine 인스턴스를 현재 인스턴스에 대입합니다.
+		 * @param parsed_command_line 대입할 인스턴스입니다.
+		 * @return 현재 인스턴스입니다.
+		 */
 		ParsedCommandLine& operator=(const ParsedCommandLine& parsed_command_line) = default;
-		ParsedCommandLine& operator=(ParsedCommandLine&& parsed_command_line) noexcept = default;
 		bool operator==(const ParsedCommandLine& parsed_command_line) const noexcept;
 		bool operator!=(const ParsedCommandLine& parsed_command_line) const noexcept;
 
