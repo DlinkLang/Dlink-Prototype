@@ -45,7 +45,7 @@
    namespace Dlink 
    {
    		 class Driver;
-		 class Scanner;
+		 class Lexer;
    }
 
 
@@ -450,7 +450,7 @@ namespace Dlink {
 
 
     /// Build a parser object.
-    Parser (Scanner& scanner_yyarg, Driver& driver_yyarg);
+    Parser (Lexer& lexer_yyarg, Driver& driver_yyarg);
     virtual ~Parser ();
 
     /// Parse.
@@ -660,7 +660,7 @@ namespace Dlink {
 
 
     // User arguments.
-    Scanner& scanner;
+    Lexer& lexer;
     Driver& driver;
   };
 

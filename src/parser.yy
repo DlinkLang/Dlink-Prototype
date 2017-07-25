@@ -9,12 +9,12 @@
    namespace Dlink 
    {
    		 class Driver;
-		 class Scanner;
+		 class Lexer;
    }
 
 }
 
-%parse-param { Scanner& scanner }
+%parse-param { Lexer& lexer }
 %parse-param { Driver& driver }
 
 %code{
@@ -25,7 +25,7 @@
    #include "Driver.hh"
 
    #undef yylex
-   #define yylex scanner.yylex
+   #define yylex lexer.yylex
 }
 
 %define api.value.type variant

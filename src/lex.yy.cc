@@ -400,7 +400,7 @@ int yyFlexLexer::yylex()
 	return 0;
 	}
 
-#define YY_DECL int Dlink::Scanner::yylex()
+#define YY_DECL int Dlink::Lexer::yylex()
 
 /* %% [1.5] DFA */
 
@@ -431,7 +431,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[12] =
     {   0,
-        0,    0,    6,    5,    1,    1,    2,    3,    2,    3,
+        0,    0,    6,    5,    1,    4,    2,    3,    2,    3,
         0
     } ;
 
@@ -513,10 +513,10 @@ static yyconst flex_int16_t yy_rule_linenum[5] =
 
 #include <string>
 
-#include "Scanner.hh"
+#include "Lexer.hh"
 
 #undef YY_DECL
-#define YY_DECL int Dlink::Scanner::yylex(Dlink::Parser::semantic_type* const lval, Dlink::Parser::location_type* loc)
+#define YY_DECL int Dlink::Lexer::yylex(Dlink::Parser::semantic_type* const lval, Dlink::Parser::location_type* loc)
 
 using token = Dlink::Parser::token;
 
@@ -806,7 +806,6 @@ do_action:	/* This label is used only to access EOF actions. */
 			goto yy_find_action;
 
 case 1:
-/* rule 1 can match eol */
 YY_RULE_SETUP
 #line 28 "./src/lexer.l"
 ;
@@ -841,7 +840,7 @@ YY_RULE_SETUP
 #line 44 "./src/lexer.l"
 YY_FATAL_ERROR( "flex scanner jammed" );
 	YY_BREAK
-#line 845 "./src/lex.yy.cc"
+#line 844 "./src/lex.yy.cc"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 

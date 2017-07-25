@@ -58,7 +58,7 @@
    #include "Driver.hh"
 
    #undef yylex
-   #define yylex scanner.yylex
+   #define yylex lexer.yylex
 
 #line 64 "./src/parser.tab.cc" // lalr1.cc:413
 
@@ -149,13 +149,13 @@ namespace Dlink {
 #line 150 "./src/parser.tab.cc" // lalr1.cc:479
 
   /// Build a parser object.
-  Parser::Parser (Scanner& scanner_yyarg, Driver& driver_yyarg)
+  Parser::Parser (Lexer& lexer_yyarg, Driver& driver_yyarg)
     :
 #if YYDEBUG
       yydebug_ (false),
       yycdebug_ (&std::cerr),
 #endif
-      scanner (scanner_yyarg),
+      lexer (lexer_yyarg),
       driver (driver_yyarg)
   {}
 

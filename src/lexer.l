@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include "Scanner.hh"
+#include "Lexer.hh"
 
 #undef YY_DECL
-#define YY_DECL int Dlink::Scanner::yylex(Dlink::Parser::semantic_type* const lval, Dlink::Parser::location_type* loc)
+#define YY_DECL int Dlink::Lexer::yylex(Dlink::Parser::semantic_type* const lval, Dlink::Parser::location_type* loc)
 
 using token = Dlink::Parser::token;
 
@@ -15,7 +15,7 @@ using token = Dlink::Parser::token;
 
 %option debug
 %option nodefault
-%option yyclass="Dlink::Scanner"
+%option yyclass="Dlink::Lexer"
 %option noyywrap
 %option c++
 
@@ -25,7 +25,7 @@ using token = Dlink::Parser::token;
 	yylval = lval;
 %}
 
-[ \t\n]		;
+[ \t]		;
 [1-9][0-9]* {
 				yylval->build<int>(std::stoi(yytext));
 				return(token::INTEGER);

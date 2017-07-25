@@ -41,7 +41,7 @@ namespace Dlink
 	/**
 	 * @brief 두 ParsedCommandLine 인스턴스가 같은지 비교합니다.
 	 * @param parsed_command_line 비교할 인스턴스입니다.
-	 * @return 같으면 true, 다르면 fasle를 반환합니다.
+	 * @return 같으면 true, 다르면 false를 반환합니다.
 	 */
 	bool ParsedCommandLine::operator==(const ParsedCommandLine& parsed_command_line) const noexcept
 	{
