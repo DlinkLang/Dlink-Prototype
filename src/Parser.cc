@@ -2,7 +2,7 @@
 
 namespace Dlink
 {
-	const char Parser::grammar[] = R"(
+	const constexpr char Parser::grammar[] = R"(
                 EXPR      <- _ TERM (TERM_OP TERM)*
                 TERM      <- FACTOR (FACTOR_OP FACTOR)*
                 FACTOR    <- NUMBER / '(' _ EXPR ')' _

@@ -12,7 +12,7 @@
 namespace Dlink
 {
 
-	class Parser : peg::parser
+	class Parser : private peg::parser
 	{
 	public:
 
