@@ -13,3 +13,7 @@ bin/
 # for Visual Studio
 .vs/
 *.user
+
+# Doxygen
+document/html/
+document/latex/
