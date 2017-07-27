@@ -14,44 +14,64 @@ namespace Dlink
 
 	Parser::Parser()
 	{
-		using NumType = int;
-		auto eval = [](const peg::SemanticValues& v)
-		{
-			NumType result = v[0].get<NumType>();
+		auto BinaryOP_AST = [](const peg::SemanticValues& v) -> ExpressionPtr
+		{	
+			ExpressionPtr lhs = v[0].get<ExpressionPtr>();
 
 			for (std::size_t i=1; i < v.size(); i += 2)
 			{
-				NumType num = v[i+1].get<NumType>();
-				char op = v[i].get<char>();
+				auto rhs = v[i+1].get<ExpressionPtr>();
+				auto op = v[i].get<BinaryOperator>();
 
-				switch(op)
-				{
-					case '+':
-						result += num;
-						break;
-					case '-':
-						result -= num;
-						break;
-					case '*':
-						result *= num;
-						break;
-					case '/':
-						result /= num;
-						break;
-				}
+				lhs = std::make_shared<BinaryOP>(op, lhs, rhs);
 			}
-
-			return result;
+			
+			return lhs;
 		};
 		
 		load_grammar(grammar);
 		
 		auto parser = *this;
 
-		parser["EXPR"]      = eval;
-		parser["TERM"]      = eval;
-		parser["TERM_OP"]   = [](const peg::SemanticValues& v) { return static_cast<char>(*v.c_str()); };
-		parser["FACTOR_OP"] = [](const peg::SemanticValues& v) { return static_cast<char>(*v.c_str()); };
-		parser["NUMBER"]    = [](const peg::SemanticValues& v) { return std::atoi(v.c_str()); };
+		parser["EXPR"]      = BinaryOP_AST;
+		parser["TERM"]      = BinaryOP_AST;
+		parser["TERM_OP"]   = [](const peg::SemanticValues& v) -> BinaryOperator
+		{ 
+			char op_ch = static_cast<char>(*v.c_str()); 
+			
+			if(op_ch == '-')
+			{
+				return BinaryOperator::Minus;
+			}
+			else if(op_ch == '+')
+			{
+				return BinaryOperator::Plus;
+			}
+
+			return BinaryOperator::None;
+		};
+
+		parser["FACTOR_OP"] = [](const peg::SemanticValues& v) -> BinaryOperator
+		{ 
+			char op_ch = static_cast<char>(*v.c_str()); 
+			
+			if(op_ch == '/')
+			{
+				return BinaryOperator::Divide;
+			}
+			else if(op_ch == '*')
+			{
+				return BinaryOperator::Multiply;
+			}
+
+			return BinaryOperator::None;
+		};
+
+		parser["NUMBER"]    = [](const peg::SemanticValues& v) -> ExpressionPtr
+		{ 
+			int32_t data = std::atoi(v.c_str()); 
+			ExpressionPtr node = std::make_shared<Integer32>(data);
+			return node;
+		};
 	}
 }

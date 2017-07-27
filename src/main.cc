@@ -1,8 +1,10 @@
 #include <iostream>
+#include <memory>
 
 #include "peglib.hh"
 
 #include "Parser.hh"
+#include "ParseStruct.hh"
 
 int main(int argc, const char** argv)
 {
@@ -15,11 +17,12 @@ int main(int argc, const char** argv)
 	Dlink::Parser parser;
 
 	const char* expr = argv[1];
-	int result;
+	Dlink::ExpressionPtr ast;
 
-	if (parser.parse(expr, result))
+	if (parser.parse(expr, ast))
 	{
-		std::cout << expr << " = " << result << std::endl;
+		std::cout << "Parsing Succeed\n------------\n";
+		std::cout << ast->treeGen(0);
 		return 0;
 	}
 	else

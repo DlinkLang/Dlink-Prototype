@@ -7,7 +7,11 @@
  * @brief 문법의 정의 및 파서 객체의 생성을 관리합니다.
  */
 
+#include <memory>
+
 #include "peglib.hh"
+
+#include "ParseStruct.hh"
 
 namespace Dlink
 {
