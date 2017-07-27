@@ -3,7 +3,7 @@
 /**
  * @file ParseStruct.hh
  * @date 2017.07.28
- * @author dev_kr
+ * @author dev_kr, kmc7468
  * @brief Dlink 코드 파서의 결과가 생성하는 AST의 노드들을 정의합니다.
  */
 
@@ -31,7 +31,7 @@ namespace Dlink
 namespace Dlink
 {
 	/**
-	 * @brief Dlink의 이진 연산자의 열거 클래스 타입입니다.
+	 * @brief Dlink의 이항 연산자의 열거 클래스 타입입니다.
 	 */
 	enum class BinaryOperator
 	{
@@ -61,7 +61,7 @@ namespace Dlink
 	};
 
 	/**
-	 * @brief 이진 연산의 구조를 담는 파싱 노드입니다.
+	 * @brief 이항 연산의 구조를 담는 파싱 노드입니다.
 	 */
 	struct BinaryOP final : public Expression
 	{
