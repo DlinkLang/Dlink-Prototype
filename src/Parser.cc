@@ -3,12 +3,23 @@
 namespace Dlink
 {
 	const constexpr char Parser::grammar[] = R"(
-                EXPR      <- _ TERM (TERM_OP TERM)*
-                TERM      <- FACTOR (FACTOR_OP FACTOR)*
-                FACTOR    <- NUMBER / '(' _ EXPR ')' _
-                TERM_OP   <- < [-+] > _
-                FACTOR_OP <- < [/*] > _
+	            # Root Expression
+	            EXPR      <- BIN_ADDSUB
+
+				# Binary Operations
+                BIN_ADDSUB    <- _ BIN_MULDIV (ADDSUB_OP BIN_MULDIV)*
+                BIN_MULDIV    <- ATOM (MULDIV_OP ATOM)*
+
+                ATOM      <- NUMBER / '(' _ EXPR ')' _
+				
+				# Operators
+                ADDSUB_OP <- < [-+] > _
+                MULDIV_OP <- < [/*] > _
+
+				# Literals
                 NUMBER    <- < [0-9]+ > _
+
+				# Ignoring Characters
                 ~_        <- [ \t\r\n]*
     )";
 
@@ -33,9 +44,9 @@ namespace Dlink
 		
 		auto parser = *this;
 
-		parser["EXPR"]      = BinaryOP_AST;
-		parser["TERM"]      = BinaryOP_AST;
-		parser["TERM_OP"]   = [](const peg::SemanticValues& v) -> BinaryOperator
+		parser["BIN_ADDSUB"]      = BinaryOP_AST;
+		parser["BIN_MULDIV"]      = BinaryOP_AST;
+		parser["ADDSUB_OP"]   = [](const peg::SemanticValues& v) -> BinaryOperator
 		{ 
 			char op_ch = static_cast<char>(*v.c_str()); 
 			
@@ -51,7 +62,7 @@ namespace Dlink
 			return BinaryOperator::None;
 		};
 
-		parser["FACTOR_OP"] = [](const peg::SemanticValues& v) -> BinaryOperator
+		parser["MULDIV_OP"] = [](const peg::SemanticValues& v) -> BinaryOperator
 		{ 
 			char op_ch = static_cast<char>(*v.c_str()); 
 			
