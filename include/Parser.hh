@@ -16,24 +16,24 @@
 namespace Dlink
 {
 
-	class Parser : private peg::parser
-	{
-	public:
+    class Parser : private peg::parser
+    {
+    public:
 
-		/**
-		 * @brief 정의된 문법을 통한 파서의 초기화 및 파싱 액션 설정을 합니다.
-		 */
-		Parser();
+        /**
+         * @brief 정의된 문법을 통한 파서의 초기화 및 파싱 액션 설정을 합니다.
+         */
+        Parser();
 
-		static const char grammar[];
+        static const char grammar[];
 
-		using peg::parser::operator bool;
-		using peg::parser::parse_n;
-		using peg::parser::parse;
-		using peg::parser::search;
-		using peg::parser::operator[];	
-		using peg::parser::enable_packrat_parsing;
-		using peg::parser::enable_ast;
-		using peg::parser::enable_trace;
-	};
+        using peg::parser::operator bool;
+        using peg::parser::parse_n;
+        using peg::parser::parse;
+        using peg::parser::search;
+        using peg::parser::operator[];  
+        using peg::parser::enable_packrat_parsing;
+        using peg::parser::enable_ast;
+        using peg::parser::enable_trace;
+    };
 };
