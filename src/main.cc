@@ -22,7 +22,7 @@ int main(int argc, const char** argv)
 	if (parser.parse(expr, ast))
 	{
 		std::cout << "Parsing Succeed\n------------\n";
-		std::cout << ast->treeGen(0);
+		std::cout << ast->treeGen(0) << "\n";
 		return 0;
 	}
 	else

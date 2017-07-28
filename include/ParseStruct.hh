@@ -31,9 +31,9 @@ namespace Dlink
 namespace Dlink
 {
 	/**
-	 * @brief Dlink의 이항 연산자의 열거 클래스 타입입니다.
+	 * @brief Dlink의 연산자의 열거 클래스 타입입니다.
 	 */
-	enum class BinaryOperator
+	enum class Operator
 	{
 		None,
 		Plus,
@@ -59,17 +59,32 @@ namespace Dlink
 
 		std::string treeGen(std::size_t depth) override;
 	};
-
+	
 	/**
 	 * @brief 이항 연산의 구조를 담는 파싱 노드입니다.
 	 */
-	struct BinaryOP final : public Expression
+	struct BinaryOperation final : public Expression
 	{
-		BinaryOperator op;
+		Operator op;
 		ExpressionPtr lhs, rhs;
 
-		BinaryOP(BinaryOperator op_, ExpressionPtr lhs_, ExpressionPtr rhs_)
+		BinaryOperation(Operator op_, ExpressionPtr lhs_, ExpressionPtr rhs_)
 			: op(op_), lhs(lhs_), rhs(rhs_)
+		{}
+		
+		std::string treeGen(std::size_t depth) override;
+	};
+
+	/**
+	 * @brief 단항 연산의 구조를 담는 파싱 노드입니다.
+	 */
+	struct UnaryOperation final : public Expression
+	{
+		Operator op;
+		ExpressionPtr rhs;
+
+		UnaryOperation(Operator op_, ExpressionPtr rhs_)
+			: op(op_), rhs(rhs_)
 		{}
 		
 		std::string treeGen(std::size_t depth) override;

@@ -8,7 +8,10 @@ namespace Dlink
 
                 # Binary Operations
                 BIN_ADDSUB    <- _ BIN_MULDIV (ADDSUB_OP BIN_MULDIV)*
-                BIN_MULDIV    <- ATOM (MULDIV_OP ATOM)*
+                BIN_MULDIV    <- UNARY_SIGN (MULDIV_OP UNARY_SIGN)*
+               
+                # Unary Operations
+                UNARY_SIGN    <- (ADDSUB_OP)? ATOM
 
                 ATOM          <- NUMBER / '(' _ EXPR ')' _
 
@@ -25,16 +28,16 @@ namespace Dlink
 
     Parser::Parser()
     {
-        auto BinaryOP_AST = [](const peg::SemanticValues& v) -> ExpressionPtr
+        auto BinaryOperation_AST = [](const peg::SemanticValues& v) -> ExpressionPtr
         {    
             ExpressionPtr lhs = v[0].get<ExpressionPtr>();
 
             for (std::size_t i=1; i < v.size(); i += 2)
             {
                 auto rhs = v[i+1].get<ExpressionPtr>();
-                auto op = v[i].get<BinaryOperator>();
+                auto op = v[i].get<Operator>();
 
-                lhs = std::make_shared<BinaryOP>(op, lhs, rhs);
+                lhs = std::make_shared<BinaryOperation>(op, lhs, rhs);
             }
             
             return lhs;
@@ -44,45 +47,62 @@ namespace Dlink
         
         auto parser = *this;
 
-        parser["BIN_ADDSUB"]      = BinaryOP_AST;
-        parser["BIN_MULDIV"]      = BinaryOP_AST;
-        parser["ADDSUB_OP"]       = [](const peg::SemanticValues& v) -> BinaryOperator
+        parser["BIN_ADDSUB"]      = BinaryOperation_AST;
+        parser["BIN_MULDIV"]      = BinaryOperation_AST;
+
+        parser["UNARY_SIGN"]      = [](const peg::SemanticValues& v) -> ExpressionPtr
+        {
+            if(v.size() == 2)
+            {
+                Operator op = v[0].get<Operator>();
+                ExpressionPtr rhs = v[1].get<ExpressionPtr>();
+            
+                ExpressionPtr result = std::make_shared<UnaryOperation>(op, rhs); 
+                return result;
+            }
+            else
+            {
+                return v[0].get<ExpressionPtr>();
+            }
+        };
+
+        parser["NUMBER"]          = [](const peg::SemanticValues& v) -> ExpressionPtr
+        { 
+            int32_t data = std::atoi(v.c_str()); 
+            ExpressionPtr result = std::make_shared<Integer32>(data);
+            return result;
+        };
+
+        parser["ADDSUB_OP"]       = [](const peg::SemanticValues& v) -> Operator
         { 
             char op_ch = static_cast<char>(*v.c_str()); 
             
             if(op_ch == '-')
             {
-                return BinaryOperator::Minus;
+                return Operator::Minus;
             }
             else if(op_ch == '+')
             {
-                return BinaryOperator::Plus;
+                return Operator::Plus;
             }
 
-            return BinaryOperator::None;
+            return Operator::None;
         };
 
-        parser["MULDIV_OP"]      = [](const peg::SemanticValues& v) -> BinaryOperator
+        parser["MULDIV_OP"]       = [](const peg::SemanticValues& v) -> Operator
         { 
             char op_ch = static_cast<char>(*v.c_str()); 
             
             if(op_ch == '/')
             {
-                return BinaryOperator::Divide;
+                return Operator::Divide;
             }
             else if(op_ch == '*')
             {
-                return BinaryOperator::Multiply;
+                return Operator::Multiply;
             }
 
-            return BinaryOperator::None;
-        };
-
-        parser["NUMBER"]        = [](const peg::SemanticValues& v) -> ExpressionPtr
-        { 
-            int32_t data = std::atoi(v.c_str()); 
-            ExpressionPtr node = std::make_shared<Integer32>(data);
-            return node;
+            return Operator::None;
         };
     }
 }
