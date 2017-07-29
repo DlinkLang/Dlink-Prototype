@@ -5,12 +5,13 @@
 
 #include "Parser.hh"
 #include "ParseStruct.hh"
+#include "CodeGen.hh"
 
 int main(int argc, const char** argv)
 {
     if (argc < 2)
     {
-        std::cout << "usage: calc [formula]" << std::endl;
+        std::cout << "usage: Dlink [expression]" << std::endl;
         return 1;
     }
 
@@ -21,8 +22,14 @@ int main(int argc, const char** argv)
 
     if (parser.parse(expr, ast))
     {
-        std::cout << "Parsing Succeed\n------------\n";
-        std::cout << ast->tree_gen(0) << "\n";
+        std::cout << "Parsing Succeed\n\n";
+        std::cout << "Generated Parse Tree : \n\n";
+        std::cout << ast->tree_gen(0) << "\n\n";
+ 
+        std::cout << "Generated LLVM IR : \n\n";
+        ast->code_gen(); 
+        Dlink::LLVM::module->dump();
+
         return 0;
     }
     else
