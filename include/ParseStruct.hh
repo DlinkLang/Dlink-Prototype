@@ -12,16 +12,23 @@
 #include <string>
 #include <iostream>
 
+#include "llvm/IR/Value.h"
+
 namespace Dlink
 {
     struct Node
     {
         /**
          * @brief 현재 노드의 트리형 구조를 std::string 타입으로 시각화 시킵니다.
-         * @param 전체 트리에서 현재 노드의 깊이입니다.
+         * @param depth 전체 트리에서 현재 노드의 깊이입니다.
          * @return 현재 노드의 트리형 구조를 시각화 시킨 값을 반환합니다.
          */
         virtual std::string tree_gen(std::size_t depth) = 0;
+		/**
+		 * @brief 현재 노드의 트리형 구조를 LLVM IR 코드로 만듭니다.
+		 * @return [추가바람]
+		 */
+		virtual llvm::Value* code_gen() = 0;
     };
 
     struct Expression : public Node
@@ -31,15 +38,16 @@ namespace Dlink
 namespace Dlink
 {
     /**
-     * @brief Dlink의 연산자의 열거 클래스 타입입니다.
+     * @brief Dlink 연산자의 종류입니다.
      */
     enum class Operator
     {
-        None,
-        Plus,
-        Minus,
-        Multiply,
-        Divide,
+        None = 0,
+
+        Plus, /**< 이항 덧셈 연산자입니다. */
+        Minus, /**< 이항 뺄셈 연산자입니다. */
+        Multiply, /**< 이항 곱셈 연산자입니다. */
+        Divide, /**< 이항 나눗셈 연산자입니다. */
     };
 
     using ExpressionPtr = std::shared_ptr<Expression>;
@@ -58,6 +66,7 @@ namespace Dlink
         {}
 
         std::string tree_gen(std::size_t depth) override;
+		llvm::Value* code_gen() override;
     };
     
     /**
@@ -73,7 +82,8 @@ namespace Dlink
         {}
     
         std::string tree_gen(std::size_t depth) override;
-    };
+		llvm::Value* code_gen() override;
+	};
 
     /**
      * @brief 단항 연산의 구조를 담는 파싱 노드입니다.
@@ -88,5 +98,6 @@ namespace Dlink
         {}
         
         std::string tree_gen(std::size_t depth) override;
-    };
+		llvm::Value* code_gen() override;
+	};
 }
