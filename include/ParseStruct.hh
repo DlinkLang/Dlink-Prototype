@@ -21,7 +21,7 @@ namespace Dlink
          * @param 전체 트리에서 현재 노드의 깊이입니다.
          * @return 현재 노드의 트리형 구조를 시각화 시킨 값을 반환합니다.
          */
-        virtual std::string treeGen(std::size_t depth) = 0;
+        virtual std::string tree_gen(std::size_t depth) = 0;
     };
 
     struct Expression : public Node
@@ -57,7 +57,7 @@ namespace Dlink
         Integer32(std::int32_t data_) : data(data_)
         {}
 
-        std::string treeGen(std::size_t depth) override;
+        std::string tree_gen(std::size_t depth) override;
     };
     
     /**
@@ -71,8 +71,8 @@ namespace Dlink
         BinaryOperation(Operator op_, ExpressionPtr lhs_, ExpressionPtr rhs_)
             : op(op_), lhs(lhs_), rhs(rhs_)
         {}
-        
-        std::string treeGen(std::size_t depth) override;
+    
+        std::string tree_gen(std::size_t depth) override;
     };
 
     /**
@@ -87,6 +87,6 @@ namespace Dlink
             : op(op_), rhs(rhs_)
         {}
         
-        std::string treeGen(std::size_t depth) override;
+        std::string tree_gen(std::size_t depth) override;
     };
 }
