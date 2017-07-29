@@ -19,7 +19,7 @@ add_executable(${PROJECT_NAME} ${srcs})
 set(CMAKE_CXX_COMPILER "clang++")
 
 set(EXTRA_COMPILE_OPTIONS -std=c++14 -Wall)
-set(EXTRA_LINK_OPTIONS -pthread)
+set(EXTRA_LINK_OPTIONS -pthread -lLLVM -lOpenCL)
 
 target_compile_options(${PROJECT_NAME} PRIVATE ${EXTRA_COMPILE_OPTIONS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${EXTRA_LINK_OPTIONS})
