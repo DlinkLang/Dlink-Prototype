@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 #include "peglib.hh"
 
@@ -17,12 +18,33 @@ int main(int argc, const char** argv)
 
     Dlink::Parser parser;
 
-    const char* expr = argv[1];
+    const std::string input(argv[1]);
+
+    auto on_error = [&](std::size_t ln, std::size_t col, const std::string& msg)
+    {
+        std::istringstream input_stream(input);
+
+        std::string line;
+       
+        std::size_t current_ln = 1;
+
+        while(std::getline(input_stream, line) && current_ln++ != ln);
+        
+        std::cerr << "Error occurred!\n";
+        std::cerr << "Error Message : " << msg << "\n";
+        std::cerr << "Error Location : line " << ln << " col " << col << "\n\n";
+
+        std::cerr << line << std::endl;
+        std::cerr << std::string(col - 1, ' ') << "^\n";
+    };
+
+    parser.log = on_error;
+
     Dlink::ExpressionPtr ast;
 
-    if (parser.parse(expr, ast))
+    if (parser.parse(input.c_str(), ast))
     {
-        std::cout << "Parsing Sucessed\n\n";
+        std::cout << "Parsing Succeeded\n\n";
         std::cout << "<Generated Parse Tree>\n";
         std::cout << ast->tree_gen(0) << "\n\n";
  
@@ -34,7 +56,6 @@ int main(int argc, const char** argv)
     }
     else
     {
-        std::cerr << "Syntax Error!\n";
         return -1;
     }
 }

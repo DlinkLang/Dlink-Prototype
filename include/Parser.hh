@@ -26,7 +26,7 @@ namespace Dlink
         Parser();
 
         static const char grammar[];
-
+        
         using peg::parser::operator bool;
         using peg::parser::parse_n;
         using peg::parser::parse;
@@ -35,5 +35,6 @@ namespace Dlink
         using peg::parser::enable_packrat_parsing;
         using peg::parser::enable_ast;
         using peg::parser::enable_trace;
+        using peg::parser::log;
     };
 };
