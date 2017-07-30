@@ -22,11 +22,11 @@ int main(int argc, const char** argv)
 
     if (parser.parse(expr, ast))
     {
-        std::cout << "Parsing Succeed\n\n";
-        std::cout << "Generated Parse Tree : \n\n";
+        std::cout << "Parsing Sucessed\n\n";
+        std::cout << "<Generated Parse Tree>\n";
         std::cout << ast->tree_gen(0) << "\n\n";
  
-        std::cout << "Generated LLVM IR : \n\n";
+        std::cout << "<Generated LLVM IR>\n";
         ast->code_gen(); 
         Dlink::LLVM::module->dump();
 

@@ -4,21 +4,22 @@ namespace Dlink
 {
     std::string tree_prefix(std::size_t depth)
     {
-        return std::string(depth * 6, '-');
+        return std::string(depth * 6, ' ');
     }
 
-    std::string Integer32::tree_gen(std::size_t depth)
+    std::string Integer32::tree_gen(std::size_t)
     {
-        return tree_prefix(depth) + "Integer32(" + std::to_string(data) + ")";
+        return "Integer32(" + std::to_string(data) + ")";
     }
     
     std::string BinaryOperation::tree_gen(std::size_t depth)
     {
-        std::string tree = tree_prefix(depth)+ "BinaryOperation:\n";
-        tree += tree_prefix(depth) + "lhs:\n";
-        tree += lhs->tree_gen(depth+1) + '\n';
-        tree += tree_prefix(depth) + "rhs:\n";
-        tree += rhs->tree_gen(depth+1);
+        std::string tree = tree_prefix(depth) + "BinaryOperation:\n";
+		++depth;
+		tree += tree_prefix(depth) + "lhs: ";
+        tree += lhs->tree_gen(depth + 1) + '\n';
+        tree += tree_prefix(depth) + "rhs: ";
+        tree += rhs->tree_gen(depth + 1);
 
         return tree;
     }
@@ -26,7 +27,8 @@ namespace Dlink
     std::string UnaryOperation::tree_gen(std::size_t depth)
     {
         std::string tree = tree_prefix(depth) + "UnaryOperation:\n";
-        tree += tree_prefix(depth) + "rhs:\n";
+		++depth;
+		tree += tree_prefix(depth) + "rhs:\n";
         tree += rhs->tree_gen(depth+1);
 
         return tree;
