@@ -25,6 +25,9 @@ namespace Dlink
          */
         Parser();
 
+        /**
+         * @brief 파서에 전달될 문법 문자열입니다.
+         */
         static const char grammar[];
         
         using peg::parser::operator bool;

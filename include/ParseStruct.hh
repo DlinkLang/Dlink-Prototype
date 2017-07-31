@@ -25,9 +25,10 @@ namespace Dlink
          * @return 현재 노드의 트리형 구조를 시각화 시킨 값을 반환합니다.
          */
         virtual std::string tree_gen(std::size_t depth) = 0;
+
 		/**
 		 * @brief 현재 노드의 트리형 구조를 LLVM IR 코드로 만듭니다.
-		 * @return [추가바람]
+		 * @return 파싱 노드에서 생성한 llvm::Value*를 반환합니다. 생성할 값이 없을 경우 nullptr을 반환합니다.
 		 */
 		virtual llvm::Value* code_gen() = 0;
     };
@@ -67,8 +68,14 @@ namespace Dlink
      */
     struct Block final : public Statement
     {
+        /**
+         * @brief Statement들을 담아두는 StatementPtr의 std::vector입니다.
+         */
         std::vector<StatementPtr> statements;
 
+        /**
+         * @brief StatementPtr의 std::vector를 받아 멤버 필드 statements를 초기화하고 Block을 생성합니다.
+         */
         Block(std::vector<StatementPtr> statements_) : statements(statements_)
         {}
         
@@ -81,8 +88,14 @@ namespace Dlink
      */
     struct ExpressionStatement final : public Statement
     {
+        /**
+         * @brief Expression을 담아두는 ExpressionPtr 타입의 멤버 필드입니다.
+         */
         ExpressionPtr expression;
 
+        /**
+         * @brief ExpressionPtr을 받아 멤버 필드 expression을 초기화하고 ExpressionStatement를 생성합니다.
+         */
         ExpressionStatement(ExpressionPtr expression_) : expression(expression_)
         {}
         
@@ -98,8 +111,14 @@ namespace Dlink
      */
     struct Integer32 final : public Expression
     {
+        /**
+         * @brief int32_t 타입의 정수 데이터입니다.
+         */
         std::int32_t data;
 
+        /**
+         * @brief int32_t를 받아 멤버 필드 data를 초기화하고 Integer32를 생성합니다.
+         */
         Integer32(std::int32_t data_) : data(data_)
         {}
 
@@ -112,9 +131,23 @@ namespace Dlink
      */
     struct BinaryOperation final : public Expression
     {
+        /**
+         * @brief 이항 연산의 연산자를 담는 Operator 타입의 멤버 필드입니다.
+         */
         Operator op;
-        ExpressionPtr lhs, rhs;
 
+        /**
+         * @brief 이항 연산의 좌측 피연산자를 담는 ExpressionPtr 타입의 멤버 필드입니다.
+         */
+        ExpressionPtr lhs;
+        /**
+         * @brief 이항 연산의 우측 피연산자를 담는 ExpressionPtr 타입의 멤버 필드입니다.
+         */
+        ExpressionPtr rhs;
+
+        /**
+         * @brief Operator와 ExpressionPtr 두 인수를 받아 멤버 필드 op, lhs, rhs를 초기화하고 BinaryOperation을 생성합니다.
+         */
         BinaryOperation(Operator op_, ExpressionPtr lhs_, ExpressionPtr rhs_)
             : op(op_), lhs(lhs_), rhs(rhs_)
         {}
@@ -128,9 +161,18 @@ namespace Dlink
      */
     struct UnaryOperation final : public Expression
     {
+        /**
+         * @brief 단항 연산의 연산자를 담는 Operator 타입의 멤버 필드입니다.
+         */
         Operator op;
+        /**
+         * @brief 단항 연산의 피연산자를 담는 ExpressionPtr 타입의 멤버 필드입니다.
+         */
         ExpressionPtr rhs;
 
+        /**
+         * @brief Operator와 ExpressionPtr를 받아 멤버 필드 op, rhs를 초기화하고 UnaryOperation을 생성합니다.
+         */
         UnaryOperation(Operator op_, ExpressionPtr rhs_)
             : op(op_), rhs(rhs_)
         {}
