@@ -40,7 +40,7 @@ int main(int argc, const char** argv)
 
     parser.log = on_error;
 
-    Dlink::ExpressionPtr ast;
+    Dlink::StatementPtr ast;
 
     if (parser.parse(input.c_str(), ast))
     {

@@ -9,7 +9,28 @@ namespace Dlink
 		std::shared_ptr<llvm::Module> module = std::make_shared<llvm::Module>("top", context);
 		llvm::IRBuilder<> builder(context);
 	}
+}
 
+namespace Dlink
+{
+    llvm::Value* Block::code_gen()
+    {
+        for(StatementPtr statement : statements)
+        {
+            statement->code_gen();
+        }
+
+        return nullptr;
+    }
+    
+    llvm::Value* ExpressionStatement::code_gen()
+    {
+        return expression->code_gen();
+    }
+}
+
+namespace Dlink
+{
 	llvm::Value* Integer32::code_gen()
 	{
 		return LLVM::builder.getInt32(data);

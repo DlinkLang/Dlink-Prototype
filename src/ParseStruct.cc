@@ -6,6 +6,32 @@ namespace Dlink
     {
         return std::string(depth * 6, ' ');
     }
+}
+
+namespace Dlink
+{
+    std::string Block::tree_gen(std::size_t depth)
+    {
+        std::string tree = tree_prefix(depth) + "Block Start\n";
+
+        for(StatementPtr statement : statements)
+        {
+            tree += statement->tree_gen(depth+1) + "\n";
+        }
+
+        tree += tree_prefix(depth) + "Block End\n";
+
+        return tree;
+    }
+    
+    std::string ExpressionStatement::tree_gen(std::size_t depth)
+    {
+        return expression->tree_gen(depth);
+    }
+}
+
+namespace Dlink
+{
 
     std::string Integer32::tree_gen(std::size_t depth)
     {

@@ -11,6 +11,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <vector>
 
 #include "llvm/IR/Value.h"
 
@@ -33,6 +34,9 @@ namespace Dlink
 
     struct Expression : public Node
     {};
+
+    struct Statement : public Node
+    {};
 }
 
 namespace Dlink
@@ -44,13 +48,47 @@ namespace Dlink
     {
         None = 0,
 
-        Plus, /**< 이항 덧셈 연산자입니다. */
-        Minus, /**< 이항 뺄셈 연산자입니다. */
+        Plus, /**< 이항 덧셈, 단항 양의 부호 연산자입니다. */
+        Minus, /**< 이항 뺄셈, 단항 음의 부호 연산자입니다. */
         Multiply, /**< 이항 곱셈 연산자입니다. */
         Divide, /**< 이항 나눗셈 연산자입니다. */
     };
 
     using ExpressionPtr = std::shared_ptr<Expression>;
+    using StatementPtr = std::shared_ptr<Statement>;
+   
+
+}
+
+namespace Dlink
+{
+    /**
+     * @brief 한 개 이상의 Statement들의 집합입니다.
+     */
+    struct Block final : public Statement
+    {
+        std::vector<StatementPtr> statements;
+
+        Block(std::vector<StatementPtr> statements_) : statements(statements_)
+        {}
+        
+        std::string tree_gen(std::size_t depth) override;
+		llvm::Value* code_gen() override;
+    };
+    
+    /**
+     * @brief 한 개의 Expression으로 이루어진 Statement입니다.
+     */
+    struct ExpressionStatement final : public Statement
+    {
+        ExpressionPtr expression;
+
+        ExpressionStatement(ExpressionPtr expression_) : expression(expression_)
+        {}
+        
+        std::string tree_gen(std::size_t depth) override;
+		llvm::Value* code_gen() override;
+    };
 }
 
 namespace Dlink

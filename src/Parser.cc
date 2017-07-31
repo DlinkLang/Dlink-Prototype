@@ -3,6 +3,12 @@
 namespace Dlink
 {
     const constexpr char Parser::grammar[] = R"(
+                BLOCK         <- (STMT)*
+
+                STMT          <- EXPRSTMT
+    
+                EXPRSTMT      <- EXPR ';'
+
                 # Root Expression
                 EXPR          <- BIN_ADDSUB
 
@@ -43,9 +49,28 @@ namespace Dlink
             return lhs;
         };
         
-        load_grammar(grammar);
-        
+        load_grammar(grammar); 
         auto parser = *this;
+       
+        parser["BLOCK"]           = [](const peg::SemanticValues& v) -> StatementPtr
+        {
+            std::vector<StatementPtr> statements;
+            
+            for(auto statement : v)
+            {
+                statements.push_back(statement.get<StatementPtr>());
+            }
+
+            StatementPtr result = std::make_shared<Block>(statements);
+            return result;
+        };
+
+        parser["EXPRSTMT"]        = [](const peg::SemanticValues& v) -> StatementPtr
+        {
+            ExpressionPtr expression = v[0].get<ExpressionPtr>();
+            StatementPtr result = std::make_shared<ExpressionStatement>(expression);
+            return result;
+        };
 
         parser["BIN_ADDSUB"]      = BinaryOperation_AST;
         parser["BIN_MULDIV"]      = BinaryOperation_AST;
