@@ -3,11 +3,15 @@
 namespace Dlink
 {
     const constexpr char Parser::grammar[] = R"(
+                # ---------- STATEMENT ----------
+
                 BLOCK         <- (STMT)*
 
                 STMT          <- EXPRSTMT
     
                 EXPRSTMT      <- EXPR ';'
+                
+                # ---------- EXPRESSION ----------
 
                 # Root Expression
                 EXPR          <- BIN_ADDSUB
@@ -19,14 +23,22 @@ namespace Dlink
                 # Unary Operations
                 UNARY_SIGN    <- (ADDSUB_OP)? ATOM
 
-                ATOM          <- NUMBER / '(' _ EXPR ')' _
+                ATOM          <- INTEGER / '(' _ EXPR ')' _
 
                 # Operators
                 ADDSUB_OP     <- < [-+] > _
                 MULDIV_OP     <- < [/*] > _
 
                 # Literals
-                NUMBER        <- < [0-9]+ > _
+                INTEGER       <- < [0-9]+ > _
+
+                # ---------- TYPE ----------
+
+                SIMPLE_TYPE   <- IDENTIFIER
+
+                # ---------- ETC ----------
+                
+                IDENTIFIER    <- < [a-zA-Z][a-zA-Z0-9]* > _ 
 
                 # Ignoring Characters
                 ~_            <- [ \t\r\n]*
@@ -91,13 +103,6 @@ namespace Dlink
             }
         };
 
-        parser["NUMBER"]          = [](const peg::SemanticValues& v) -> ExpressionPtr
-        { 
-            int32_t data = std::atoi(v.c_str()); 
-            ExpressionPtr result = std::make_shared<Integer32>(data);
-            return result;
-        };
-
         parser["ADDSUB_OP"]       = [](const peg::SemanticValues& v) -> Operator
         { 
             char op_ch = static_cast<char>(*v.c_str()); 
@@ -128,6 +133,20 @@ namespace Dlink
             }
 
             return Operator::None;
+        };
+        
+        parser["INTEGER"]          = [](const peg::SemanticValues& v) -> ExpressionPtr
+        { 
+            int32_t data = std::atoi(v.c_str()); 
+            ExpressionPtr result = std::make_shared<Integer32>(data);
+            return result;
+        };
+        
+
+        parser["SIMPLE_TYPE"]      = [](const peg::SemanticValues& v) -> TypePtr
+        {
+            std::string identifier(v.c_str());
+            return std::make_shared<SimpleType>(identifier);
         };
     }
 }

@@ -38,6 +38,22 @@ namespace Dlink
 
     struct Statement : public Node
     {};
+
+    struct Type
+    {
+        /**
+         * @brief 현재 타입 노드의 트리형 구조를 std::string 타입으로 시각화 시킵니다.
+         * @param depth 전체 트리에서 현재 노드의 깊이입니다.
+         * @return 현재 타입 노드의 트리형 구조를 시각화 시킨 값을 반환합니다.
+         */
+        virtual std::string tree_gen(std::size_t depth) = 0;
+
+		/**
+		 * @brief 현재 타입 노드를 LLVM의 Type 객체로 만듭니다.
+		 * @return 타입 노드에서 생성한 llvm::Type*을 반환합니다.
+		 */
+        virtual llvm::Type* get_type() = 0;
+    };
 }
 
 namespace Dlink
@@ -57,8 +73,7 @@ namespace Dlink
 
     using ExpressionPtr = std::shared_ptr<Expression>;
     using StatementPtr = std::shared_ptr<Statement>;
-   
-
+    using TypePtr = std::shared_ptr<Type>;
 }
 
 namespace Dlink
@@ -180,4 +195,28 @@ namespace Dlink
         std::string tree_gen(std::size_t depth) override;
 		llvm::Value* code_gen() override;
 	};
+}
+
+namespace Dlink
+{
+    /**
+     * @brief int, char와 같이 한정자나 포인터 선언 등이 없는 순수 타입입니다.
+     */
+    struct SimpleType final : public Type
+    {
+        /**
+         * @brief 타입의 문자열 식별자를 담는 std::string 타입의 멤버 필드입니다.
+         */
+        const std::string& identifier;
+
+        /**
+         * @brief std::string을 받아 멤버 필드 identifier를 초기화하고 SimpleType을 생성합니다.
+         */
+        SimpleType(const std::string& identifier_)
+            : identifier(identifier_)
+        {}
+        
+        std::string tree_gen(std::size_t depth) override;
+		llvm::Type* get_type() override;
+    };
 }

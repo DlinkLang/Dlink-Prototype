@@ -80,3 +80,16 @@ namespace Dlink
 		}
 	}
 }
+
+namespace Dlink
+{
+    llvm::Type* SimpleType::get_type()
+    {
+        if(identifier == "int")
+        {
+            return LLVM::builder.getInt32Ty();
+        }
+        
+        return nullptr;
+    }
+}

@@ -60,3 +60,11 @@ namespace Dlink
         return tree;
     }
 }
+
+namespace Dlink
+{
+    std::string SimpleType::tree_gen(std::size_t depth)
+    {
+        return tree_prefix(depth) + "SimpleType(" + identifier + ")";
+    }
+}
