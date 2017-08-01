@@ -9,7 +9,8 @@ namespace Dlink
 
                 STMT          <- EXPRSTMT
     
-                EXPRSTMT      <- EXPR ';'
+                EXPRSTMT      <- EXPR SC
+				VARSTMT		  <- IDENTIFIER IDENTIFIER ('=' EXPR)? SC
                 
                 # ---------- EXPRESSION ----------
 
@@ -39,6 +40,7 @@ namespace Dlink
                 # ---------- ETC ----------
                 
                 IDENTIFIER    <- < [a-zA-Z][a-zA-Z0-9]* > _ 
+				SC			  <- ';'*
 
                 # Ignoring Characters
                 ~_            <- [ \t\r\n]*
