@@ -10,7 +10,7 @@ namespace Dlink
                 STMT          <- EXPRSTMT
     
                 EXPRSTMT      <- EXPR SC
-				VARSTMT		  <- IDENTIFIER IDENTIFIER ('=' EXPR)? SC
+				VARSTMT		  <- SIMPLE_TYPE IDENTIFIER ('=' EXPR)? SC
                 
                 # ---------- EXPRESSION ----------
 

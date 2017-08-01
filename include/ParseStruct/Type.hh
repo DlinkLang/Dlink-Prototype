@@ -11,6 +11,8 @@
 
 #include "llvm/IR/Type.h"
 
+#include "Root.hh"
+
 namespace Dlink
 {
 	/**
