@@ -426,5 +426,13 @@ namespace Dlink
 	{
 		return token_seq_;
 	}
-
+    
+    void Lexer::dump() const
+    {
+        for (const Token& token : token_seq_)
+        {
+            std::cout << "Line " << token.line << " Col " << token.col
+                      << " -> " << token_map.at(token.type) << "(" << token.data << ")\n";
+        }
+    }
 }

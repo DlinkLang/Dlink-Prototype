@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <map>
+#include <iostream>
 
 #include "Token.hh"
 
@@ -43,5 +44,70 @@ namespace Dlink
          * @return 렉싱의 결과를 저장해 두는 멤버 필드 token_seq_을 반환합니다.
          */
         const std::vector<Token>& get_token_seq() const;
-    };
-}
+        
+        /**
+         * @brief 렉싱의 결과의 각 토큰마다 줄 번호, 세로줄 번호, 토큰 타입을 출력합니다.
+         */
+        void dump() const;
+    };    
+}         
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          

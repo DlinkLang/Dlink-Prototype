@@ -13,12 +13,7 @@ int main()
 }
     )");
 
-    auto result = lexer.get_token_seq();
-
-    for(auto tok : result)
-    {
-        std::cout << "Line " << tok.line << " Col " << tok.col << " " << tok.data << "\n";
-    }
+    lexer.dump();
 
     return 0;
 }

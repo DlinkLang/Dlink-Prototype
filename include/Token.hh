@@ -8,6 +8,8 @@
  */
 
 #include <string>
+#include <map>
+#include <utility>
 
 namespace Dlink
 {
@@ -125,4 +127,9 @@ namespace Dlink
             : data(data_), type(type_), line(line_), end_col(end_col_), col(end_col_ - data_.length())
         {}
     };
+
+    /**
+     * @brief 토큰 타입을 문자열화 시켜 매핑하여 담아두는 전역 상수입니다.
+     */
+    extern const std::map<TokenType, std::string> token_map;
 }
