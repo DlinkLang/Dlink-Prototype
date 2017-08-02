@@ -102,7 +102,7 @@ namespace Dlink
         /**
          * @brief 토큰의 실제 문자열 데이터입니다.
          */
-        const std::string& data;
+        const std::string data;
         /**
          * @brief TokenType 형식의 토큰의 타입입니다.
          */
@@ -113,12 +113,16 @@ namespace Dlink
          */
         const std::size_t line;    
         /**
-         * @brief 토큰의 세로단 번호입니다.
+         * @brief 토큰이 끝나는 위치의 세로단 번호입니다.
+         */
+        const std::size_t end_col;
+        /**
+         * @brief 토큰이 시작되는 위치의 세로단 번호입니다.
          */
         const std::size_t col;
 
-        Token(const std::string& data_, TokenType type_, const std::size_t line_, const std::size_t col_)
-            : data(data_), type(type_), line(line_), col(col_)
+        Token(const std::string& data_, TokenType type_, const std::size_t line_, const std::size_t end_col_)
+            : data(data_), type(type_), line(line_), end_col(end_col_), col(end_col_ - data_.length())
         {}
     };
 }
