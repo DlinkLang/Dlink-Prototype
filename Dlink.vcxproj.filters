@@ -7,6 +7,9 @@
     <Filter Include="Source-Files">
       <UniqueIdentifier>{8c996171-4739-4716-bcd5-b5670bc49d86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header-Files\ParseStruct">
+      <UniqueIdentifier>{b4279a4d-a50c-4758-a515-06cf9c90d263}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cc">
@@ -15,10 +18,43 @@
     <ClCompile Include="src\CommandLine.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\CodeGen.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Parser.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParseStruct.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CommandLine.hh">
       <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CodeGen.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Parser.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ParseStruct.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\peglib.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ParseStruct\Declaration.hh">
+      <Filter>Header-Files\ParseStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ParseStruct\Operation.hh">
+      <Filter>Header-Files\ParseStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ParseStruct\Root.hh">
+      <Filter>Header-Files\ParseStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ParseStruct\Type.hh">
+      <Filter>Header-Files\ParseStruct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

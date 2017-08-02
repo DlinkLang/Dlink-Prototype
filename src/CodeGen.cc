@@ -1,6 +1,12 @@
 #include "CodeGen.hh"
 #include "ParseStruct.hh"
 
+#include <map>
+#include <string>
+#include <utility>
+
+#include "llvm/IR/Instructions.h"
+
 namespace Dlink
 {
 	namespace LLVM
@@ -9,6 +15,8 @@ namespace Dlink
 		std::shared_ptr<llvm::Module> module = std::make_shared<llvm::Module>("top", context);
 		llvm::IRBuilder<> builder(context);
 	}
+
+	static std::map<std::string, llvm::Value*> symbol;
 }
 
 namespace Dlink
@@ -92,4 +100,22 @@ namespace Dlink
         
         return nullptr;
     }
+}
+
+namespace Dlink
+{
+	llvm::Value* VariableDeclaration::code_gen()
+	{
+		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
+		var->setAlignment(4);
+
+		if (expression)
+		{
+			llvm::Value* init_expr = expression->code_gen();
+			LLVM::builder.CreateStore(init_expr, var);
+		}
+
+		symbol.insert(std::pair<std::string, llvm::Value*>(identifier, var));
+		return var;
+	}
 }

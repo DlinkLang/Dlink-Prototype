@@ -68,3 +68,17 @@ namespace Dlink
         return tree_prefix(depth) + "SimpleType(" + identifier + ")";
     }
 }
+
+namespace Dlink
+{
+	std::string VariableDeclaration::tree_gen(std::size_t depth)
+	{
+		std::string result;
+		result += tree_prefix(depth) + "VariableDeclaration:\n";
+		++depth;
+		result += tree_prefix(depth) + "identifier:\n" + identifier + "\n";
+		result += tree_prefix(depth) + "type:\n" + type->tree_gen(depth + 1) + "\n";
+		result += tree_prefix(depth) + "expression:\n" + expression->tree_gen(depth + 1) + "\n";
+		return result;
+	}
+}

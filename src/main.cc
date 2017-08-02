@@ -18,7 +18,12 @@ int main(int argc, const char** argv)
 
     Dlink::Parser parser;
 
-    const std::string input(argv[1]);
+	std::string input = argv[1];
+
+	for (int i = 2; i < argc; ++i)
+	{
+		input += ' ' + std::string(argv[i]);
+	}
 
     auto on_error = [&](std::size_t ln, std::size_t col, const std::string& msg)
     {

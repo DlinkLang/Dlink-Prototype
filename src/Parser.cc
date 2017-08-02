@@ -40,7 +40,7 @@ namespace Dlink
                 # ---------- ETC ----------
                 
                 IDENTIFIER    <- < [a-zA-Z][a-zA-Z0-9]* > _ 
-				SC			  <- ';'*
+				SC			  <- ';'+ _
 
                 # Ignoring Characters
                 ~_            <- [ \t\r\n]*
@@ -85,6 +85,21 @@ namespace Dlink
             StatementPtr result = std::make_shared<ExpressionStatement>(expression);
             return result;
         };
+		parser["VARSTMT"]		  = [](const peg::SemanticValues& v) -> StatementPtr
+		{
+			TypePtr type = v[0].get<TypePtr>();
+			std::string identifier = v[1].get<std::string>();
+			
+			if (v[2].is_undefined())
+			{
+				return std::make_shared<VariableDeclaration>(type, identifier);
+			}
+			else
+			{
+				ExpressionPtr expression = v[2].get<ExpressionPtr>();
+				return std::make_shared<VariableDeclaration>(type, identifier, expression);
+			}
+		};
 
         parser["BIN_ADDSUB"]      = BinaryOperation_AST;
         parser["BIN_MULDIV"]      = BinaryOperation_AST;

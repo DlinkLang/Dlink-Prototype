@@ -10,3 +10,4 @@
 #include "ParseStruct/Root.hh"
 #include "ParseStruct/Operation.hh"
 #include "ParseStruct/Type.hh"
+#include "ParseStruct/Declaration.hh"
