@@ -8,6 +8,7 @@
  */
 
 #include <string>
+#include <vector>
 
 #include "Token.hh"
 
@@ -16,13 +17,13 @@ namespace Dlink
     class Error
     {
     private:
-        const Token& error_token_;
-        const std::string error_message_;
+        Token error_token_;
+        std::string error_message_;
     public:
-        Error(const Token& error_token, const std::string error_message)
+        Error(const Token& error_token, const std::string& error_message)
             : error_token_(error_token), error_message_(error_message)
         {}
-
+        
         std::string what() const noexcept
         {
             return error_message_;
@@ -31,6 +32,35 @@ namespace Dlink
         const Token& error_token() const noexcept
         {
             return error_token_;
+        }
+    };
+
+    class Errors
+    {
+    private:
+        std::vector<Error> errors_;
+    public:
+        void add_error(Error error)
+        {
+            for(auto temp_error : errors_)
+            {
+                Token error_token = error.error_token();
+                Token temp_token = temp_error.error_token();
+
+                if(error.what() == temp_error.what() &&
+                   error_token.line == temp_token.line &&
+                   error_token.col == temp_token.col)
+                {
+                    return;
+                }
+            }
+
+            errors_.push_back(error);
+        }
+
+        std::vector<Error> get_errors() const noexcept
+        {
+            return errors_;
         }
     };
 }

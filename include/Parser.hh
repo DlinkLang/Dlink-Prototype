@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <vector>
+#include <set>
 
 #include "Token.hh"
 #include "ParseStruct.hh"
@@ -35,7 +36,7 @@ namespace Dlink
         /**
          * @brief 파싱중 생긴 에러들을 담아둡니다.
          */
-        std::vector<Error> errors_;
+        Errors errors_;
 
         /**
          * @brief 다음 토큰이 주어진 토큰 타입과 맞는지 확인하고 받아들입니다.

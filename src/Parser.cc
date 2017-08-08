@@ -27,7 +27,7 @@ namespace Dlink
    
     std::vector<Error> Parser::get_errors() const noexcept
     {
-        return errors_;
+        return errors_.get_errors();
     }
 }
 
@@ -56,6 +56,7 @@ namespace Dlink
             ExpressionPtr rhs;
             if(!muldiv(rhs)) 
             {
+                errors_.add_error(Error(*current_token_, "Expected expression, but got \"" + (*current_token_).data + "\""));
                 return false;
             }
 
@@ -84,7 +85,7 @@ namespace Dlink
             ExpressionPtr rhs;
             if(!number(rhs)) 
             {
-                errors_.push_back(Error(*current_token_, "Expected expression, but got \"" + (*current_token_).data + "\""));
+                errors_.add_error(Error(*current_token_, "Expected expression, but got \"" + (*current_token_).data + "\""));
                 return false;
             }
 
