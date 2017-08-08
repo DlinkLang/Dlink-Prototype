@@ -1,7 +1,7 @@
 #pragma once
 
 /**
- * @file Lexer.hh
+ * @file Parser.hh
  * @date 2017.08.08
  * @author dev_kr
  * @brief 렉서가 반환한 토큰열을 입력받아 AST를 반환하는 Parser 클래스를 정의합니다.
@@ -12,6 +12,7 @@
 
 #include "Token.hh"
 #include "ParseStruct.hh"
+#include "Error.hh"
 
 namespace Dlink
 {
@@ -30,6 +31,11 @@ namespace Dlink
          * @brief 파싱 결과 트리입니다.
          */
         ExpressionPtr output_;
+        
+        /**
+         * @brief 파싱중 생긴 에러들을 담아둡니다.
+         */
+        std::vector<Error> errors_;
 
         /**
          * @brief 다음 토큰이 주어진 토큰 타입과 맞는지 확인하고 받아들입니다.
@@ -45,6 +51,17 @@ namespace Dlink
     public:
         Parser(const TokenSeq& input);
 
+        /**
+         * @brief 받아들인 입력에 대해 파싱을 합니다.
+         * @param 결과 AST를 이 AST 레퍼런스에 대입합니다.
+         * @return 파싱에 성공하면 true, 아니면 false를 반환합니다.
+         */
         bool parse(ExpressionPtr& output);
+
+        /**
+         * @brief 파싱중 생긴 에러들을 가져옵니다.
+         * @return 파싱중 생긴 에러들을 Error 클래스의 std::vector 형식으로 반환합니다.
+         */
+        std::vector<Error> get_errors() const noexcept;
     };
 }

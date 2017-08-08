@@ -420,6 +420,8 @@ namespace Dlink
 				}
 			}
 		}
+        
+        token_seq_.push_back(Token("EOF", TokenType::eof, line, get_col()));
 	}
 
     const std::vector<Token>& Lexer::get_token_seq() const

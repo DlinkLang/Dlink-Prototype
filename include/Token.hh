@@ -17,6 +17,7 @@ namespace Dlink
     enum class TokenType
     {
         none,               /**< 알 수 없는 토큰 */
+        eof,                /**< 파일의 끝 */
 
         identifier,         /**< 식별자 */
 

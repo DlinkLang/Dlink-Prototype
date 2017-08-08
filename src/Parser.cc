@@ -18,12 +18,16 @@ namespace Dlink
 {
     Parser::Parser(const TokenSeq& input)
         : input_(input), current_token_(input_.cbegin())
-    {
-    }
+    {}
 
     bool Parser::parse(ExpressionPtr& output)
     {
         return expr(output);
+    }
+   
+    std::vector<Error> Parser::get_errors() const noexcept
+    {
+        return errors_;
     }
 }
 
@@ -80,6 +84,7 @@ namespace Dlink
             ExpressionPtr rhs;
             if(!number(rhs)) 
             {
+                errors_.push_back(Error(*current_token_, "Expected expression, but got \"" + (*current_token_).data + "\""));
                 return false;
             }
 

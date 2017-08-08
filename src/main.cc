@@ -6,7 +6,7 @@
 int main(int argc, const char** argv)
 {
     Dlink::Lexer lexer;
-    lexer.lex(R"(1 + 1 / 2 *)");
+    lexer.lex(R"(1 + 1 / 2 * +)");
     
     std::cout << "Lexing Succeed\n";
     lexer.dump();
@@ -25,6 +25,11 @@ int main(int argc, const char** argv)
     else
     {
         std::cout << "Parse Failed\n";
+
+        for(auto error : parser.get_errors())
+        {
+            std::cout << error.what() << "\n";
+        }
     }
     return 0;
 }
