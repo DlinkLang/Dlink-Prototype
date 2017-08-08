@@ -21,6 +21,7 @@ namespace Dlink
         MAP_TOKEN(oct_integer),        
         MAP_TOKEN(dec_integer),        
         MAP_TOKEN(hex_integer),        
+        MAP_TOKEN(floating),
         MAP_TOKEN(character),          
         MAP_TOKEN(string),             
         MAP_TOKEN(plus),               

@@ -10,6 +10,7 @@
 #include <vector>
 #include <map>
 #include <iostream>
+#include <sstream>
 
 #include "Token.hh"
 
