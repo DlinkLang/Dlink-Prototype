@@ -27,7 +27,7 @@ namespace Dlink
         /**
          * @brief 현재 파싱중인 토큰을 가르키는 반복자입니다.
          */
-        TokenSeq::const_iterator current_token_; 
+        TokenSeq::const_iterator token_iter_; 
         /**
          * @brief 파싱 결과 트리입니다.
          */
@@ -37,6 +37,21 @@ namespace Dlink
          * @brief 파싱중 생긴 에러들을 담아둡니다.
          */
         Errors errors_;
+        
+        Token current_token()
+        {
+            return (*token_iter_);
+        }
+
+        Token previous_token()
+        {
+            return (*(token_iter_ - 1));
+        }
+
+        Token next_token()
+        {
+            return (*(token_iter_ + 1));
+        }
 
         /**
          * @brief 다음 토큰이 주어진 토큰 타입과 맞는지 확인하고 받아들입니다.

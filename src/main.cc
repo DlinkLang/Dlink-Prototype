@@ -6,7 +6,7 @@
 int main(int argc, const char** argv)
 {
     Dlink::Lexer lexer;
-    lexer.lex(R"(1 + 1 / 2 *)");
+    lexer.lex(R"(1 + 1 / 2 * 4)");
     
     std::cout << "Lexing Succeed\n";
     lexer.dump();
