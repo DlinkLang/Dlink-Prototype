@@ -51,16 +51,16 @@ namespace Dlink
 
 		switch (op)
 		{
-		case Operator::Plus:
+		case TokenType::plus:
 			return LLVM::builder.CreateAdd(lhs_value, rhs_value);
 
-		case Operator::Minus:
+		case TokenType::minus:
 			return LLVM::builder.CreateSub(lhs_value, rhs_value);
 
-		case Operator::Multiply:
+		case TokenType::multiply:
 			return LLVM::builder.CreateMul(lhs_value, rhs_value);
 
-		case Operator::Divide:
+		case TokenType::divide:
 			// TODO: 임시 방안
 			return LLVM::builder.CreateSDiv(lhs_value, rhs_value);
 
@@ -76,10 +76,10 @@ namespace Dlink
 
 		switch (op)
 		{
-		case Operator::Plus:
+		case TokenType::plus:
 			return LLVM::builder.CreateMul(LLVM::builder.getInt32(1), rhs_value);
 		
-		case Operator::Minus:
+		case TokenType::minus:
 			return LLVM::builder.CreateMul(LLVM::builder.getInt32(-1), rhs_value);
 
 		default:

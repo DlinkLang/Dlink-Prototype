@@ -19,9 +19,9 @@ namespace Dlink
     {
     private:
         /**
-         * @brief 렉싱의 결과인 토큰 열입니다.
+         * @brief 렉싱의 결과인 토큰열입니다.
          */
-        std::vector<Token> token_seq_;
+        TokenSeq token_seq_;
 
         /**
          * @brief 키워드 문자열에 TokenType형의 토큰 타입을 매핑한 std::map 입니다.
@@ -43,7 +43,7 @@ namespace Dlink
          * @brief 렉싱의 결과를 가져옵니다.
          * @return 렉싱의 결과를 저장해 두는 멤버 필드 token_seq_을 반환합니다.
          */
-        const std::vector<Token>& get_token_seq() const;
+        const TokenSeq& get_token_seq() const;
         
         /**
          * @brief 렉싱의 결과의 각 토큰마다 줄 번호, 세로줄 번호, 토큰 타입을 출력합니다.
