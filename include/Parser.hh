@@ -40,7 +40,7 @@ namespace Dlink
 
         /**
          * @brief 다음 토큰이 주어진 토큰 타입과 맞는지 확인하고 받아들입니다.
-         * @param 받아들일 토큰 타입입니다.
+         * @param token_type 받아들일 토큰 타입입니다.
          * @return 다음 토큰이 주어진 토큰 타입과 일치하면 true, 아니면 false를 반환합니다.
          */
         bool accept(TokenType token_type); 
@@ -54,7 +54,7 @@ namespace Dlink
 
         /**
          * @brief 받아들인 입력에 대해 파싱을 합니다.
-         * @param 결과 AST를 이 AST 레퍼런스에 대입합니다.
+         * @param output 결과 AST를 이 AST 레퍼런스에 대입합니다.
          * @return 파싱에 성공하면 true, 아니면 false를 반환합니다.
          */
         bool parse(ExpressionPtr& output);
