@@ -15,11 +15,13 @@ namespace Dlink
     const std::map<TokenType, std::string> token_map =
     {
         MAP_TOKEN(none),               
+        MAP_TOKEN(eof),               
         MAP_TOKEN(identifier),         
         MAP_TOKEN(bin_integer),        
         MAP_TOKEN(oct_integer),        
         MAP_TOKEN(dec_integer),        
         MAP_TOKEN(hex_integer),        
+        MAP_TOKEN(floating),
         MAP_TOKEN(character),          
         MAP_TOKEN(string),             
         MAP_TOKEN(plus),               

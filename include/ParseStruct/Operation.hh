@@ -13,6 +13,7 @@
 #include "llvm/IR/Value.h"
 
 #include "Root.hh"
+#include "../Token.hh"
 
 namespace Dlink
 {
@@ -39,18 +40,6 @@ namespace Dlink
 
 namespace Dlink
 {
-	/**
-	 * @brief Dlink 연산자의 종류입니다.
-	 */
-	enum class Operator
-	{
-		None = 0,
-
-		Plus, 			/**< 이항 덧셈, 단항 양의 부호 연산자입니다. */
-		Minus, 			/**< 이항 뺄셈, 단항 음의 부호 연산자입니다. */
-		Multiply, 		/**< 이항 곱셈 연산자입니다. */
-		Divide, 		/**< 이항 나눗셈 연산자입니다. */
-	};
 
 	/**
 	 * @brief 이항 연산의 구조를 담는 파싱 노드입니다.
@@ -60,7 +49,7 @@ namespace Dlink
 		/**
 		 * @brief 이항 연산의 연산자를 담는 Operator 타입의 멤버 필드입니다.
 		 */
-		Operator op;
+		TokenType op;
 
 		/**
 		 * @brief 이항 연산의 좌측 피연산자를 담는 ExpressionPtr 타입의 멤버 필드입니다.
@@ -74,7 +63,7 @@ namespace Dlink
 		/**
 		 * @brief Operator와 ExpressionPtr 두 인수를 받아 멤버 필드 op, lhs, rhs를 초기화하고 BinaryOperation을 생성합니다.
 		 */
-		BinaryOperation(Operator op_, ExpressionPtr lhs_, ExpressionPtr rhs_)
+		BinaryOperation(TokenType op_, ExpressionPtr lhs_, ExpressionPtr rhs_)
 			: op(op_), lhs(lhs_), rhs(rhs_)
 		{}
 	
@@ -90,7 +79,7 @@ namespace Dlink
 		/*
 		 * @brief 단항 연산의 연산자를 담는 Operator 타입의 멤버 필드입니다.
 		 */
-		Operator op;
+		TokenType op;
 		/**
 		 * @brief 단항 연산의 피연산자를 담는 ExpressionPtr 타입의 멤버 필드입니다.
 		 */
@@ -99,7 +88,7 @@ namespace Dlink
 		/**
 		 * @brief Operator와 ExpressionPtr를 받아 멤버 필드 op, rhs를 초기화하고 UnaryOperation을 생성합니다.
 		 */
-		UnaryOperation(Operator op_, ExpressionPtr rhs_)
+		UnaryOperation(TokenType op_, ExpressionPtr rhs_)
 			: op(op_), rhs(rhs_)
 		{}
 		

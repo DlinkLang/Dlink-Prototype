@@ -10,12 +10,14 @@
 #include <string>
 #include <map>
 #include <utility>
+#include <vector>
 
 namespace Dlink
 {
     enum class TokenType
     {
         none,               /**< 알 수 없는 토큰 */
+        eof,                /**< 파일의 끝 */
 
         identifier,         /**< 식별자 */
 
@@ -108,7 +110,7 @@ namespace Dlink
         /**
          * @brief TokenType 형식의 토큰의 타입입니다.
          */
-        TokenType type;
+        const TokenType type;
 
         /**
          * @brief 토큰의 줄 번호입니다.
@@ -124,9 +126,11 @@ namespace Dlink
         const std::size_t col;
 
         Token(const std::string& data_, TokenType type_, const std::size_t line_, const std::size_t end_col_)
-            : data(data_), type(type_), line(line_), end_col(end_col_), col(end_col_ - data_.length())
+            : data(data_), type(type_), line(line_), end_col(end_col_), col(end_col_ - data.length() + 1)
         {}
     };
+
+    using TokenSeq = std::vector<Token>;
 
     /**
      * @brief 토큰 타입을 문자열화 시켜 매핑하여 담아두는 전역 상수입니다.
