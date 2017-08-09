@@ -27,6 +27,12 @@
     <ClCompile Include="src\ParseStruct.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Lexer.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Token.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CommandLine.hh">
@@ -52,6 +58,15 @@
     </ClInclude>
     <ClInclude Include="include\ParseStruct\Type.hh">
       <Filter>Header-Files\ParseStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Error.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Lexer.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Token.hh">
+      <Filter>Header-Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

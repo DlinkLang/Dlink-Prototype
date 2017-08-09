@@ -32,6 +32,89 @@ namespace Dlink
 
 namespace Dlink
 {
+	std::string operator_string(TokenType operator_type)
+	{
+		switch (operator_type)
+		{
+		case TokenType::plus:
+			return "+";
+		case TokenType::increment:
+			return "++";
+		case TokenType::plus_assign:
+			return "+=";
+
+		case TokenType::minus:
+			return "-";
+		case TokenType::decrement:
+			return "--";
+		case TokenType::minus_assign:
+			return "-=";
+
+		case TokenType::multiply:
+			return "*";
+		case TokenType::multiply_assign:
+			return "*=";
+
+		case TokenType::divide:
+			return "/";
+		case TokenType::divide_assign:
+			return "/=";
+
+		case TokenType::modulo:
+			return "%";
+		case TokenType::modulo_assign:
+			return "%=";
+
+		case TokenType::assign:
+			return "=";
+		case TokenType::equal:
+			return "==";
+		case TokenType::noteq:
+			return "!=";
+		case TokenType::greater:
+			return ">";
+		case TokenType::eqgreater:
+			return ">=";
+		case TokenType::less:
+			return "<";
+		case TokenType::eqless:
+			return "<=";
+
+		case TokenType::logic_and:
+			return "&&";
+		case TokenType::logic_or:
+			return "||";
+
+		case TokenType::bit_not:
+			return "~";
+		case TokenType::bit_and:
+			return "&";
+		case TokenType::bit_and_assign:
+			return "&=";
+		case TokenType::bit_or:
+			return "|";
+		case TokenType::bit_or_assign:
+			return "|=";
+		case TokenType::bit_xor:
+			return "^";
+		case TokenType::bit_xor_assign:
+			return "^=";
+		case TokenType::bit_lshift:
+			return "<<";
+		case TokenType::bit_lshift_assign:
+			return "<<=";
+		case TokenType::bit_rshift:
+			return ">>";
+		case TokenType::bit_rshift_assign:
+			return ">>=";
+
+		case TokenType::dot:
+			return ".";
+
+		default:
+			return "";
+		}
+	}
 
 	std::string Integer32::tree_gen(std::size_t depth)
 	{
@@ -46,6 +129,7 @@ namespace Dlink
 		tree += lhs->tree_gen(depth + 1) + '\n';
 		tree += tree_prefix(depth) + "rhs: \n";
 		tree += rhs->tree_gen(depth + 1);
+		tree += "op: " + operator_string(op) + '(' + token_map.at(op) + ')';
 
 		return tree;
 	}
@@ -56,6 +140,7 @@ namespace Dlink
 		++depth;
 		tree += tree_prefix(depth) + "rhs:\n";
 		tree += rhs->tree_gen(depth + 1);
+		tree += "op: " + operator_string(op) + '(' + token_map.at(op) + ')';
 
 		return tree;
 	}
