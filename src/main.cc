@@ -7,7 +7,7 @@ int main(int argc, const char** argv)
 {
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	a=5+5*2;
+	int a;
 	)");
 
 	std::cout << "Lexing Succeed\n";
@@ -18,7 +18,7 @@ int main(int argc, const char** argv)
 
 	Dlink::Parser parser(token_seq);
 
-	Dlink::ExpressionPtr ast;
+	Dlink::StatementPtr ast;
 	if (parser.parse(ast))
 	{
 		std::cout << "Parsing Succeed\n";

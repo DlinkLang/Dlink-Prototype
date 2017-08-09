@@ -22,9 +22,9 @@ namespace Dlink
 	struct SimpleType final : public Type
 	{
 		/**
-		 * @brief 타입의 문자열 식별자를 담는 std::string 타입의 멤버 필드입니다.
+		 * @brief 타입의 문자열 식별자를 담는 Identifer 타입의 멤버 필드입니다.
 		 */
-		const std::string& identifier;
+		const Identifer identifier;
 
 		/**
 		 * @brief std::string을 받아 멤버 필드 identifier를 초기화하고 SimpleType을 생성합니다.

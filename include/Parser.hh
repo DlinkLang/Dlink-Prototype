@@ -63,6 +63,10 @@ namespace Dlink
 		 */
 		bool accept(TokenType token_type);
 
+		bool block(StatementPtr& out);
+		bool scope(StatementPtr& out);
+		bool var_decl(StatementPtr& out);
+
 		bool expr(ExpressionPtr& out);
 		bool assign(ExpressionPtr& out);
 		bool addsub(ExpressionPtr& out);
@@ -72,6 +76,9 @@ namespace Dlink
 		bool number(ExpressionPtr& out);
 		bool identifier(ExpressionPtr& out);
 
+		bool type(TypePtr& out);
+		bool simple_type(TypePtr& out);
+
 	public:
 		Parser(const TokenSeq& input);
 
@@ -80,7 +87,7 @@ namespace Dlink
 		 * @param output 결과 AST를 이 AST 레퍼런스에 대입합니다.
 		 * @return 파싱에 성공하면 true, 아니면 false를 반환합니다.
 		 */
-		bool parse(ExpressionPtr& output);
+		bool parse(StatementPtr& output);
 
 		/**
 		 * @brief 파싱중 생긴 에러들을 가져옵니다.

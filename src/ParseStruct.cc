@@ -12,7 +12,7 @@ namespace Dlink
 {
 	std::string Identifer::tree_gen(std::size_t depth)
 	{
-		return tree_prefix(depth) + "Identifier: \n" + tree_prefix(depth + 1) + "id: " + id + "\n";
+		return tree_prefix(depth) + "Identifier(\"" + id + "\")\n";
 	}
 
 	std::string Block::tree_gen(std::size_t depth)
@@ -173,7 +173,7 @@ namespace Dlink
 {
 	std::string SimpleType::tree_gen(std::size_t depth)
 	{
-		return tree_prefix(depth) + "SimpleType(" + identifier + ")\n";
+		return tree_prefix(depth) + "SimpleType(" + identifier.id + ")\n";
 	}
 }
 
@@ -184,9 +184,13 @@ namespace Dlink
 		std::string result;
 		result += tree_prefix(depth) + "VariableDeclaration:\n";
 		++depth;
-		result += tree_prefix(depth) + "identifier: \n" + identifier + "\n";
+		result += tree_prefix(depth) + "identifier: \n" + identifier.tree_gen(depth + 1) + "\n";
 		result += tree_prefix(depth) + "type: \n" + type->tree_gen(depth + 1) + "\n";
-		result += tree_prefix(depth) + "expression: \n" + expression->tree_gen(depth + 1) + "\n";
+		if (expression)
+			result += tree_prefix(depth) + "expression: \n" + expression->tree_gen(depth + 1) + "\n";
+		else
+			result += tree_prefix(depth) + "expression: empty\n";
+
 		return result;
 	}
 }

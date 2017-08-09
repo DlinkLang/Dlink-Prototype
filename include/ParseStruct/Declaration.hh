@@ -28,9 +28,9 @@ namespace Dlink
 		TypePtr type;
 
 		/**
-		 * @brief 변수의 문자열 식별자를 담는 std::string 타입의 멤버 필드입니다.
+		 * @brief 변수의 문자열 식별자를 담는 Identifier 타입의 멤버 필드입니다.
 		 */
-		const std::string& identifier;
+		Identifer identifier;
 
 		/**
 		 * @brief 변수의 초기화 식을 담는 ExpressionPtr 타입의 멤버 필드입니다.

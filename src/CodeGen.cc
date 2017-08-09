@@ -136,7 +136,7 @@ namespace Dlink
 {
 	llvm::Type* SimpleType::get_type()
 	{
-		if (identifier == "int")
+		if (identifier.id == "int")
 		{
 			return LLVM::builder.getInt32Ty();
 		}
@@ -149,7 +149,7 @@ namespace Dlink
 {
 	LLVM::Value VariableDeclaration::code_gen()
 	{
-		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
+		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier.id);
 		var->setAlignment(4);
 
 		if (expression)
@@ -158,7 +158,7 @@ namespace Dlink
 			LLVM::builder.CreateStore(init_expr, var);
 		}
 
-		symbol_table->map.insert(std::make_pair(identifier, var));
+		symbol_table->map.insert(std::make_pair(identifier.id, var));
 		return var;
 	}
 }

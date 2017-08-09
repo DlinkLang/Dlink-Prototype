@@ -20,14 +20,107 @@ namespace Dlink
 		: input_(input), token_iter_(input_.cbegin())
 	{}
 
-	bool Parser::parse(ExpressionPtr& output)
+	bool Parser::parse(StatementPtr& output)
 	{
-		return expr(output);
+		return block(output);
 	}
 
 	std::vector<Error> Parser::get_errors() const noexcept
 	{
 		return errors_.get_errors();
+	}
+}
+
+namespace Dlink
+{
+	bool Parser::block(StatementPtr& out)
+	{
+		std::vector<StatementPtr> statements;
+		StatementPtr statement;
+
+		while (/*scope*/var_decl(statement))
+		{
+			statements.push_back(statement);
+			statement = nullptr;
+		}
+
+		out = std::make_shared<Block>(statements);
+		return true;
+	}
+
+	bool Parser::scope(StatementPtr& out)
+	{
+		if (accept(TokenType::lbrace))
+		{
+			std::vector<StatementPtr> statements;
+			StatementPtr statement;
+			while (var_decl(statement))
+			{
+				statements.push_back(statement);
+				statement = nullptr;
+			}
+
+			out = std::make_shared<Scope>(statements);
+		}
+		else
+		{
+			StatementPtr statement;
+
+			if (var_decl(statement))
+			{
+				out = statement;
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+	bool Parser::var_decl(StatementPtr& out)
+	{
+		if (accept(TokenType::identifier))
+		{
+			TypePtr type_expr;
+
+			--token_iter_;
+			if (!type(type_expr))
+			{
+				// TODO: 에러 메세지 넣어주세요
+				errors_.add_error(Error(current_token(), "TODO"));
+				return false;
+			}
+
+			if (accept(TokenType::identifier))
+			{
+				std::string name = previous_token().data;
+
+				if (accept(TokenType::assign))
+				{
+					ExpressionPtr expression;
+
+					if (expr(expression))
+					{
+						out = std::make_shared<VariableDeclaration>(type_expr, name, expression);
+						return true;
+					}
+					else
+					{
+						// TODO: 에러 메세지 넣어주세요
+						errors_.add_error(Error(current_token(), "TODO"));
+						return false;
+					}
+				}
+				else if (accept(TokenType::semicolon))
+				{
+					out = std::make_shared<VariableDeclaration>(type_expr, name);
+					return true;
+				}
+			}
+		}
+
+		// TODO: 에러 메세지 넣어주세요
+		errors_.add_error(Error(current_token(), "TODO"));
+		return false;
 	}
 }
 
@@ -150,6 +243,25 @@ namespace Dlink
 		if (accept(TokenType::identifier))
 		{
 			out = std::make_shared<Identifer>(previous_token().data);
+			return true;
+		}
+
+		return false;
+	}
+}
+
+namespace Dlink
+{
+	bool Parser::type(TypePtr& out)
+	{
+		return simple_type(out);
+	}
+
+	bool Parser::simple_type(TypePtr& out)
+	{
+		if (accept(TokenType::identifier))
+		{
+			out = std::make_shared<SimpleType>(previous_token().data);
 			return true;
 		}
 
