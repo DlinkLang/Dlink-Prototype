@@ -41,6 +41,19 @@ namespace Dlink
 
 namespace Dlink
 {
+	LLVM::Value Identifer::code_gen()
+	{
+		LLVM::Value result = symbol_table->find(id);
+
+		if (result == nullptr)
+		{
+			// TODO
+			return nullptr;
+		}
+
+		return result;
+	}
+
 	LLVM::Value Block::code_gen()
 	{
 		for (StatementPtr statement : statements)

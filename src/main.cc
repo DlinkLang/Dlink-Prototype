@@ -7,8 +7,8 @@ int main(int argc, const char** argv)
 {
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-1 + 2 * 3 + 4
-)");
+	a=5+5*2;
+	)");
 
 	std::cout << "Lexing Succeed\n";
 	lexer.dump();
@@ -37,5 +37,9 @@ int main(int argc, const char** argv)
 			std::cout << " " << error.what() << "\n";
 		}
 	}
+
+#ifdef _MSC_VER
+	std::system("pause");
+#endif
 	return 0;
 }

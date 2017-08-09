@@ -84,6 +84,28 @@ namespace Dlink
 namespace Dlink
 {
 	/**
+	 * @brief 식별자입니다.
+	 */
+	struct Identifer final : public Expression
+	{
+		/**
+		 * @brief 실질직인 식별자 값입니다.
+		 */
+		const std::string id;
+	
+		/**
+		 * @brief 새 Identifier 객체를 초기화 합니다.
+		 * @param id_ 실질적인 식별자 값입니다.
+		 */
+		Identifer(const std::string& id_)
+			: id(id_)
+		{}
+
+		std::string tree_gen(std::size_t depth) override;
+		LLVM::Value code_gen() override;
+	};
+
+	/**
 	 * @brief 한 개 이상의 Statement들의 집합입니다.
 	 */
 	struct Block : public Statement

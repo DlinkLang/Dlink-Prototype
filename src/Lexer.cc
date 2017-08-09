@@ -256,7 +256,7 @@ namespace Dlink
                     case '=':
                         if (cur_line[i + 1] != '=') 
                         {
-                            token_seq_.push_back(Token("=", TokenType::equal, line, i + 1));
+                            token_seq_.push_back(Token("=", TokenType::assign, line, i + 1));
                         }
                         else 
                         {

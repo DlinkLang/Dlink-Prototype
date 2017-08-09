@@ -64,9 +64,14 @@ namespace Dlink
 		bool accept(TokenType token_type);
 
 		bool expr(ExpressionPtr& out);
+		bool assign(ExpressionPtr& out);
 		bool addsub(ExpressionPtr& out);
 		bool muldiv(ExpressionPtr& out);
+		bool atom(ExpressionPtr& out);
+
 		bool number(ExpressionPtr& out);
+		bool identifier(ExpressionPtr& out);
+
 	public:
 		Parser(const TokenSeq& input);
 

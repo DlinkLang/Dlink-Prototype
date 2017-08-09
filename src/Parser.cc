@@ -35,7 +35,37 @@ namespace Dlink
 {
 	bool Parser::expr(ExpressionPtr& out)
 	{
-		return addsub(out);
+		return assign(out);
+	}
+
+	bool Parser::assign(ExpressionPtr& out)
+	{
+		ExpressionPtr lhs;
+
+		if (!addsub(lhs))
+		{
+			return false;
+		}
+
+		TokenType op;
+
+		while (accept(TokenType::assign))
+		{
+			op = previous_token().type;
+
+			ExpressionPtr rhs;
+			if (!addsub(rhs))
+			{
+				// TODO: 에러 메세지 넣어주세요
+				errors_.add_error(Error(current_token(), "TODO"));
+				return false;
+			}
+
+			lhs = std::make_shared<BinaryOperation>(op, lhs, rhs);
+		}
+
+		out = lhs;
+		return true;
 	}
 
 	bool Parser::addsub(ExpressionPtr& out)
@@ -71,7 +101,7 @@ namespace Dlink
 	{
 		ExpressionPtr lhs;
 
-		if (!number(lhs))
+		if (!atom(lhs))
 		{
 			return false;
 		}
@@ -96,11 +126,30 @@ namespace Dlink
 		return true;
 	}
 
+	bool Parser::atom(ExpressionPtr& out)
+	{
+		return number(out) || identifier(out);
+	}
+}
+
+namespace Dlink
+{
 	bool Parser::number(ExpressionPtr& out)
 	{
 		if (accept(TokenType::dec_integer))
 		{
 			out = std::make_shared<Integer32>(std::stoi(previous_token().data));
+			return true;
+		}
+
+		return false;
+	}
+
+	bool Parser::identifier(ExpressionPtr& out)
+	{
+		if (accept(TokenType::identifier))
+		{
+			out = std::make_shared<Identifer>(previous_token().data);
 			return true;
 		}
 
