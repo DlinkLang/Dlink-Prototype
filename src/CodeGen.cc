@@ -31,6 +31,16 @@ namespace Dlink
 		return nullptr;
 	}
 
+	LLVM::Value Scope::code_gen()
+	{
+		for (StatementPtr statement : statements)
+		{
+			statement->code_gen();
+		}
+
+		return nullptr;
+	}
+
 	LLVM::Value ExpressionStatement::code_gen()
 	{
 		return expression->code_gen();

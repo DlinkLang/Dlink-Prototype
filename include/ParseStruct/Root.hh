@@ -68,7 +68,7 @@ namespace Dlink
 	/**
 	 * @brief 한 개 이상의 Statement들의 집합입니다.
 	 */
-	struct Block final : public Statement
+	struct Block : public Statement
 	{
 		/**
 		 * @brief Statement들을 담아두는 StatementPtr의 std::vector입니다.
@@ -80,6 +80,17 @@ namespace Dlink
 		 */
 		Block(std::vector<StatementPtr> statements_) : statements(statements_)
 		{}
+
+		std::string tree_gen(std::size_t depth) override;
+		LLVM::Value code_gen() override;
+	};
+
+	/**
+	 * @brief 
+	 */
+	struct Scope final : public Block
+	{
+		using Block::Block;
 
 		std::string tree_gen(std::size_t depth) override;
 		LLVM::Value code_gen() override;

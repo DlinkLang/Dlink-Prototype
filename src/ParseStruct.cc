@@ -24,6 +24,22 @@ namespace Dlink
 		return tree;
 	}
 
+	std::string Scope::tree_gen(std::size_t depth)
+	{
+		std::string tree = tree_prefix(depth) + "Scope Start\n";
+
+		++depth;
+		for (StatementPtr statement : statements)
+		{
+			tree += statement->tree_gen(depth) + "\n";
+		}
+		--depth;
+
+		tree += tree_prefix(depth) + "Scope End\n";
+
+		return tree;
+	}
+
 	std::string ExpressionStatement::tree_gen(std::size_t depth)
 	{
 		return expression->tree_gen(depth);
