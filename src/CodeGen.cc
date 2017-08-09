@@ -16,7 +16,7 @@ namespace Dlink
 		llvm::IRBuilder<> builder(context);
 	}
 
-	static std::map<std::string, LLVM::Value> symbol;
+	SymbolTablePtr symbol_table = std::make_shared<SymbolTable>();
 }
 
 namespace Dlink
@@ -125,7 +125,7 @@ namespace Dlink
 			LLVM::builder.CreateStore(init_expr, var);
 		}
 
-		symbol.insert(std::pair<std::string, LLVM::Value>(identifier, var));
+		symbol_table->map.insert(std::make_pair(identifier, var));
 		return var;
 	}
 }

@@ -105,6 +105,10 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) override;
 		LLVM::Value code_gen() override;
 	};
+	/**
+	 * @brief Scope 구조체에 대한 std::shared_ptr 타입입니다.
+	 */
+	using ScopePtr = std::shared_ptr<Scope>;
 
 	/**
 	 * @brief 한 개의 Expression으로 이루어진 Statement입니다.

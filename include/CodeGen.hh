@@ -31,7 +31,7 @@ namespace Dlink
 		/**
 		 * @brief 현재 심볼 테이블의 부모 심볼 테이블입니다.
 		 */
-		std::shared_ptr<SymbolTable> parent;
+		std::shared_ptr<SymbolTable> parent = nullptr;
 		
 		/**
 		 * @brief 심볼 테이블입니다.
@@ -46,5 +46,5 @@ namespace Dlink
 	/**
 	 * @brief 현재 심볼 테이블입니다.
 	 */
-	SymbolTablePtr symbol_table;
+	extern SymbolTablePtr symbol_table;
 }
