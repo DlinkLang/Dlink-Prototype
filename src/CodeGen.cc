@@ -16,7 +16,27 @@ namespace Dlink
 		llvm::IRBuilder<> builder(context);
 	}
 
+	/**
+	 * @brief 현재 심볼 테이블과 부모 심볼 테이블, 조상 심볼 테이블에서 심볼을 찾습니다.
+	 * @param name 찾을 심볼입니다.
+	 * @return 심볼을 찾지 못하면 nullptr을 저장하는 LLVM::Value 객체를, 찾으면 해당 심볼의 LLVM Value를 저장하는 LLVM::Value 객체를 반환합니다.
+	 */
+	LLVM::Value SymbolTable::find(const std::string& name)
+	{
+		auto find_val = map.find(name);
+
+		if (find_val != map.end())
+		{
+			return find_val->second;
+		}
+		else
+		{
+			return parent == nullptr ? nullptr : parent->find(name);
+		}
+	}
+
 	SymbolTablePtr symbol_table = std::make_shared<SymbolTable>();
+	TypeSymbolTablePtr type_symbol_table = std::make_shared<TypeSymbolTable>();
 }
 
 namespace Dlink
