@@ -27,7 +27,6 @@
     <ClInclude Include="include\ParseStruct\Operation.hh" />
     <ClInclude Include="include\ParseStruct\Root.hh" />
     <ClInclude Include="include\ParseStruct\Type.hh" />
-    <ClInclude Include="include\peglib.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CodeGen.cc" />

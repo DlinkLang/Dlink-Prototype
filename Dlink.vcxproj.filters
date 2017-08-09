@@ -41,9 +41,6 @@
     <ClInclude Include="include\ParseStruct.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\peglib.hh">
-      <Filter>Header-Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\ParseStruct\Declaration.hh">
       <Filter>Header-Files\ParseStruct</Filter>
     </ClInclude>

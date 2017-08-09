@@ -21,20 +21,20 @@ namespace Dlink
 
 namespace Dlink
 {
-    llvm::Value* Block::code_gen()
-    {
-        for(StatementPtr statement : statements)
-        {
-            statement->code_gen();
-        }
+	llvm::Value* Block::code_gen()
+	{
+		for (StatementPtr statement : statements)
+		{
+			statement->code_gen();
+		}
 
-        return nullptr;
-    }
-    
-    llvm::Value* ExpressionStatement::code_gen()
-    {
-        return expression->code_gen();
-    }
+		return nullptr;
+	}
+
+	llvm::Value* ExpressionStatement::code_gen()
+	{
+		return expression->code_gen();
+	}
 }
 
 namespace Dlink
@@ -43,7 +43,7 @@ namespace Dlink
 	{
 		return LLVM::builder.getInt32(data);
 	}
-	
+
 	llvm::Value* BinaryOperation::code_gen()
 	{
 		llvm::Value* lhs_value = lhs->code_gen();
@@ -78,7 +78,7 @@ namespace Dlink
 		{
 		case TokenType::plus:
 			return LLVM::builder.CreateMul(LLVM::builder.getInt32(1), rhs_value);
-		
+
 		case TokenType::minus:
 			return LLVM::builder.CreateMul(LLVM::builder.getInt32(-1), rhs_value);
 
@@ -91,15 +91,15 @@ namespace Dlink
 
 namespace Dlink
 {
-    llvm::Type* SimpleType::get_type()
-    {
-        if(identifier == "int")
-        {
-            return LLVM::builder.getInt32Ty();
-        }
-        
-        return nullptr;
-    }
+	llvm::Type* SimpleType::get_type()
+	{
+		if (identifier == "int")
+		{
+			return LLVM::builder.getInt32Ty();
+		}
+
+		return nullptr;
+	}
 }
 
 namespace Dlink

@@ -31,7 +31,7 @@ namespace Dlink
 		SimpleType(const std::string& identifier_)
 			: identifier(identifier_)
 		{}
-		
+
 		std::string tree_gen(std::size_t depth) override;
 		llvm::Type* get_type() override;
 	};

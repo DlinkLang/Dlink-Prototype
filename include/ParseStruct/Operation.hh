@@ -66,7 +66,7 @@ namespace Dlink
 		BinaryOperation(TokenType op_, ExpressionPtr lhs_, ExpressionPtr rhs_)
 			: op(op_), lhs(lhs_), rhs(rhs_)
 		{}
-	
+
 		std::string tree_gen(std::size_t depth) override;
 		llvm::Value* code_gen() override;
 	};
@@ -91,7 +91,7 @@ namespace Dlink
 		UnaryOperation(TokenType op_, ExpressionPtr rhs_)
 			: op(op_), rhs(rhs_)
 		{}
-		
+
 		std::string tree_gen(std::size_t depth) override;
 		llvm::Value* code_gen() override;
 	};

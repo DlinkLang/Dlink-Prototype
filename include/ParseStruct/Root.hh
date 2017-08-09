@@ -56,9 +56,9 @@ namespace Dlink
 		virtual llvm::Type* get_type() = 0;
 	};
 
-	using ExpressionPtr = 	std::shared_ptr<Expression>;
-	using StatementPtr = 	std::shared_ptr<Statement>;
-	using TypePtr =			std::shared_ptr<Type>;
+	using ExpressionPtr = std::shared_ptr<Expression>;
+	using StatementPtr = std::shared_ptr<Statement>;
+	using TypePtr = std::shared_ptr<Type>;
 }
 
 namespace Dlink
@@ -78,11 +78,11 @@ namespace Dlink
 		 */
 		Block(std::vector<StatementPtr> statements_) : statements(statements_)
 		{}
-		
+
 		std::string tree_gen(std::size_t depth) override;
 		llvm::Value* code_gen() override;
 	};
-	
+
 	/**
 	 * @brief 한 개의 Expression으로 이루어진 Statement입니다.
 	 */
@@ -98,7 +98,7 @@ namespace Dlink
 		 */
 		ExpressionStatement(ExpressionPtr expression_) : expression(expression_)
 		{}
-		
+
 		std::string tree_gen(std::size_t depth) override;
 		llvm::Value* code_gen() override;
 	};

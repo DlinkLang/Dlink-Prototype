@@ -25,7 +25,7 @@ namespace Dlink
 		 * @brief 변수의 타입을 담는 TypePtr 타입의 멤버 필드입니다.
 		 */
 		TypePtr type;
-	
+
 		/**
 		 * @brief 변수의 문자열 식별자를 담는 std::string 타입의 멤버 필드입니다.
 		 */
