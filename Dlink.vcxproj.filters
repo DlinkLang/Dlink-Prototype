@@ -33,6 +33,9 @@
     <ClCompile Include="src\Token.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\LLVMValue.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CommandLine.hh">
@@ -66,6 +69,9 @@
       <Filter>Header-Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Token.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LLVMValue.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
   </ItemGroup>

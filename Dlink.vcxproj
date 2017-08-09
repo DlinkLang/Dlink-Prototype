@@ -23,6 +23,7 @@
     <ClInclude Include="include\CommandLine.hh" />
     <ClInclude Include="include\Error.hh" />
     <ClInclude Include="include\Lexer.hh" />
+    <ClInclude Include="include\LLVMValue.hh" />
     <ClInclude Include="include\Parser.hh" />
     <ClInclude Include="include\ParseStruct.hh" />
     <ClInclude Include="include\ParseStruct\Declaration.hh" />
@@ -35,6 +36,7 @@
     <ClCompile Include="src\CodeGen.cc" />
     <ClCompile Include="src\CommandLine.cc" />
     <ClCompile Include="src\Lexer.cc" />
+    <ClCompile Include="src\LLVMValue.cc" />
     <ClCompile Include="src\main.cc" />
     <ClCompile Include="src\Parser.cc" />
     <ClCompile Include="src\ParseStruct.cc" />
