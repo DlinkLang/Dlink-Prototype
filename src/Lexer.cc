@@ -7,6 +7,8 @@
 
 #include "Lexer.hh"
 
+#include <cctype>
+
 namespace Dlink
 {
     Lexer::Lexer()
