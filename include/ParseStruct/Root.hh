@@ -13,6 +13,8 @@
 
 #include "llvm/IR/Value.h"
 
+#include "../LLVMValue.hh"
+
 namespace Dlink
 {
 	/**
@@ -29,9 +31,9 @@ namespace Dlink
 
 		/**
 		 * @brief 현재 노드의 트리형 구조를 LLVM IR 코드로 만듭니다.
-		 * @return 파싱 노드에서 생성한 llvm::Value*를 반환합니다. 생성한 값이 없을 경우 nullptr을 반환합니다.
+		 * @return 파싱 노드에서 생성한 LLVM::Value를 반환합니다. 생성한 값이 없을 경우 nullptr을 반환합니다.
 		 */
-		virtual llvm::Value* code_gen() = 0;
+		virtual LLVM::Value code_gen() = 0;
 	};
 
 	struct Expression : public Node
@@ -80,7 +82,7 @@ namespace Dlink
 		{}
 
 		std::string tree_gen(std::size_t depth) override;
-		llvm::Value* code_gen() override;
+		LLVM::Value code_gen() override;
 	};
 
 	/**
@@ -100,6 +102,6 @@ namespace Dlink
 		{}
 
 		std::string tree_gen(std::size_t depth) override;
-		llvm::Value* code_gen() override;
+		LLVM::Value code_gen() override;
 	};
 }

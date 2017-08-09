@@ -13,6 +13,7 @@
 #include "llvm/IR/Value.h"
 
 #include "Root.hh"
+#include "../LLVMValue.hh"
 
 namespace Dlink
 {
@@ -44,6 +45,6 @@ namespace Dlink
 		{}
 
 		std::string tree_gen(std::size_t depth) override;
-		llvm::Value* code_gen() override;
+		LLVM::Value code_gen() override;
 	};
 }

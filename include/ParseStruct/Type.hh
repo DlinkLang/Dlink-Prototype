@@ -12,6 +12,7 @@
 #include "llvm/IR/Type.h"
 
 #include "Root.hh"
+#include "../LLVMValue.hh"
 
 namespace Dlink
 {

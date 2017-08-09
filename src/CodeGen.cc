@@ -16,12 +16,12 @@ namespace Dlink
 		llvm::IRBuilder<> builder(context);
 	}
 
-	static std::map<std::string, llvm::Value*> symbol;
+	static std::map<std::string, LLVM::Value> symbol;
 }
 
 namespace Dlink
 {
-	llvm::Value* Block::code_gen()
+	LLVM::Value Block::code_gen()
 	{
 		for (StatementPtr statement : statements)
 		{
@@ -31,7 +31,7 @@ namespace Dlink
 		return nullptr;
 	}
 
-	llvm::Value* ExpressionStatement::code_gen()
+	LLVM::Value ExpressionStatement::code_gen()
 	{
 		return expression->code_gen();
 	}
@@ -39,15 +39,15 @@ namespace Dlink
 
 namespace Dlink
 {
-	llvm::Value* Integer32::code_gen()
+	LLVM::Value Integer32::code_gen()
 	{
 		return LLVM::builder.getInt32(data);
 	}
 
-	llvm::Value* BinaryOperation::code_gen()
+	LLVM::Value BinaryOperation::code_gen()
 	{
-		llvm::Value* lhs_value = lhs->code_gen();
-		llvm::Value* rhs_value = rhs->code_gen();
+		LLVM::Value lhs_value = lhs->code_gen();
+		LLVM::Value rhs_value = rhs->code_gen();
 
 		switch (op)
 		{
@@ -70,9 +70,9 @@ namespace Dlink
 		}
 	}
 
-	llvm::Value* UnaryOperation::code_gen()
+	LLVM::Value UnaryOperation::code_gen()
 	{
-		llvm::Value* rhs_value = rhs->code_gen();
+		LLVM::Value rhs_value = rhs->code_gen();
 
 		switch (op)
 		{
@@ -104,18 +104,18 @@ namespace Dlink
 
 namespace Dlink
 {
-	llvm::Value* VariableDeclaration::code_gen()
+	LLVM::Value VariableDeclaration::code_gen()
 	{
 		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
 		var->setAlignment(4);
 
 		if (expression)
 		{
-			llvm::Value* init_expr = expression->code_gen();
+			LLVM::Value init_expr = expression->code_gen();
 			LLVM::builder.CreateStore(init_expr, var);
 		}
 
-		symbol.insert(std::pair<std::string, llvm::Value*>(identifier, var));
+		symbol.insert(std::pair<std::string, LLVM::Value>(identifier, var));
 		return var;
 	}
 }
