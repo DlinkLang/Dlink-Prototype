@@ -1,12 +1,4 @@
-/**
- * @file Token.cc
- * @date 2017.08.02
- * @author dev_kr
- * @brief Dlink의 렉서가 반환하는 토큰 타입을 정의합니다.
- */
-
 #include "Token.hh"
-
 
 namespace Dlink
 {

@@ -4,7 +4,7 @@
  * @file Type.hh
  * @date 2017.08.01
  * @author dev_kr, kmc7468
- * @brief Dlink 코드 파서가 생성하는 AST 노드들 중 타입과 관련된 노드들을 정의합니다.
+ * @brief Dlink 코드 파서의 결과가 생성하는 AST 노드들 중 타입과 관련된 노드들을 정의합니다.
  */
 
 #include <string>

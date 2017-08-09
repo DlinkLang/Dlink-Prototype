@@ -36,12 +36,21 @@ namespace Dlink
 		virtual LLVM::Value code_gen() = 0;
 	};
 
+	/**
+	 * @brief Dlink 코드의 식입니다.
+	 */
 	struct Expression : public Node
 	{};
 
+	/**
+	 * @brief Dlink 코드에서 한개 이상의 Expression으로 이루어진 문입니다.
+	 */
 	struct Statement : public Node
 	{};
 
+	/**
+	 * @brief Dlink의 자료형입니다.
+	 */
 	struct Type
 	{
 		/**
@@ -58,8 +67,17 @@ namespace Dlink
 		virtual llvm::Type* get_type() = 0;
 	};
 
+	/**
+	 * @brief Expression 구조체에 대한 std::shared_ptr 타입입니다.
+	 */
 	using ExpressionPtr = std::shared_ptr<Expression>;
+	/**
+	 * @brief Statement 구조체에 대한 std::shared_ptr 타입입니다.
+	 */
 	using StatementPtr = std::shared_ptr<Statement>;
+	/**
+	 * @brief Type 구조처에 대한 std::shared_ptr 타입입니다.
+	 */
 	using TypePtr = std::shared_ptr<Type>;
 }
 

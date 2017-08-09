@@ -17,6 +17,9 @@
 
 namespace Dlink
 {
+	/**
+	 * @brief 렉서를 통해 만들어진 토큰으로 AST를 만드는 파서입니다.
+	 */
 	class Parser
 	{
 	private:

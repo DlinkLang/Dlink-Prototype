@@ -14,6 +14,9 @@
 
 namespace Dlink
 {
+	/**
+	 * @brief 토큰의 타입입니다.
+	 */
     enum class TokenType
     {
         none,               /**< 알 수 없는 토큰 */
@@ -101,6 +104,9 @@ namespace Dlink
         _const,             /**< 키워드 'const' */
     };
 
+	/**
+	 * @brief Dlink 코드를 구성하는 최소한의 단위입니다.
+	 */
     struct Token
     {
         /**

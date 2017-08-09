@@ -1,10 +1,3 @@
-/**
- * @file Lexer.cc
- * @date 2017.08.02
- * @author dev_kr
- * @brief 입력을 Token 단위로 분석하고 나누어 반환하는 렉서를 정의합니다.
- */
-
 #include "Lexer.hh"
 
 #include <cctype>

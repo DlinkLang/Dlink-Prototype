@@ -16,6 +16,9 @@
 
 namespace Dlink
 {
+	/**
+	 * @brief Dlink 코드를 토큰 단위로 쪼개는 렉서입니다.
+	 */
     class Lexer
     {
     private:

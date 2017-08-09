@@ -4,7 +4,7 @@
  * @file LLVMValue.hh
  * @date 2017.08.09
  * @author kmc7468
- * @brief llvm::Value* ·¡ÆÛ¸¦ Á¤ÀÇÇÕ´Ï´Ù.
+ * @brief llvm::Value* ë˜í¼ë¥¼ ì •ì˜í•©ë‹ˆë‹¤.
  */
 
 #include "llvm/IR/Instructions.h"
@@ -14,7 +14,7 @@ namespace Dlink
 	namespace LLVM
 	{
 		/**
-		 * @brief llvm::Value* ·¡ÆÛÀÔ´Ï´Ù.
+		 * @brief llvm::Value* ë˜í¼ì…ë‹ˆë‹¤.
 		 */
 		class Value final
 		{
