@@ -84,12 +84,22 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) override;
 		LLVM::Value code_gen() override;
 	};
-
+	
 	/**
-	 * @brief 
+	 * @brief Dlink 코드에서 중괄호에 의해 감싸지며 객체의 수명을 결정하는 Statement들의 집합입니다.
 	 */
 	struct Scope final : public Block
 	{
+		/**
+		 * @brief 현재 Scope의 부모 Block 또는 부모 Scope입니다.
+		 */
+		StatementPtr parent;
+
+		/**
+		 * @brief 현재 Scope의 자식 Scope입니다.
+		 */
+		std::vector<std::shared_ptr<Scope>> child;
+
 		using Block::Block;
 
 		std::string tree_gen(std::size_t depth) override;
