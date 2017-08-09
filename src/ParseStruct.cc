@@ -118,7 +118,7 @@ namespace Dlink
 
 	std::string Integer32::tree_gen(std::size_t depth)
 	{
-		return tree_prefix(depth) + "Integer32(" + std::to_string(data) + ")";
+		return tree_prefix(depth) + "Integer32(" + std::to_string(data) + ")\n";
 	}
 
 	std::string BinaryOperation::tree_gen(std::size_t depth)
@@ -129,7 +129,8 @@ namespace Dlink
 		tree += lhs->tree_gen(depth + 1) + '\n';
 		tree += tree_prefix(depth) + "rhs: \n";
 		tree += rhs->tree_gen(depth + 1);
-		tree += "op: " + operator_string(op) + '(' + token_map.at(op) + ')';
+		tree += tree_prefix(depth) + "op: \n";
+		tree += tree_prefix(depth + 1) + operator_string(op) + '(' + token_map.at(op) + ")\n";
 
 		return tree;
 	}
@@ -140,7 +141,8 @@ namespace Dlink
 		++depth;
 		tree += tree_prefix(depth) + "rhs:\n";
 		tree += rhs->tree_gen(depth + 1);
-		tree += "op: " + operator_string(op) + '(' + token_map.at(op) + ')';
+		tree += tree_prefix(depth) + "op: \n";
+		tree += tree_prefix(depth + 1) + operator_string(op) + '(' + token_map.at(op) + ")\n";
 
 		return tree;
 	}
@@ -150,7 +152,7 @@ namespace Dlink
 {
 	std::string SimpleType::tree_gen(std::size_t depth)
 	{
-		return tree_prefix(depth) + "SimpleType(" + identifier + ")";
+		return tree_prefix(depth) + "SimpleType(" + identifier + ")\n";
 	}
 }
 
