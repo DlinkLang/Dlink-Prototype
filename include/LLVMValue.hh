@@ -33,6 +33,9 @@ namespace Dlink
 			operator llvm::Value*() const noexcept;
 
 		public:
+			bool empty() const noexcept;
+
+		public:
 			llvm::Value* get() const noexcept;
 
 		private:

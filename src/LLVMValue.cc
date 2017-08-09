@@ -40,6 +40,11 @@ namespace Dlink
 			return get();
 		}
 
+		bool Value::empty() const noexcept
+		{
+			return value_ == nullptr;
+		}
+
 		llvm::Value* Value::get() const noexcept
 		{
 			return value_;
