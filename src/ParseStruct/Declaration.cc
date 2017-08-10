@@ -103,6 +103,8 @@ namespace Dlink
 		llvm::Value* body_gen = body->code_gen();
 		llvm::ReturnInst* ret = nullptr;
 
+		symbol_table = symbol_table->parent;
+
 		if (body_gen)
 		{
 			ret = llvm::dyn_cast<llvm::ReturnInst>(body_gen);
@@ -121,6 +123,8 @@ namespace Dlink
 				LLVM::builder.CreateRetVoid();
 			}
 		}
+
+		LLVM::function_pm->run(*func);
 
 		return func;
 	}

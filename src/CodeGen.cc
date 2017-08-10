@@ -12,6 +12,7 @@ namespace Dlink
 		llvm::LLVMContext context;
 		std::shared_ptr<llvm::Module> module = std::make_shared<llvm::Module>("top", context);
 		llvm::IRBuilder<> builder(context);
+		std::unique_ptr<llvm::legacy::FunctionPassManager> function_pm;
 	}
 
 	/**

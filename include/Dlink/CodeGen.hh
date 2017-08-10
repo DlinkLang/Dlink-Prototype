@@ -12,6 +12,7 @@
 #include <string>
 
 #include "llvm/IR/IRBuilder.h"
+#include "llvm/IR/LegacyPassManager.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
 
@@ -25,6 +26,7 @@ namespace Dlink
 		extern llvm::LLVMContext context;
 		extern std::shared_ptr<llvm::Module> module;
 		extern llvm::IRBuilder<> builder;
+		extern std::unique_ptr<llvm::legacy::FunctionPassManager> function_pm;
 	}
 
 	/**
