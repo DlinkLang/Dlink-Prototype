@@ -106,40 +106,71 @@ namespace Dlink
 	{
 		TypePtr type_expr;
 
-		if (!type(type_expr))
+		if (type(type_expr))
 		{
-			errors_.add_error(Error(current_token(), "Expected type, but got \"" + current_token().data + "\""));
+			if (accept(TokenType::identifier))
+			{
+				std::string name = previous_token().data;
+
+				if (accept(TokenType::assign))
+				{
+					ExpressionPtr expression;
+
+					if (expr(expression))
+					{
+						out = std::make_shared<VariableDeclaration>(type_expr, name, expression);
+						return true;
+					}
+					else
+					{
+						errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+						return false;
+					}
+				}
+				else if (accept(TokenType::semicolon))
+				{
+					out = std::make_shared<VariableDeclaration>(type_expr, name);
+					return true;
+				}
+			}
+
+			errors_.add_error(Error(current_token(), "Expected identifier, but got \"" + current_token().data + "\""));
+			return false;
+		}
+		else
+		{
+			StatementPtr statement;
+
+			if (expr_stmt(statement))
+			{
+				out = statement;
+				return true;
+			}
+
+			return false;
+		}
+	}
+	
+	bool Parser::expr_stmt(StatementPtr& out)
+	{
+		ExpressionPtr expression;
+
+		if(!expr(expression))
+		{
+			errors_.add_error(Error(current_token(), "Expected identifier, but got \"" + current_token().data + "\""));
 			return false;
 		}
 
-		if (accept(TokenType::identifier))
+		if(accept(TokenType::semicolon))
 		{
-			std::string name = previous_token().data;
-
-			if (accept(TokenType::assign))
-			{
-				ExpressionPtr expression;
-
-				if (expr(expression))
-				{
-					out = std::make_shared<VariableDeclaration>(type_expr, name, expression);
-					return true;
-				}
-				else
-				{
-					errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
-					return false;
-				}
-			}
-			else if (accept(TokenType::semicolon))
-			{
-				out = std::make_shared<VariableDeclaration>(type_expr, name);
-				return true;
-			}
+			out = std::make_shared<ExpressionStatement>(expression);
+			return true;
 		}
-
-		errors_.add_error(Error(current_token(), "Expected identifier, but got \"" + current_token().data + "\""));
-		return false;
+		else
+		{
+			errors_.add_error(Error(current_token(), "Expected ';', but got \"" + current_token().data + "\""));
+			return false;
+		}
 	}
 }
 

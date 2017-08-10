@@ -49,7 +49,8 @@ namespace Dlink
 		bool block(StatementPtr& out);
 		bool scope(StatementPtr& out);
 		bool var_decl(StatementPtr& out);
-
+		bool expr_stmt(StatementPtr& out);
+		
 		bool expr(ExpressionPtr& out);
 		bool assign(ExpressionPtr& out);
 		bool addsub(ExpressionPtr& out);
