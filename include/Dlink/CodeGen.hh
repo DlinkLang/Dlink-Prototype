@@ -28,8 +28,8 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief 변수 및 상수 심볼 테이블입니다.
-	 * @details 사용할 수 있는 변수 및 상수 심볼을 저장합니다.
+	 * @brief 변수 및 상수, 함수 심볼 테이블입니다.
+	 * @details 사용할 수 있는 변수 및 상수, 함수 심볼을 저장합니다.
 	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */
 	struct SymbolTable final
@@ -38,7 +38,7 @@ namespace Dlink
 
 		/** 현재 심볼 테이블의 상위 심볼 테이블입니다. */
 		std::shared_ptr<SymbolTable> parent = nullptr;
-		/** 변수 및 상수 심볼 목록입니다. */
+		/** 변수 및 상수, 함수 심볼 목록입니다. */
 		std::map<std::string, LLVM::Value> map;
 	};
 	/** SymbolTable 구조체에 대한 std::shared_ptr 타입입니다. */
