@@ -3,18 +3,18 @@
 namespace Dlink
 {
 	/**
-	 * @brief »õ Parser ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param input ·º¼­¸¦ ÅëÇØ ¸¸µé¾îÁø ÅäÅ« ¸ñ·ÏÀÔ´Ï´Ù.
+	 * @brief ìƒˆ Parser ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param input ë ‰ì„œë¥¼ í†µí•´ ë§Œë“¤ì–´ì§„ í† í° ëª©ë¡ì…ë‹ˆë‹¤.
 	 */
 	Parser::Parser(const TokenSeq& input)
 		: input_(input), token_iter_(input_.cbegin())
 	{}
 
 	/**
-	 * @brief ÅäÅ« ¸ñ·ÏÀ» ÀÌ¿ëÇØ ÆÄ½ÌÇÑ ÈÄ Ãß»ó ±¸¹® Æ®¸®¸¦ ¸¸µì´Ï´Ù.
-	 * @details »ı¼ºÀÚ¸¦ ÅëÇØ ÀÔ·Â¹ŞÀº ÅäÅ« ¸ñ·ÏÀ» »ç¿ëÇÕ´Ï´Ù.
-	 * @param output ¸¸µé¾îÁø Ãß»ó ±¸¹® Æ®¸®¸¦ ÀúÀåÇÒ	 º¯¼öÀÔ´Ï´Ù.
-	 * @return ÆÄ½Ì¿¡ ¼º°øÇÏ¸é true, ½ÇÆĞÇÏ¸é false¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+	 * @brief í† í° ëª©ë¡ì„ ì´ìš©í•´ íŒŒì‹±í•œ í›„ ì¶”ìƒ êµ¬ë¬¸ íŠ¸ë¦¬ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @details ìƒì„±ìë¥¼ í†µí•´ ì…ë ¥ë°›ì€ í† í° ëª©ë¡ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
+	 * @param output ë§Œë“¤ì–´ì§„ ì¶”ìƒ êµ¬ë¬¸ íŠ¸ë¦¬ë¥¼ ì €ì¥í• 	 ë³€ìˆ˜ì…ë‹ˆë‹¤.
+	 * @return íŒŒì‹±ì— ì„±ê³µí•˜ë©´ true, ì‹¤íŒ¨í•˜ë©´ falseë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 * @see Dlink::Parser::Parser(const TokenSeq&)
 	 */
 	bool Parser::parse(StatementPtr& output)
@@ -22,9 +22,9 @@ namespace Dlink
 		return block(output);
 	}
 	/**
-	 * @brief ÆÄ½ÌÀ» ÇÏ´Â µµÁß ¹ß»ıÇÑ ¿¡·¯ ÁıÇÕÀ» °¡Á®¿É´Ï´Ù.
-	 * @details ÀÌ ÇÔ¼ö´Â ¿¹¿Ü¸¦ ¹ß»ı½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	 * @return ¿¡·¯ ÁıÇÕÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+	 * @brief íŒŒì‹±ì„ í•˜ëŠ” ë„ì¤‘ ë°œìƒí•œ ì—ëŸ¬ ì§‘í•©ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
+	 * @details ì´ í•¨ìˆ˜ëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @return ì—ëŸ¬ ì§‘í•©ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	const std::vector<Error>& Parser::get_errors() const noexcept
 	{
@@ -109,7 +109,7 @@ namespace Dlink
 			--token_iter_;
 			if (!type(type_expr))
 			{
-				// TODO: ¿¡·¯ ¸Ş¼¼Áö ³Ö¾îÁÖ¼¼¿ä
+				// TODO: ì—ëŸ¬ ë©”ì„¸ì§€ ë„£ì–´ì£¼ì„¸ìš”
 				errors_.add_error(Error(current_token(), "TODO"));
 				return false;
 			}
@@ -129,7 +129,7 @@ namespace Dlink
 					}
 					else
 					{
-						// TODO: ¿¡·¯ ¸Ş¼¼Áö ³Ö¾îÁÖ¼¼¿ä
+						// TODO: ì—ëŸ¬ ë©”ì„¸ì§€ ë„£ì–´ì£¼ì„¸ìš”
 						errors_.add_error(Error(current_token(), "TODO"));
 						return false;
 					}
@@ -142,7 +142,7 @@ namespace Dlink
 			}
 		}
 
-		// TODO: ¿¡·¯ ¸Ş¼¼Áö ³Ö¾îÁÖ¼¼¿ä
+		// TODO: ì—ëŸ¬ ë©”ì„¸ì§€ ë„£ì–´ì£¼ì„¸ìš”
 		errors_.add_error(Error(current_token(), "TODO"));
 		return false;
 	}
@@ -173,7 +173,7 @@ namespace Dlink
 			ExpressionPtr rhs;
 			if (!addsub(rhs))
 			{
-				// TODO: ¿¡·¯ ¸Ş¼¼Áö ³Ö¾îÁÖ¼¼¿ä
+				// TODO: ì—ëŸ¬ ë©”ì„¸ì§€ ë„£ì–´ì£¼ì„¸ìš”
 				errors_.add_error(Error(current_token(), "TODO"));
 				return false;
 			}

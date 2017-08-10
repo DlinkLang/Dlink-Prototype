@@ -12,12 +12,14 @@ namespace Dlink
 		keyword_map_["if"] = TokenType::_if;
 		keyword_map_["else"] = TokenType::_else;
 		keyword_map_["switch"] = TokenType::_switch;
+		keyword_map_["case"] = TokenType::_case;
 		keyword_map_["for"] = TokenType::_for;
 		keyword_map_["while"] = TokenType::_while;
 		keyword_map_["do"] = TokenType::_do;
 		keyword_map_["break"] = TokenType::_break;
 		keyword_map_["continue"] = TokenType::_continue;
 		keyword_map_["return"] = TokenType::_return;
+		keyword_map_["null"] = TokenType::_null;
 		keyword_map_["const"] = TokenType::_const;
 	}
 

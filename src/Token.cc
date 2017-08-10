@@ -4,6 +4,9 @@ namespace Dlink
 {
     #define MAP_TOKEN(token) std::pair<TokenType, std::string>(TokenType::token, #token)
 
+	/**
+	 * @brief TokenType 열거체의 멤버들을 문자열화 시킨 std::map입니다.
+	 */
     const std::map<TokenType, std::string> token_map =
     {
         MAP_TOKEN(none),               
@@ -74,4 +77,15 @@ namespace Dlink
     };
 
     #undef MAP_TOKEN
+
+	/**
+	 * @brief 새 Token 인스턴스를 만듭니다.
+	 * @param data 토큰의 원본 문장입니다.
+	 * @param type 토큰의 타입입니다.
+	 * @param line 토큰의 줄 번호입니다.
+	 * @param end_col 토큰이 끝나는 위치의 세로단 번호입니다.
+	 */
+	Token::Token(const std::string& data, TokenType type, const std::size_t line, const std::size_t end_col)
+		: data(data), type(type), line(line), end_col(end_col), col(end_col - data.length() + 1)
+	{}
 }

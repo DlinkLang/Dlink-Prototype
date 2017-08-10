@@ -19,6 +19,7 @@ namespace Dlink
 	/**
 	 * @brief Dlink 코드를 토큰 단위로 쪼개는 렉서입니다.
 	 * @details 이 클래스는 다른 곳에서 상속받을 수 없습니다.
+	 * @see Dlink::Token
 	 */
 	class Lexer final
 	{
