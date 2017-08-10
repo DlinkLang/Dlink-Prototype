@@ -191,6 +191,9 @@ namespace Dlink
 		}
 
 		TokenType op;
+		
+		std::vector<ExpressionPtr> operands;
+		operands.push_back(lhs);
 
 		while (accept(TokenType::assign))
 		{
@@ -202,11 +205,22 @@ namespace Dlink
 				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
 			}
+			
+			operands.push_back(rhs);
+		}
+		
+		ExpressionPtr result;
 
-			lhs = std::make_shared<BinaryOperation>(op, lhs, rhs);
+		result = operands.back();
+		operands.pop_back();
+		std::reverse(operands.begin(), operands.end());
+
+		for(ExpressionPtr operand : operands)
+		{
+			result = std::make_shared<BinaryOperation>(TokenType::assign, result, operand);
 		}
 
-		out = lhs;
+		out = result;
 		return true;
 	}
 
