@@ -13,7 +13,7 @@ namespace Dlink
 	/**
 	 * @brief 토큰 목록을 이용해 파싱한 후 추상 구문 트리를 만듭니다.
 	 * @details 생성자를 통해 입력받은 토큰 목록을 사용합니다.
-	 * @param output 만들어진 추상 구문 트리를 저장할	 변수입니다.
+	 * @param output 만들어진 추상 구문 트리를 저장할 변수입니다.
 	 * @return 파싱에 성공하면 true, 실패하면 false를 반환합니다.
 	 * @see Dlink::Parser::Parser(const TokenSeq&)
 	 */
@@ -98,52 +98,47 @@ namespace Dlink
 
 			return false;
 		}
+
+		return true;
 	}
 
 	bool Parser::var_decl(StatementPtr& out)
 	{
+		TypePtr type_expr;
+
+		if (!type(type_expr))
+		{
+			errors_.add_error(Error(current_token(), "Expected type, but got \"" + current_token().data + "\""));
+			return false;
+		}
+
 		if (accept(TokenType::identifier))
 		{
-			TypePtr type_expr;
+			std::string name = previous_token().data;
 
-			--token_iter_;
-			if (!type(type_expr))
+			if (accept(TokenType::assign))
 			{
-				// TODO: 에러 메세지 넣어주세요
-				errors_.add_error(Error(current_token(), "TODO"));
-				return false;
-			}
+				ExpressionPtr expression;
 
-			if (accept(TokenType::identifier))
-			{
-				std::string name = previous_token().data;
-
-				if (accept(TokenType::assign))
+				if (expr(expression))
 				{
-					ExpressionPtr expression;
-
-					if (expr(expression))
-					{
-						out = std::make_shared<VariableDeclaration>(type_expr, name, expression);
-						return true;
-					}
-					else
-					{
-						// TODO: 에러 메세지 넣어주세요
-						errors_.add_error(Error(current_token(), "TODO"));
-						return false;
-					}
-				}
-				else if (accept(TokenType::semicolon))
-				{
-					out = std::make_shared<VariableDeclaration>(type_expr, name);
+					out = std::make_shared<VariableDeclaration>(type_expr, name, expression);
 					return true;
 				}
+				else
+				{
+					errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+					return false;
+				}
+			}
+			else if (accept(TokenType::semicolon))
+			{
+				out = std::make_shared<VariableDeclaration>(type_expr, name);
+				return true;
 			}
 		}
 
-		// TODO: 에러 메세지 넣어주세요
-		errors_.add_error(Error(current_token(), "TODO"));
+		errors_.add_error(Error(current_token(), "Expected identifier, but got \"" + current_token().data + "\""));
 		return false;
 	}
 }
@@ -173,8 +168,7 @@ namespace Dlink
 			ExpressionPtr rhs;
 			if (!addsub(rhs))
 			{
-				// TODO: 에러 메세지 넣어주세요
-				errors_.add_error(Error(current_token(), "TODO"));
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
 			}
 
