@@ -12,7 +12,7 @@ set(SRC_DIR 	"./src")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TARGET_DIR})
 
 include_directories(${INCLUDE_DIR})
-file(GLOB srcs ${SRC_DIR}/*.cc)
+file(GLOB srcs ${SRC_DIR}/*.cc ${SRC_DIR}/ParseStruct/*.cc)
 
 add_executable(${PROJECT_NAME} ${srcs})
 
