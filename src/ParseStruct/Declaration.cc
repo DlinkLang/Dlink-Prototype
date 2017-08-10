@@ -64,7 +64,23 @@ namespace Dlink
 		++depth;
 		result += tree_prefix(depth) + "return_type:\n" + return_type->tree_gen(depth + 1) + '\n';
 		result += tree_prefix(depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
-		result += tree_prefix(depth) + "body:\n" + body->tree_gen(depth + 1) + '\n';
+		result += tree_prefix(depth) + "parameter:";
+		if (parameter.size() == 0)
+			result += " empty\n";
+		else
+		{
+			result += '\n';
+
+			++depth;
+
+			for (auto& param : parameter)
+			{
+				result += param.tree_gen(depth) + '\n';
+			}
+
+			--depth;
+		}
+		result += tree_prefix(depth) + "body:\n" + body->tree_gen(depth + 1);
 
 		return result;
 	}
@@ -84,6 +100,7 @@ namespace Dlink
 		for (auto& param : func->args())
 		{
 			param.setName(parameter[i++].identifier.id);
+			symbol_table->map[param.getName()] = &param;
 		}
 
 		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context, "entry", func, nullptr);
@@ -92,13 +109,6 @@ namespace Dlink
 		auto new_sym_table = std::make_shared<SymbolTable>();
 		new_sym_table->parent = symbol_table;
 		symbol_table = new_sym_table;
-
-		for (auto& arg : func->args())
-		{
-			llvm::AllocaInst* alloca_inst = LLVM::builder.CreateAlloca(arg.getType());
-			LLVM::builder.CreateStore(&arg, alloca_inst);
-			symbol_table->map[arg.getName()] = alloca_inst;
-		}
 
 		llvm::Value* body_gen = body->code_gen();
 		llvm::ReturnInst* ret = nullptr;

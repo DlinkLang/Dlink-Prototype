@@ -49,6 +49,7 @@ namespace Dlink
 		bool block(StatementPtr& out);
 		bool scope(StatementPtr& out);
 		bool var_decl(StatementPtr& out);
+		bool func_decl(StatementPtr& out, TypePtr return_type, const std::string& identifier);
 		bool expr_stmt(StatementPtr& out);
 		
 		bool expr(ExpressionPtr& out);

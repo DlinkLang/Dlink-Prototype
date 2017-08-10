@@ -44,7 +44,7 @@ namespace Dlink
 
 		for (StatementPtr statement : statements)
 		{
-			tree += statement->tree_gen(depth + 1) + "\n";
+			tree += statement->tree_gen(depth + 1);
 		}
 
 		tree += tree_prefix(depth) + "Block End\n";
@@ -77,7 +77,7 @@ namespace Dlink
 		++depth;
 		for (StatementPtr statement : statements)
 		{
-			tree += statement->tree_gen(depth) + "\n";
+			tree += statement->tree_gen(depth);
 		}
 		--depth;
 

@@ -6,9 +6,15 @@
 
 int main(int argc, const char** argv)
 {
+	Dlink::LLVM::function_pm = std::make_unique<llvm::legacy::FunctionPassManager>(Dlink::LLVM::module.get());
+	Dlink::LLVM::function_pm->doInitialization();
+
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-1 = 2 = 3;
+	int main(int a)
+	{
+		int b = a;
+	}
 	)");
 
 	std::cout << "Lexing Succeed\n";
@@ -23,6 +29,7 @@ int main(int argc, const char** argv)
 	if (parser.parse(ast))
 	{
 		std::cout << "Parsing Succeed\n";
+		std::string temp = ast->tree_gen(0);
 		std::cout << ast->tree_gen(0) << '\n';
 
 		try

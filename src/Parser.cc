@@ -1,4 +1,5 @@
 #include "Parser.hh"
+#include "CodeGen.hh"
 
 namespace Dlink
 {
@@ -132,6 +133,10 @@ namespace Dlink
 					out = std::make_shared<VariableDeclaration>(type_expr, name);
 					return true;
 				}
+				else if (accept(TokenType::lparen))
+				{
+					return func_decl(out, type_expr, name);
+				}
 			}
 
 			errors_.add_error(Error(current_token(), "Expected identifier, but got \"" + current_token().data + "\""));
@@ -149,6 +154,61 @@ namespace Dlink
 
 			return false;
 		}
+	}
+
+	bool Parser::func_decl(StatementPtr& out, TypePtr return_type, const std::string& identifier)
+	{
+		std::vector<VariableDeclaration> param_list;
+
+		while (true)
+		{
+			TypePtr param_type;
+			if (type(param_type))
+			{
+				if (accept(TokenType::identifier))
+				{
+					VariableDeclaration param(param_type, previous_token().data);
+					param_list.push_back(param);
+
+					if (accept(TokenType::comma))
+						continue;
+				}
+				else if (accept(TokenType::comma))
+				{
+					VariableDeclaration param(param_type, "");
+					param_list.push_back(param);
+					continue;
+				}
+			}
+			else if (accept(TokenType::rparen))
+				break;
+			else
+			{
+				// TODO: 에러 메세지 좀 채워주세요.
+				// TODO: 예를 들면 void foo(int, switch) 이런 상황에 발생하는 에러입니다.
+				errors_.add_error(Error(current_token(), "TODO"));
+				return false;
+			}
+		}
+
+		SymbolTablePtr sym_map = std::make_shared<SymbolTable>();
+		sym_map->parent = symbol_table;
+		symbol_table = sym_map;
+
+		StatementPtr body;
+		
+		if (!block(body))
+		{
+			// TODO: 에러 메세지 좀 채워주세요.
+			// TODO: 예를 들면 void foo(int) switch 이런 상황에 발생하는 에러입니다.
+			errors_.add_error(Error(current_token(), "TODO"));
+			return false;
+		}
+
+		symbol_table = symbol_table->parent;
+
+		out = std::make_shared<FunctionDeclaration>(return_type, identifier, param_list, body);
+		return true;
 	}
 	
 	bool Parser::expr_stmt(StatementPtr& out)
