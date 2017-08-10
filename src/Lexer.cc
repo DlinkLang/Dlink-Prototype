@@ -424,13 +424,11 @@ namespace Dlink
 					case '?':
 						token_seq_.push_back(Token("?", TokenType::question, line, i + 1));
 						break;
-					case '\n':
-						std::cout << "asdf\n";
-						line++;
-						break;
 					}
 				}
 			}
+
+			line++;
 		}
 
 		token_seq_.push_back(Token("", TokenType::eof, line, i));
