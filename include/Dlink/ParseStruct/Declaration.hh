@@ -2,7 +2,7 @@
 
 /**
  * @file Declaration.hh
- * @date 2017.08.10
+ * @date 2017.08.11
  * @author kmc7468
  * @brief Dlink 코드 파서의 결과가 생성하는 추상 구문 트리의 노드들 중 선언과 관련된 노드들을 정의합니다.
  */
@@ -22,8 +22,8 @@ namespace Dlink
 	 */
 	struct VariableDeclaration : public Statement
 	{
-		VariableDeclaration(TypePtr type_, const std::string& identifier_);
-		VariableDeclaration(TypePtr type_, const std::string& identifier_, ExpressionPtr expression_);
+		VariableDeclaration(TypePtr type, const std::string& identifier);
+		VariableDeclaration(TypePtr type, const std::string& identifier, ExpressionPtr expression);
 
 		std::string tree_gen(std::size_t depth) override;
 		LLVM::Value code_gen() override;
@@ -41,6 +41,12 @@ namespace Dlink
 	 */
 	struct FunctionDeclaration : public Statement
 	{
+		FunctionDeclaration(TypePtr return_type, Identifer identifier,
+			const std::vector<VariableDeclaration>& parameter, StatementPtr body);
+
+		std::string tree_gen(std::size_t depth) override;
+		LLVM::Value code_gen() override;
+
 		/** 함수 반환 값의 타입입니다. */
 		TypePtr return_type;
 		/** 함수의 식별자입니다. */
