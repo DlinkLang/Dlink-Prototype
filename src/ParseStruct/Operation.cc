@@ -89,9 +89,9 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief »õ Integer32 ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @details ÀÌ ÇÔ¼ö´Â ¿¹¿Ü¸¦ ¹ß»ı½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	 * @param data 32ºñÆ® ºÎÈ£ ÀÖ´Â Á¤¼ö »ó¼öÀÔ´Ï´Ù.
+	 * @brief ìƒˆ Integer32 ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @details ì´ í•¨ìˆ˜ëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @param data 32ë¹„íŠ¸ ë¶€í˜¸ ìˆëŠ” ì •ìˆ˜ ìƒìˆ˜ì…ë‹ˆë‹¤.
 	 */
 	Integer32::Integer32(std::int32_t data) noexcept
 		: data(data)
@@ -110,10 +110,10 @@ namespace Dlink
 namespace Dlink
 {
 	/**
-	 * @brief »õ BinaryOperation ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param op ¿¬»êÀÚ Å¸ÀÔÀÔ´Ï´Ù.
-	 * @param lhs ÁÂÃø ÇÇ¿¬»êÀÚÀÔ´Ï´Ù.
-	 * @param rhs ¿ìÃø ÇÇ¿¬»êÀÚÀÔ´Ï´Ù.
+	 * @brief ìƒˆ BinaryOperation ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param op ì—°ì‚°ì íƒ€ì…ì…ë‹ˆë‹¤.
+	 * @param lhs ì¢Œì¸¡ í”¼ì—°ì‚°ìì…ë‹ˆë‹¤.
+	 * @param rhs ìš°ì¸¡ í”¼ì—°ì‚°ìì…ë‹ˆë‹¤.
 	 */
 	BinaryOperation::BinaryOperation(TokenType op, ExpressionPtr lhs, ExpressionPtr rhs)
 		: op(op), lhs(lhs), rhs(rhs)
@@ -149,19 +149,19 @@ namespace Dlink
 			return LLVM::builder.CreateMul(lhs_value, rhs_value);
 
 		case TokenType::divide:
-			// TODO: ÀÓ½Ã ¹æ¾È
+			// TODO: ì„ì‹œ ë°©ì•ˆ
 			return LLVM::builder.CreateSDiv(lhs_value, rhs_value);
 
 		default:
-			// TODO: ¿À·ù Ã³¸®
+			// TODO: ì˜¤ë¥˜ ì²˜ë¦¬
 			return LLVM::builder.getFalse();
 		}
 	}
 
 	/**
-	 * @brief »õ UnaryOperation ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param op ¿¬»êÀÚ Å¸ÀÔÀÔ´Ï´Ù.
-	 * @param rhs ÇÇ¿¬»êÀÚÀÔ´Ï´Ù.
+	 * @brief ìƒˆ UnaryOperation ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param op ì—°ì‚°ì íƒ€ì…ì…ë‹ˆë‹¤.
+	 * @param rhs í”¼ì—°ì‚°ìì…ë‹ˆë‹¤.
 	 */
 	UnaryOperation::UnaryOperation(TokenType op, ExpressionPtr rhs)
 		: op(op), rhs(rhs)
@@ -191,7 +191,7 @@ namespace Dlink
 			return LLVM::builder.CreateMul(LLVM::builder.getInt32(-1), rhs_value);
 
 		default:
-			// TODO: ¿À·ù Ã³¸®
+			// TODO: ì˜¤ë¥˜ ì²˜ë¦¬
 			return LLVM::builder.getFalse();
 		}
 	}
