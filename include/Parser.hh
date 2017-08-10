@@ -22,7 +22,7 @@ namespace Dlink
 	 * @details 이 클래스는 다른 곳에서 상속받을 수 없습니다.
 	 * @see Dlink::Lexer
 	 */
-	class Parser
+	class Parser final
 	{
 	public:
 		Parser(const TokenSeq& input);

@@ -93,7 +93,7 @@ namespace Dlink
 	};
 
 	/**
-	 * @brief 한개 이상의 Statement들의 집합입니다.
+	 * @brief 한 개 이상의 Statement들의 집합입니다.
 	 */
 	struct Block : public Statement
 	{
