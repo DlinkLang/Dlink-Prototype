@@ -62,7 +62,7 @@ namespace Dlink
 		std::vector<StatementPtr> statements;
 		StatementPtr statement;
 
-		while (/*scope*/var_decl(statement))
+		while (scope(statement))
 		{
 			statements.push_back(statement);
 			statement = nullptr;
