@@ -73,7 +73,13 @@ namespace Dlink
         MAP_TOKEN(_continue),          
         MAP_TOKEN(_return),            
         MAP_TOKEN(_null),              
-        MAP_TOKEN(_const),             
+        MAP_TOKEN(_const),        
+		MAP_TOKEN(_unsigned),
+		MAP_TOKEN(_signed),
+		MAP_TOKEN(_char),
+		MAP_TOKEN(_short),
+		MAP_TOKEN(_int),
+		MAP_TOKEN(_long),
     };
 
     #undef MAP_TOKEN

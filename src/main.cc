@@ -8,10 +8,7 @@ int main(int argc, const char** argv)
 {
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	int main()
-	{
-		return 0;
-	}
+	signed int i = 5;
 	)");
 
 	std::cout << "Lexing Succeed\n";

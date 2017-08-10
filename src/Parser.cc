@@ -277,10 +277,85 @@ namespace Dlink
 
 	bool Parser::simple_type(TypePtr& out)
 	{
-		if (accept(TokenType::identifier))
+		if (accept(TokenType::_unsigned))
 		{
-			out = std::make_shared<SimpleType>(previous_token().data);
+			if (accept(TokenType::_char))
+			{
+				// unsigned char
+				return false; // TODO: 아직 구현되지 않음
+			}
+			else if (accept(TokenType::_short))
+			{
+				// unsigned short
+				return false; // TODO: 아직 구현되지 않음
+			}
+			else if (accept(TokenType::_int))
+			{
+				// unsigned int
+				return false; // TODO: 아직 구현되지 않음
+			}
+			else if (accept(TokenType::_long))
+			{
+				// unsigned long
+				return false; // TODO: 아직 구현되지 않음
+			}
+			else
+			{
+				// unsigned int
+				return false; // TODO: 아직 구현되지 않음
+			}
+		}
+		else if (accept(TokenType::_signed))
+		{
+			if (accept(TokenType::_char))
+			{
+				// signed char
+				return false; // TODO: 아직 구현되지 않음
+			}
+			else if (accept(TokenType::_short))
+			{
+				// signed short
+				return false; // TODO: 아직 구현되지 않음
+			}
+			else if (accept(TokenType::_int))
+			{
+				// signed int
+				out = std::make_shared<SimpleType>("int");
+				return true;
+			}
+			else if (accept(TokenType::_long))
+			{
+				// signed long
+				return false; // TODO: 아직 구현되지 않음
+			}
+			else
+			{
+				// signed int
+				out = std::make_shared<SimpleType>("int");
+				return true;
+			}
+		}
+		
+		else if (accept(TokenType::_char))
+		{
+			// char
+			return false; // TODO: 아직 구현되지 않음
+		}
+		else if (accept(TokenType::_short))
+		{
+			// short
+			return false; // TODO: 아직 구현되지 않음
+		}
+		else if (accept(TokenType::_int))
+		{
+			// int
+			out = std::make_shared<SimpleType>("int");
 			return true;
+		}
+		else if (accept(TokenType::_long))
+		{
+			// long
+			return false; // TODO: 아직 구현되지 않음
 		}
 
 		return false;
