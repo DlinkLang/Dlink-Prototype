@@ -84,7 +84,7 @@ namespace Dlink
 				statement = nullptr;
 			}
 
-			out = std::make_shared<Scope>(statements);
+			out = std::make_shared<Scope>(statements, nullptr/* TODO: it's temp */);
 		}
 		else
 		{

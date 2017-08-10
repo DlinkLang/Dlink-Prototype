@@ -10,6 +10,9 @@
     <Filter Include="Header-Files\ParseStruct">
       <UniqueIdentifier>{b4279a4d-a50c-4758-a515-06cf9c90d263}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source-Files\ParseStruct">
+      <UniqueIdentifier>{c9ec4bbd-c038-4547-87d4-b36e1be189a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cc">
@@ -38,6 +41,18 @@
     </ClCompile>
     <ClCompile Include="src\Error.cc">
       <Filter>Source-Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParseStruct\Declaration.cc">
+      <Filter>Source-Files\ParseStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParseStruct\Operation.cc">
+      <Filter>Source-Files\ParseStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParseStruct\Root.cc">
+      <Filter>Source-Files\ParseStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParseStruct\Type.cc">
+      <Filter>Source-Files\ParseStruct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -41,6 +41,10 @@
     <ClCompile Include="src\main.cc" />
     <ClCompile Include="src\Parser.cc" />
     <ClCompile Include="src\ParseStruct.cc" />
+    <ClCompile Include="src\ParseStruct\Declaration.cc" />
+    <ClCompile Include="src\ParseStruct\Operation.cc" />
+    <ClCompile Include="src\ParseStruct\Root.cc" />
+    <ClCompile Include="src\ParseStruct\Type.cc" />
     <ClCompile Include="src\Token.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

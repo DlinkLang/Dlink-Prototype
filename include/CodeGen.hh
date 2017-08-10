@@ -34,12 +34,12 @@ namespace Dlink
 	 */
 	struct SymbolTable final
 	{
+		LLVM::Value find(const std::string& name);
+
 		/** 현재 심볼 테이블의 상위 심볼 테이블입니다. */
 		std::shared_ptr<SymbolTable> parent = nullptr;
 		/** 변수 및 상수 심볼 목록입니다. */
 		std::map<std::string, LLVM::Value> map;
-
-		LLVM::Value find(const std::string& name);
 	};
 	/** SymbolTable 구조체에 대한 std::shared_ptr 타입입니다. */
 	using SymbolTablePtr = std::shared_ptr<SymbolTable>;
@@ -51,12 +51,12 @@ namespace Dlink
 	 */
 	struct TypeSymbolTable final
 	{
+		llvm::Type* find(const std::string& name);
+
 		/** 현재 심볼 테이블의 상위 심볼 테이블입니다. */
 		std::shared_ptr<TypeSymbolTable> parent = nullptr;
 		/** 사용자 정의 타입 심볼 목록입니다. */
 		std::map<std::string, llvm::Type*> map;
-
-		llvm::Type* find(const std::string& name);
 	};
 	/** TypeSymbolTable 구조체에 대한 std::shared_ptr 타입입니다. */
 	using TypeSymbolTablePtr = std::shared_ptr<TypeSymbolTable>;
