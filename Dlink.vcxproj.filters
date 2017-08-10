@@ -7,11 +7,11 @@
     <Filter Include="Source-Files">
       <UniqueIdentifier>{8c996171-4739-4716-bcd5-b5670bc49d86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header-Files\ParseStruct">
-      <UniqueIdentifier>{b4279a4d-a50c-4758-a515-06cf9c90d263}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source-Files\ParseStruct">
       <UniqueIdentifier>{c9ec4bbd-c038-4547-87d4-b36e1be189a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header-Files\ParseStruct">
+      <UniqueIdentifier>{827b406d-9986-4028-b36b-161862eabea3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,41 +56,41 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CommandLine.hh">
+    <ClInclude Include="include\Dlink\CodeGen.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\CodeGen.hh">
+    <ClInclude Include="include\Dlink\CommandLine.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Parser.hh">
+    <ClInclude Include="include\Dlink\Error.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ParseStruct.hh">
+    <ClInclude Include="include\Dlink\Lexer.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\ParseStruct\Declaration.hh">
+    <ClInclude Include="include\Dlink\LLVMValue.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Parser.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\ParseStruct.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Token.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\ParseStruct\Declaration.hh">
       <Filter>Header-Files\ParseStruct</Filter>
     </ClInclude>
-    <ClInclude Include="include\ParseStruct\Operation.hh">
+    <ClInclude Include="include\Dlink\ParseStruct\Operation.hh">
       <Filter>Header-Files\ParseStruct</Filter>
     </ClInclude>
-    <ClInclude Include="include\ParseStruct\Root.hh">
+    <ClInclude Include="include\Dlink\ParseStruct\Root.hh">
       <Filter>Header-Files\ParseStruct</Filter>
     </ClInclude>
-    <ClInclude Include="include\ParseStruct\Type.hh">
+    <ClInclude Include="include\Dlink\ParseStruct\Type.hh">
       <Filter>Header-Files\ParseStruct</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Error.hh">
-      <Filter>Header-Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Lexer.hh">
-      <Filter>Header-Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Token.hh">
-      <Filter>Header-Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\LLVMValue.hh">
-      <Filter>Header-Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

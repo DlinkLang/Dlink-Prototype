@@ -6,7 +6,7 @@ set(AUTHOR_NAME "funniest_ms, kmc7468, dev_kr")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
 set(TARGET_DIR 	"./bin")
-set(INCLUDE_DIR "./include")
+set(INCLUDE_DIR "./include/Dlink")
 set(SRC_DIR 	"./src")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TARGET_DIR})

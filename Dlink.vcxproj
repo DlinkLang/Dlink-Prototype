@@ -19,20 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CodeGen.hh" />
-    <ClInclude Include="include\CommandLine.hh" />
-    <ClInclude Include="include\Error.hh" />
-    <ClInclude Include="include\Lexer.hh" />
-    <ClInclude Include="include\LLVMValue.hh" />
-    <ClInclude Include="include\Parser.hh" />
-    <ClInclude Include="include\ParseStruct.hh" />
-    <ClInclude Include="include\ParseStruct\Declaration.hh" />
-    <ClInclude Include="include\ParseStruct\Operation.hh" />
-    <ClInclude Include="include\ParseStruct\Root.hh" />
-    <ClInclude Include="include\ParseStruct\Type.hh" />
-    <ClInclude Include="include\Token.hh" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\CodeGen.cc" />
     <ClCompile Include="src\CommandLine.cc" />
     <ClCompile Include="src\Error.cc" />
@@ -46,6 +32,20 @@
     <ClCompile Include="src\ParseStruct\Root.cc" />
     <ClCompile Include="src\ParseStruct\Type.cc" />
     <ClCompile Include="src\Token.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Dlink\CodeGen.hh" />
+    <ClInclude Include="include\Dlink\CommandLine.hh" />
+    <ClInclude Include="include\Dlink\Error.hh" />
+    <ClInclude Include="include\Dlink\Lexer.hh" />
+    <ClInclude Include="include\Dlink\LLVMValue.hh" />
+    <ClInclude Include="include\Dlink\Parser.hh" />
+    <ClInclude Include="include\Dlink\ParseStruct.hh" />
+    <ClInclude Include="include\Dlink\ParseStruct\Declaration.hh" />
+    <ClInclude Include="include\Dlink\ParseStruct\Operation.hh" />
+    <ClInclude Include="include\Dlink\ParseStruct\Root.hh" />
+    <ClInclude Include="include\Dlink\ParseStruct\Type.hh" />
+    <ClInclude Include="include\Dlink\Token.hh" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -101,22 +101,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\bin\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)\bin\$(Configuration)\$(PlatformShortName)\temp\</IntDir>
-    <IncludePath>$(SolutionDir)\include\;$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\include\Dlink\;$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\bin\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)\bin\$(Configuration)\$(PlatformShortName)\temp\</IntDir>
-    <IncludePath>$(SolutionDir)\include\;$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\include\Dlink\;$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\bin\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)\bin\$(Configuration)\$(PlatformShortName)\temp\</IntDir>
-    <IncludePath>$(SolutionDir)\include\;$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\include\Dlink\;$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)\bin\$(Configuration)\$(PlatformShortName)\</OutDir>
     <IntDir>$(SolutionDir)\bin\$(Configuration)\$(PlatformShortName)\temp\</IntDir>
-    <IncludePath>$(SolutionDir)\include\;$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\include\Dlink\;$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
