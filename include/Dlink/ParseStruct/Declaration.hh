@@ -2,7 +2,7 @@
 
 /**
  * @file Declaration.hh
- * @date 2017.08.01
+ * @date 2017.08.10
  * @author kmc7468
  * @brief Dlink 코드 파서의 결과가 생성하는 추상 구문 트리의 노드들 중 선언과 관련된 노드들을 정의합니다.
  */
