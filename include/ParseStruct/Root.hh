@@ -117,7 +117,7 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) override;
 		LLVM::Value code_gen() override;
 
-		/** 현재 Scope의 상위 Block 또는 상위 Scope입니다.  */
+		/** 현재 Scope의 상위 Block 또는 상위 Scope입니다. */
 		StatementPtr parent;
 		/** 현재 Scope의 하위 Scope입니다. */
 		std::vector<std::shared_ptr<Scope>> child;
