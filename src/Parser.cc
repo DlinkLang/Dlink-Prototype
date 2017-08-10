@@ -292,7 +292,8 @@ namespace Dlink
 			else if (accept(TokenType::_int))
 			{
 				// unsigned int
-				return false; // TODO: 아직 구현되지 않음
+				out = std::make_shared<SimpleType>("int", true);
+				return true;
 			}
 			else if (accept(TokenType::_long))
 			{
@@ -302,7 +303,8 @@ namespace Dlink
 			else
 			{
 				// unsigned int
-				return false; // TODO: 아직 구현되지 않음
+				out = std::make_shared<SimpleType>("int", true);
+				return true;
 			}
 		}
 		else if (accept(TokenType::_signed))

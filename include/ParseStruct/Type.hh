@@ -22,12 +22,18 @@ namespace Dlink
 	 */
 	struct SimpleType final : public Type
 	{
-		SimpleType(const std::string& identifier_);
+		SimpleType(const std::string& identifier);
+		SimpleType(const std::string& identifier, bool is_unsigned);
 
 		std::string tree_gen(std::size_t depth) override;
 		llvm::Type* get_type() override;
 
 		/** 타입의 식별자입니다. */
 		const Identifer identifier;
+		/**
+		 * @brief 타입이 unsigned인지 여부입니다.
+		 * @details 만약 타입이 unsigned라면 true, signed이거나 unsigned/signed 구분이 필요 없는 경우에는 false입니다.
+		 */
+		const bool is_unsigned;
 	};
 }
