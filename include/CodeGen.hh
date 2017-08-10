@@ -28,55 +28,39 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief 심볼 테이블입니다.
+	 * @brief 변수 및 상수 심볼 테이블입니다.
+	 * @details 사용할 수 있는 변수 및 상수 심볼을 저장합니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */
 	struct SymbolTable final
 	{
-		/**
-		 * @brief 현재 심볼 테이블의 부모 심볼 테이블입니다.
-		 */
-		std::shared_ptr<SymbolTable> parent = nullptr;
-		
-		/**
-		 * @brief 실질적인 값을 저장하는 심볼 테이블입니다.
-		 */
-		std::map<std::string, LLVM::Value> map;
-
 		LLVM::Value find(const std::string& name);
+
+		/** 현재 심볼 테이블의 상위 심볼 테이블입니다. */
+		std::shared_ptr<SymbolTable> parent = nullptr;
+		/** 변수 및 상수 심볼 목록입니다. */
+		std::map<std::string, LLVM::Value> map;
 	};
-	/**
-	 * @brief SymbolTable 구조체에 대한 std::shared_ptr 타입입니다.
-	 */
+	/** SymbolTable 구조체에 대한 std::shared_ptr 타입입니다. */
 	using SymbolTablePtr = std::shared_ptr<SymbolTable>;
 
 	/**
 	 * @brief 타입 심볼 테이블입니다.
+	 * @details 사용할 수 있는 사용자 정의 타입 심볼을 저장합니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */
 	struct TypeSymbolTable final
 	{
-		/**
-		 * @brief 현재 타입 심볼 테이블의 부모 타입 심볼 테이블입니다.
-		 */
-		std::shared_ptr<TypeSymbolTable> parent = nullptr;
-
-		/**
-		 * @brief 실질적인 값을 저장하는 타입 심볼 테이블입니다.
-		 */
-		std::map<std::string, llvm::Type*> map;
-
 		llvm::Type* find(const std::string& name);
+
+		/** 현재 심볼 테이블의 상위 심볼 테이블입니다. */
+		std::shared_ptr<TypeSymbolTable> parent = nullptr;
+		/** 사용자 정의 타입 심볼 목록입니다. */
+		std::map<std::string, llvm::Type*> map;
 	};
-	/**
-	 * @brief TypeSymbolTable 구조체에 대한 std::shared_ptr 타입입니다.
-	 */
+	/** TypeSymbolTable 구조체에 대한 std::shared_ptr 타입입니다. */
 	using TypeSymbolTablePtr = std::shared_ptr<TypeSymbolTable>;
 
-	/**
-	 * @brief 현재 심볼 테이블입니다.
-	 */
 	extern SymbolTablePtr symbol_table;
-	/**
-	 * @brief 현재 타입 심볼 테이블입니다.
-	 */
 	extern TypeSymbolTablePtr type_symbol_table;
 }
