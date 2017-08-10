@@ -2,12 +2,16 @@
 
 #include "Lexer.hh"
 #include "Parser.hh"
+#include "CodeGen.hh"
 
 int main(int argc, const char** argv)
 {
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	int a;
+	int main()
+	{
+		return 0;
+	}
 	)");
 
 	std::cout << "Lexing Succeed\n";
@@ -23,10 +27,23 @@ int main(int argc, const char** argv)
 	{
 		std::cout << "Parsing Succeed\n";
 		std::cout << ast->tree_gen(0) << '\n';
+
+		try
+		{
+			ast->code_gen();
+
+			std::cout << "Code generation Succeed\n";
+			Dlink::LLVM::module->dump();
+		}
+		catch (...)
+		{
+			std::cout << "Code generation Failed\n";
+			return 0;
+		}
 	}
 	else
 	{
-		std::cout << "Parse Failed\n";
+		std::cout << "Parseing Failed\n";
 
 		for (auto error : parser.get_errors())
 		{

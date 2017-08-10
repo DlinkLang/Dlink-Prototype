@@ -47,4 +47,30 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) override;
 		LLVM::Value code_gen() override;
 	};
+
+	/**
+	 * @brief 함수 선언문의 구조를 담는 파싱 노드입니다.
+	 */
+	struct FunctionDeclaration : public Statement
+	{
+		/**
+		 * @brief 함수의 반환 타입을 담는 TypePtr 타입의 멤버 필드입니다.
+		 */
+		TypePtr return_type;
+
+		/**
+		 * @brief 함수의 문자열 식별자를 담는 Identifier 타입의 멤버 필드입니다.
+		 */
+		Identifer identifier;
+
+		/**
+		 * @brief 함수의 매개 변수 목록을 담는 std::vector<VariableDeclaration> 타입의 멤버 필드입니다.
+		 */
+		std::vector<VariableDeclaration> parameter;
+
+		/**
+		 * @brief 함수의 몸체를 담는 StatementPtr 타입의 멤버 필드입니다.
+		 */
+		StatementPtr body;
+	};
 }
