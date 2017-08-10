@@ -36,6 +36,9 @@
     <ClCompile Include="src\LLVMValue.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Error.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CommandLine.hh">
