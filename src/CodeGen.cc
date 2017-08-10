@@ -1,8 +1,6 @@
 #include "CodeGen.hh"
 #include "ParseStruct.hh"
 
-#include <map>
-#include <string>
 #include <utility>
 
 #include "llvm/IR/Instructions.h"
@@ -11,13 +9,16 @@ namespace Dlink
 {
 	namespace LLVM
 	{
+		/**  */
 		llvm::LLVMContext context;
+		/**  */
 		std::shared_ptr<llvm::Module> module = std::make_shared<llvm::Module>("top", context);
+		/**  */
 		llvm::IRBuilder<> builder(context);
 	}
 
 	/**
-	 * @brief 현재 심볼 테이블과 부모 심볼 테이블, 조상 심볼 테이블에서 심볼을 찾습니다.
+	 * @brief 현재 심볼 테이블과 상위 심볼 테이블에서 심볼을 찾습니다.
 	 * @param name 찾을 심볼입니다.
 	 * @return 심볼을 찾지 못하면 nullptr을 저장하는 LLVM::Value 객체를, 찾으면 해당 심볼의 LLVM Value를 저장하는 LLVM::Value 객체를 반환합니다.
 	 */
@@ -35,7 +36,28 @@ namespace Dlink
 		}
 	}
 
+	/**
+	* @brief 현재 심볼 테이블과 상위 심볼 테이블에서 심볼을 찾습니다.
+	* @param name 찾을 심볼입니다.
+	* @return 심볼을 찾지 못하면 nullptr을, 찾으면 해당 심볼의 LLVM Type을 반환합니다.
+	*/
+	llvm::Type* TypeSymbolTable::find(const std::string& name)
+	{
+		auto find_type = map.find(name);
+
+		if (find_type != map.end())
+		{
+			return find_type->second;
+		}
+		else
+		{
+			return parent == nullptr ? nullptr : parent->find(name);
+		}
+	}
+
+	/** 현재 변수 및 상수 심볼 테이블입니다. */
 	SymbolTablePtr symbol_table = std::make_shared<SymbolTable>();
+	/** 현재 사용자 정의 타입 심볼 테이블입니다. */
 	TypeSymbolTablePtr type_symbol_table = std::make_shared<TypeSymbolTable>();
 }
 

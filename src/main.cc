@@ -43,7 +43,7 @@ int main(int argc, const char** argv)
 	}
 	else
 	{
-		std::cout << "Parseing Failed\n";
+		std::cout << "Parsing Failed\n";
 
 		for (auto error : parser.get_errors())
 		{
