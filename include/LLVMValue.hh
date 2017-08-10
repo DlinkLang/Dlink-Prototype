@@ -15,6 +15,7 @@ namespace Dlink
 	{
 		/**
 		 * @brief llvm::Value* 래퍼입니다.
+		 * @details 이 클래스는 다른 곳에서 상속받을 수 없습니다.
 		 */
 		class Value final
 		{
@@ -34,8 +35,6 @@ namespace Dlink
 
 		public:
 			bool empty() const noexcept;
-
-		public:
 			llvm::Value* get() const noexcept;
 
 		private:
