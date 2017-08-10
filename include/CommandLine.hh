@@ -4,7 +4,7 @@
  * @file CommandLine.hh
  * @date 2017.07.24
  * @author kmc7468
- * @brief 명령줄과 관련된 기능들의 집합입니다.
+ * @brief 명령줄 파싱과 관련된 기능들의 집합입니다.
  */
 
 #include <cstdint>
@@ -15,13 +15,12 @@ namespace Dlink
 {
 	/**
 	 * @brief 파싱된 명령줄 데이터입니다.
+	 * @details 이 클래스는 다른 곳에서 상속받을 수 없습니다.
 	 */
 	class ParsedCommandLine final
 	{
 	public:
-		/**
-		 * @brief 파싱된 명령줄 데이터 타입입니다.
-		 */
+		/** 파싱된 명령줄 데이터 타입입니다. */
 		enum Type
 		{
 			None = 0,
@@ -30,9 +29,7 @@ namespace Dlink
 			Optimize, /**< 최적화 수준입니다. */
 			Input, /**< 컴파일할 소스 파일입니다. */
 		};
-		/**
-		 * @brief 파싱하는 도중 발생한 오류 타입입니다.
-		 */
+		/** @brief 파싱하는 도중 발생한 오류 타입입니다. */
 		enum Error
 		{
 			Done, /**< 명령줄에 오류가 없습니다. */
