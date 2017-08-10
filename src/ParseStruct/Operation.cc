@@ -196,3 +196,26 @@ namespace Dlink
 		}
 	}
 }
+
+namespace Dlink
+{
+	/**
+	 * @brief 새 ReturnStatement 인스턴스를 만듭니다.
+	 * @param return_expr 반환할 식입니다.
+	 */
+	ReturnStatement::ReturnStatement(ExpressionPtr return_expr)
+		: return_expr(return_expr)
+	{}
+
+	std::string ReturnStatement::tree_gen(std::size_t depth)
+	{
+		std::string tree = tree_prefix(depth) + "ReturnStatement:\n";
+		tree += return_expr->tree_gen(depth+1) + "\n";
+
+		return tree;
+	}
+	LLVM::Value ReturnStatement::code_gen()
+	{
+		return LLVM::builder.CreateRet(return_expr->code_gen());
+	}
+}

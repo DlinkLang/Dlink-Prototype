@@ -425,6 +425,7 @@ namespace Dlink
 						token_seq_.push_back(Token("?", TokenType::question, line, i + 1));
 						break;
 					case '\n':
+						std::cout << "asdf\n";
 						line++;
 						break;
 					}

@@ -53,12 +53,14 @@ namespace Dlink
 	}
 	LLVM::Value Block::code_gen()
 	{
+		LLVM::Value last_value;
+
 		for (StatementPtr statement : statements)
 		{
-			statement->code_gen();
+			last_value = statement->code_gen();
 		}
 
-		return nullptr;
+		return last_value;
 	}
 
 	/**
@@ -90,15 +92,17 @@ namespace Dlink
 		SymbolTablePtr new_symbol_table = std::make_shared<SymbolTable>();
 		new_symbol_table->parent = symbol_table;
 		symbol_table = new_symbol_table;
+		
+		LLVM::Value last_value;
 
 		for (StatementPtr statement : statements)
 		{
-			statement->code_gen();
+			last_value = statement->code_gen();
 		}
 
 		symbol_table = symbol_table->parent;
 
-		return nullptr;
+		return last_value;
 	}
 
 	/**

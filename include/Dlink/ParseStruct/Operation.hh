@@ -72,3 +72,21 @@ namespace Dlink
 		ExpressionPtr rhs;
 	};
 }
+
+namespace Dlink
+{
+	/**
+	 * @brief return 문을 담는 추상 구문 트리의 노드입니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
+	 */
+	struct ReturnStatement final : public Statement
+	{
+		ReturnStatement(ExpressionPtr return_value);
+		
+		std::string tree_gen(std::size_t depth) override;
+		LLVM::Value code_gen() override;
+		
+		/** 반환할 식입니다. */
+		ExpressionPtr return_expr;
+	};
+}

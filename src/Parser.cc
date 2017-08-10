@@ -68,9 +68,16 @@ namespace Dlink
 			statements.push_back(statement);
 			statement = nullptr;
 		}
-
-		out = std::make_shared<Block>(statements);
-		return true;
+		
+		if (errors_.get_errors().empty())
+		{
+			out = std::make_shared<Block>(statements);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	bool Parser::scope(StatementPtr& out)
@@ -84,8 +91,17 @@ namespace Dlink
 				statements.push_back(statement);
 				statement = nullptr;
 			}
-
-			out = std::make_shared<Scope>(statements, nullptr/* TODO: it's temp */);
+			
+			if (accept(TokenType::rbrace))
+			{
+				out = std::make_shared<Scope>(statements, nullptr/* TODO: it's temp */);
+				return true;
+			}
+			else
+			{
+				errors_.add_error(Error(current_token(), "Expected '}', but got \"" + current_token().data + "\""));
+				return false;
+			}
 		}
 		else
 		{
@@ -146,12 +162,12 @@ namespace Dlink
 		{
 			StatementPtr statement;
 
-			if (expr_stmt(statement))
+			if (return_stmt(statement))
 			{
 				out = statement;
 				return true;
 			}
-
+			
 			return false;
 		}
 	}
@@ -184,31 +200,58 @@ namespace Dlink
 				break;
 			else
 			{
-				// TODO: 에러 메세지 좀 채워주세요.
-				// TODO: 예를 들면 void foo(int, switch) 이런 상황에 발생하는 에러입니다.
-				errors_.add_error(Error(current_token(), "TODO"));
+				errors_.add_error(Error(current_token(), "Unexpected \"" + current_token().data + "\""));
 				return false;
 			}
 		}
 
-		SymbolTablePtr sym_map = std::make_shared<SymbolTable>();
-		sym_map->parent = symbol_table;
-		symbol_table = sym_map;
-
 		StatementPtr body;
 		
-		if (!block(body))
+		if (!scope(body))
 		{
-			// TODO: 에러 메세지 좀 채워주세요.
-			// TODO: 예를 들면 void foo(int) switch 이런 상황에 발생하는 에러입니다.
-			errors_.add_error(Error(current_token(), "TODO"));
+			errors_.add_error(Error(current_token(), "Unexpected \"" + current_token().data + "\""));
 			return false;
 		}
 
-		symbol_table = symbol_table->parent;
-
 		out = std::make_shared<FunctionDeclaration>(return_type, identifier, param_list, body);
 		return true;
+	}
+
+	bool Parser::return_stmt(StatementPtr& out)
+	{
+		if(accept(TokenType::_return))
+		{
+			ExpressionPtr return_expr;
+
+			if(!expr(return_expr))
+			{
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+				return false;
+			}
+
+			if(accept(TokenType::semicolon))
+			{
+				out = std::make_shared<ReturnStatement>(return_expr);
+				return true;
+			}
+			else
+			{
+				errors_.add_error(Error(current_token(), "Expected ';', but got \"" + current_token().data + "\""));
+				return false;
+			}
+		}
+		else
+		{
+			StatementPtr statement;
+
+			if (expr_stmt(statement))
+			{
+				out = statement;
+				return true;
+			}
+
+			return false;
+		}
 	}
 	
 	bool Parser::expr_stmt(StatementPtr& out)
@@ -217,7 +260,6 @@ namespace Dlink
 
 		if(!expr(expression))
 		{
-			errors_.add_error(Error(current_token(), "Expected identifier, but got \"" + current_token().data + "\""));
 			return false;
 		}
 
