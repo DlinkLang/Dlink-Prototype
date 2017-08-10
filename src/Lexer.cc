@@ -5,7 +5,7 @@
 namespace Dlink
 {
 	/**
-	 * @brief »õ Lexer ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
+	 * @brief ìƒˆ Lexer ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
 	 */
 	Lexer::Lexer()
 	{
@@ -22,8 +22,8 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief Dlink ÄÚµå¿¡ ´ëÇØ ·º½Ì ÀÛ¾÷À» ¼öÇàÇÕ´Ï´Ù.
-	 * @param code ·º½Ì ÀÛ¾÷À» ¼öÇàÇÒ Dlink ÄÚµåÀÔ´Ï´Ù.
+	 * @brief Dlink ì½”ë“œì— ëŒ€í•´ ë ‰ì‹± ì‘ì—…ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+	 * @param code ë ‰ì‹± ì‘ì—…ì„ ìˆ˜í–‰í•  Dlink ì½”ë“œì…ë‹ˆë‹¤.
 	 */
 	void Lexer::lex(const std::string& code)
 	{
@@ -426,9 +426,9 @@ namespace Dlink
 		token_seq_.push_back(Token("", TokenType::eof, line, i));
 	}
 	/**
-	 * @brief ·º½Ì ÀÛ¾÷À» ¼öÇàÇÑ °á°ú¸¦ °¡Á®¿É´Ï´Ù.
-	 * @details ÀÌ ÇÔ¼ö´Â ¿¹¿Ü¸¦ ¹ß»ı½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	 * @return ·º½Ì ÀÛ¾÷ÀÇ °á°ú¸¦ ¹İÈ¯ÇÕ´Ï´Ù.
+	 * @brief ë ‰ì‹± ì‘ì—…ì„ ìˆ˜í–‰í•œ ê²°ê³¼ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
+	 * @details ì´ í•¨ìˆ˜ëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @return ë ‰ì‹± ì‘ì—…ì˜ ê²°ê³¼ë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	const std::vector<Token>& Lexer::get_token_seq() const noexcept
 	{
@@ -436,14 +436,14 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief Ç¥ÁØ ÀÔÃâ·Â ½ºÆ®¸²À» ÅëÇØ ·º½ÌÀÇ °á°ú¸¦ ½Ã°¢È­ÇÕ´Ï´Ù.
+	 * @brief í‘œì¤€ ì…ì¶œë ¥ ìŠ¤íŠ¸ë¦¼ì„ í†µí•´ ë ‰ì‹±ì˜ ê²°ê³¼ë¥¼ ì‹œê°í™”í•©ë‹ˆë‹¤.
 	 */
 	void Lexer::dump() const
 	{
 		dump(std::cout);
 	}
 	/**
-	 * @brief ÀÔÃâ·Â ½ºÆ®¸²À» ÅëÇØ ·º½ÌÀÇ °á°ú¸¦ ½Ã°¢È­ÇÕ´Ï´Ù.
+	 * @brief ì…ì¶œë ¥ ìŠ¤íŠ¸ë¦¼ì„ í†µí•´ ë ‰ì‹±ì˜ ê²°ê³¼ë¥¼ ì‹œê°í™”í•©ë‹ˆë‹¤.
 	 */
 	void Lexer::dump(std::ostream& out) const
 	{

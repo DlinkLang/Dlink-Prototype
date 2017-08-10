@@ -5,41 +5,41 @@
 namespace Dlink
 {
 	/**
-	 * @brief »õ Error ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param error_token ¿¡·¯°¡ ¹ß»ıÇÑ ºÎºĞÀÇ ÅäÅ«ÀÔ´Ï´Ù.
-	 * @param error_message ¿¡·¯ ¸Ş¼¼ÁöÀÔ´Ï´Ù.
+	 * @brief ìƒˆ Error ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param error_token ì—ëŸ¬ê°€ ë°œìƒí•œ ë¶€ë¶„ì˜ í† í°ì…ë‹ˆë‹¤.
+	 * @param error_message ì—ëŸ¬ ë©”ì„¸ì§€ì…ë‹ˆë‹¤.
 	 */
 	Error::Error(const Token& error_token, const std::string& error_message)
 		: error_token_(error_token), error_message_(error_message)
 	{}
 	/**
-	 * @brief ±âÁ¸ ÀÎ½ºÅÏ½º¸¦ º¹»çÇØ »õ Error ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param error º¹»çÇÒ ±âÁ¸ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+	 * @brief ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë³µì‚¬í•´ ìƒˆ Error ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param error ë³µì‚¬í•  ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 	 */
 	Error::Error(const Error& error)
 		: error_token_(error.error_token_), error_message_(error.error_message_)
 	{}
 	/**
-	 * @brief ±âÁ¸ ÀÎ½ºÅÏ½ºÀÇ ÇÊµå¸¦ ÀÌµ¿ÇØ »õ Error ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @details ÀÌ ÇÔ¼ö´Â ¿¹¿Ü¸¦ ¹ß»ı½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	 * @param error ÀÌµ¿ÇÒ ±âÁ¸ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+	 * @brief ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ì˜ í•„ë“œë¥¼ ì´ë™í•´ ìƒˆ Error ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @details ì´ í•¨ìˆ˜ëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @param error ì´ë™í•  ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 	 */
 	Error::Error(Error&& error) noexcept
 		: error_token_(std::move(error.error_token_)), error_message_(std::move(error.error_message_))
 	{}
 
 	/**
-	 * @brief ¿¡·¯ ¸Ş¼¼Áö¸¦ °¡Á®¿É´Ï´Ù.
-	 * @return ¿¡·¯ ¸Ş¼¼Áö¸¦ std::string Å¸ÀÔÀ¸·Î ¹İÈ¯ÇÕ´Ï´Ù.
+	 * @brief ì—ëŸ¬ ë©”ì„¸ì§€ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
+	 * @return ì—ëŸ¬ ë©”ì„¸ì§€ë¥¼ std::string íƒ€ì…ìœ¼ë¡œ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	std::string Error::what() const
 	{
 		return error_message_;
 	}
 	/**
-	 * @brief ¿¡·¯°¡ ¹ß»ıÇÑ ºÎºĞÀÇ ÅäÅ«À» °¡Á®¿É´Ï´Ù.
-	 * @details ÀÌ ÇÔ¼ö´Â ¿¹¿Ü¸¦ ¹ß»ı½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	 * @return ¿¡·¯°¡ ¹ß»ıÇÑ ºÎºĞÀÇ ÅäÅ«À» ¹İÈ¯ÇÕ´Ï´Ù.
+	 * @brief ì—ëŸ¬ê°€ ë°œìƒí•œ ë¶€ë¶„ì˜ í† í°ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
+	 * @details ì´ í•¨ìˆ˜ëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @return ì—ëŸ¬ê°€ ë°œìƒí•œ ë¶€ë¶„ì˜ í† í°ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	const Token& Error::error_token() const noexcept
 	{
@@ -47,25 +47,25 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief ±âÁ¸ ÀÎ½ºÅÏ½º¸¦ º¹»çÇØ »õ Errors ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param errors º¹»çÇÒ ±âÁ¸ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+	 * @brief ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë³µì‚¬í•´ ìƒˆ Errors ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param errors ë³µì‚¬í•  ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 	 */
 	Errors::Errors(const Errors& errors)
 		: errors_(errors.errors_)
 	{}
 	/**
-	 * @brief ±âÁ¸ ÀÎ½ºÅÏ½ºÀÇ ÇÊµå¸¦ ÀÌµ¿ÇØ »õ Errors ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @details ÀÌ ÇÔ¼ö´Â ¿¹¿Ü¸¦ ¹ß»ı½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	 * @param errors ÀÌµ¿ÇÒ ±âÁ¸ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+	 * @brief ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ì˜ í•„ë“œë¥¼ ì´ë™í•´ ìƒˆ Errors ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @details ì´ í•¨ìˆ˜ëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @param errors ì´ë™í•  ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 	 */
 	Errors::Errors(Errors&& errors) noexcept
 		: errors_(errors.errors_)
 	{}
 
 	/**
-	 * @brief ¿¡·¯¸¦ Ãß°¡ÇÕ´Ï´Ù.
-	 * @details ÀÌ¹Ì Ãß°¡ÇÑ ¿¡·¯¶ó¸é Ãß°¡ÇÏÁö ¾Ê½À´Ï´Ù.
-	 * @param error Ãß°¡ÇÒ ¿¡·¯ÀÔ´Ï´Ù.
+	 * @brief ì—ëŸ¬ë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
+	 * @details ì´ë¯¸ ì¶”ê°€í•œ ì—ëŸ¬ë¼ë©´ ì¶”ê°€í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @param error ì¶”ê°€í•  ì—ëŸ¬ì…ë‹ˆë‹¤.
 	 */
 	void Errors::add_error(const Error& error)
 	{
@@ -86,9 +86,9 @@ namespace Dlink
 		errors_.push_back(error);
 	}
 	/**
-	 * @brief Ãß°¡µÈ ¿¡·¯ ÁıÇÕÀ» °¡Á®¿É´Ï´Ù.
-	 * @details ÀÌ ÇÔ¼ö´Â ¿¹¿Ü¸¦ ¹ß»ı½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	 * @return Ãß°¡µÈ ¿¡·¯ ÁıÇÕÀÔ´Ï´Ù.
+	 * @brief ì¶”ê°€ëœ ì—ëŸ¬ ì§‘í•©ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
+	 * @details ì´ í•¨ìˆ˜ëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @return ì¶”ê°€ëœ ì—ëŸ¬ ì§‘í•©ì…ë‹ˆë‹¤.
 	 */
 	const std::vector<Error>& Errors::get_errors() const noexcept
 	{
