@@ -87,10 +87,16 @@ namespace Dlink
 	}
 	LLVM::Value Scope::code_gen()
 	{
+		SymbolTablePtr new_symbol_table = std::make_shared<SymbolTable>();
+		new_symbol_table->parent = symbol_table;
+		symbol_table = new_symbol_table;
+
 		for (StatementPtr statement : statements)
 		{
 			statement->code_gen();
 		}
+
+		symbol_table = symbol_table->parent;
 
 		return nullptr;
 	}
