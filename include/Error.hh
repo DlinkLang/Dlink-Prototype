@@ -48,6 +48,19 @@ namespace Dlink
 	class Errors final
 	{
 	public:
+		/** 빈 Errors 인스턴스를 만듭니다. */
+		Errors() = default;
+		Errors(const Errors& errors);
+		Errors(Errors&& errors) noexcept;
+		~Errors() = default;
+
+	public:
+		Errors& operator=(const Errors& errors) = delete;
+		Errors& operator=(Errors&& errors) noexcept = delete;
+		bool operator==(const Errors& errors) const noexcept = delete;
+		bool operator!=(const Errors& errors) const noexcept = delete;
+
+	public:
 		void add_error(const Error& error);
 		const std::vector<Error>& get_errors() const noexcept;
 
