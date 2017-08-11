@@ -31,6 +31,14 @@ namespace Dlink
 	{
 		return errors_.get_errors();
 	}
+	
+	void Parser::assign_token(Token* dest, Token source)
+	{
+		if (dest)
+		{
+			*dest = source;
+		}
+	}
 
 	Token Parser::current_token() const
 	{
@@ -44,11 +52,13 @@ namespace Dlink
 	{
 		return *(token_iter_ + 1);
 	}
-	bool Parser::accept(TokenType token_type)
+	bool Parser::accept(TokenType token_type, Token* start_token)
 	{
 		if ((*token_iter_).type == token_type)
 		{
 			token_iter_++;
+
+			assign_token(start_token, previous_token());
 			return true;
 		}
 
@@ -58,12 +68,13 @@ namespace Dlink
 
 namespace Dlink
 {
-	bool Parser::block(StatementPtr& out)
+	bool Parser::block(StatementPtr& out, Token* start_token)
 	{
 		std::vector<StatementPtr> statements;
 		StatementPtr statement;
-
-		while (scope(statement))
+		
+		Token block_start;
+		while (scope(statement, &block_start))
 		{
 			statements.push_back(statement);
 			statement = nullptr;
@@ -71,7 +82,9 @@ namespace Dlink
 		
 		if (errors_.get_errors().empty())
 		{
-			out = std::make_shared<Block>(statements);
+			out = std::make_shared<Block>(block_start, statements);
+
+			assign_token(start_token, block_start);
 			return true;
 		}
 		else
@@ -80,9 +93,10 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::scope(StatementPtr& out)
+	bool Parser::scope(StatementPtr& out, Token* start_token)
 	{
-		if (accept(TokenType::lbrace))
+		Token scope_start;
+		if (accept(TokenType::lbrace, &scope_start))
 		{
 			std::vector<StatementPtr> statements;
 			StatementPtr statement;
@@ -94,7 +108,9 @@ namespace Dlink
 			
 			if (accept(TokenType::rbrace))
 			{
-				out = std::make_shared<Scope>(statements, nullptr/* TODO: it's temp */);
+				out = std::make_shared<Scope>(scope_start, statements, nullptr/* TODO: it's temp */);
+
+				assign_token(start_token, scope_start);
 				return true;
 			}
 			else
@@ -107,9 +123,12 @@ namespace Dlink
 		{
 			StatementPtr statement;
 
-			if (var_decl(statement))
+			Token var_decl_start;
+			if (var_decl(statement, &var_decl_start))
 			{
 				out = statement;
+
+				assign_token(start_token, var_decl_start);
 				return true;
 			}
 
@@ -119,11 +138,12 @@ namespace Dlink
 		return true;
 	}
 
-	bool Parser::var_decl(StatementPtr& out)
+	bool Parser::var_decl(StatementPtr& out, Token* start_token)
 	{
 		TypePtr type_expr;
-
-		if (type(type_expr))
+		
+		Token var_decl_start;
+		if (type(type_expr, &var_decl_start))
 		{
 			if (accept(TokenType::identifier))
 			{
@@ -135,7 +155,9 @@ namespace Dlink
 
 					if (expr(expression))
 					{
-						out = std::make_shared<VariableDeclaration>(type_expr, name, expression);
+						out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
+
+						assign_token(start_token, var_decl_start);
 						return true;
 					}
 					else
@@ -146,12 +168,14 @@ namespace Dlink
 				}
 				else if (accept(TokenType::semicolon))
 				{
-					out = std::make_shared<VariableDeclaration>(type_expr, name);
+					out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
+					
+					assign_token(start_token, var_decl_start);
 					return true;
 				}
 				else if (accept(TokenType::lparen))
 				{
-					return func_decl(out, type_expr, name);
+					return func_decl(out, var_decl_start, type_expr, name);
 				}
 			}
 
@@ -161,10 +185,13 @@ namespace Dlink
 		else
 		{
 			StatementPtr statement;
-
-			if (return_stmt(statement))
+			
+			Token return_start;
+			if (return_stmt(statement, &return_start))
 			{
 				out = statement;
+
+				assign_token(start_token, return_start);
 				return true;
 			}
 			
@@ -172,7 +199,7 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::func_decl(StatementPtr& out, TypePtr return_type, const std::string& identifier)
+	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token)
 	{
 		std::vector<VariableDeclaration> param_list;
 
@@ -183,7 +210,7 @@ namespace Dlink
 			{
 				if (accept(TokenType::identifier))
 				{
-					VariableDeclaration param(param_type, previous_token().data);
+					VariableDeclaration param(var_decl_start_token, param_type, previous_token().data);
 					param_list.push_back(param);
 
 					if (accept(TokenType::comma))
@@ -191,7 +218,7 @@ namespace Dlink
 				}
 				else if (accept(TokenType::comma))
 				{
-					VariableDeclaration param(param_type, "");
+					VariableDeclaration param(var_decl_start_token, param_type, "");
 					param_list.push_back(param);
 					continue;
 				}
@@ -213,13 +240,16 @@ namespace Dlink
 			return false;
 		}
 
-		out = std::make_shared<FunctionDeclaration>(return_type, identifier, param_list, body);
+		out = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
+
+		assign_token(start_token, var_decl_start_token);
 		return true;
 	}
 
-	bool Parser::return_stmt(StatementPtr& out)
+	bool Parser::return_stmt(StatementPtr& out, Token* start_token)
 	{
-		if(accept(TokenType::_return))
+		Token return_start;
+		if(accept(TokenType::_return, &return_start))
 		{
 			ExpressionPtr return_expr;
 
@@ -231,7 +261,9 @@ namespace Dlink
 
 			if(accept(TokenType::semicolon))
 			{
-				out = std::make_shared<ReturnStatement>(return_expr);
+				out = std::make_shared<ReturnStatement>(return_start, return_expr);
+
+				assign_token(start_token, return_start);
 				return true;
 			}
 			else
@@ -243,10 +275,13 @@ namespace Dlink
 		else
 		{
 			StatementPtr statement;
-
-			if (expr_stmt(statement))
+			
+			Token expr_stmt_start;
+			if (expr_stmt(statement, &expr_stmt_start))
 			{
 				out = statement;
+
+				assign_token(start_token, expr_stmt_start);
 				return true;
 			}
 
@@ -254,18 +289,21 @@ namespace Dlink
 		}
 	}
 	
-	bool Parser::expr_stmt(StatementPtr& out)
+	bool Parser::expr_stmt(StatementPtr& out, Token* start_token)
 	{
 		ExpressionPtr expression;
 
-		if(!expr(expression))
+		Token expr_stmt_start;
+		if(!expr(expression, &expr_stmt_start))
 		{
 			return false;
 		}
 
 		if(accept(TokenType::semicolon))
 		{
-			out = std::make_shared<ExpressionStatement>(expression);
+			out = std::make_shared<ExpressionStatement>(expr_stmt_start, expression);
+
+			assign_token(start_token, expr_stmt_start);
 			return true;
 		}
 		else
@@ -278,16 +316,17 @@ namespace Dlink
 
 namespace Dlink
 {
-	bool Parser::expr(ExpressionPtr& out)
+	bool Parser::expr(ExpressionPtr& out, Token* start_token)
 	{
-		return assign(out);
+		return assign(out, start_token);
 	}
 
-	bool Parser::assign(ExpressionPtr& out)
+	bool Parser::assign(ExpressionPtr& out, Token* start_token)
 	{
 		ExpressionPtr lhs;
 
-		if (!addsub(lhs))
+		Token assign_start;
+		if (!addsub(lhs, &assign_start))
 		{
 			return false;
 		}
@@ -319,18 +358,19 @@ namespace Dlink
 
 		for(ExpressionPtr operand : operands)
 		{
-			result = std::make_shared<BinaryOperation>(TokenType::assign, result, operand);
+			result = std::make_shared<BinaryOperation>(assign_start, TokenType::assign, result, operand);
 		}
 
 		out = result;
 		return true;
 	}
 
-	bool Parser::addsub(ExpressionPtr& out)
+	bool Parser::addsub(ExpressionPtr& out, Token* start_token)
 	{
 		ExpressionPtr lhs;
-
-		if (!muldiv(lhs))
+		
+		Token addsub_start;
+		if (!muldiv(lhs, &addsub_start))
 		{
 			return false;
 		}
@@ -348,18 +388,19 @@ namespace Dlink
 				return false;
 			}
 
-			lhs = std::make_shared<BinaryOperation>(op, lhs, rhs);
+			lhs = std::make_shared<BinaryOperation>(addsub_start, op, lhs, rhs);
 		}
 
 		out = lhs;
 		return true;
 	}
 
-	bool Parser::muldiv(ExpressionPtr& out)
+	bool Parser::muldiv(ExpressionPtr& out, Token* start_token)
 	{
 		ExpressionPtr lhs;
-
-		if (!atom(lhs))
+		
+		Token muldiv_start;
+		if (!atom(lhs, &muldiv_start))
 		{
 			return false;
 		}
@@ -377,37 +418,39 @@ namespace Dlink
 				return false;
 			}
 
-			lhs = std::make_shared<BinaryOperation>(op, lhs, rhs);
+			lhs = std::make_shared<BinaryOperation>(muldiv_start, op, lhs, rhs);
 		}
 
 		out = lhs;
 		return true;
 	}
 
-	bool Parser::atom(ExpressionPtr& out)
+	bool Parser::atom(ExpressionPtr& out, Token* start_token)
 	{
-		return number(out) || identifier(out);
+		return number(out, start_token) || identifier(out, start_token);
 	}
 }
 
 namespace Dlink
 {
-	bool Parser::number(ExpressionPtr& out)
+	bool Parser::number(ExpressionPtr& out, Token* start_token)
 	{
-		if (accept(TokenType::dec_integer))
+		Token number_start;
+		if (accept(TokenType::dec_integer, &number_start))
 		{
-			out = std::make_shared<Integer32>(std::stoi(previous_token().data));
+			out = std::make_shared<Integer32>(number_start, std::stoi(previous_token().data));
 			return true;
 		}
 
 		return false;
 	}
 
-	bool Parser::identifier(ExpressionPtr& out)
+	bool Parser::identifier(ExpressionPtr& out, Token* start_token)
 	{
+		Token identifier_start;
 		if (accept(TokenType::identifier))
 		{
-			out = std::make_shared<Identifer>(previous_token().data);
+			out = std::make_shared<Identifier>(identifier_start, previous_token().data);
 			return true;
 		}
 
@@ -417,14 +460,15 @@ namespace Dlink
 
 namespace Dlink
 {
-	bool Parser::type(TypePtr& out)
+	bool Parser::type(TypePtr& out, Token* start_token)
 	{
-		return simple_type(out);
+		return simple_type(out, start_token);
 	}
 
-	bool Parser::simple_type(TypePtr& out)
+	bool Parser::simple_type(TypePtr& out, Token* start_token)
 	{
-		if (accept(TokenType::_unsigned))
+		Token simple_type_start;
+		if (accept(TokenType::_unsigned, &simple_type_start))
 		{
 			if (accept(TokenType::_char))
 			{
@@ -439,7 +483,9 @@ namespace Dlink
 			else if (accept(TokenType::_int))
 			{
 				// unsigned int
-				out = std::make_shared<SimpleType>("int", true);
+				out = std::make_shared<SimpleType>(simple_type_start, "int", true);
+
+				assign_token(start_token, simple_type_start);
 				return true;
 			}
 			else if (accept(TokenType::_long))
@@ -450,11 +496,13 @@ namespace Dlink
 			else
 			{
 				// unsigned int
-				out = std::make_shared<SimpleType>("int", true);
+				out = std::make_shared<SimpleType>(simple_type_start, "int", true);
+
+				assign_token(start_token, simple_type_start);
 				return true;
 			}
 		}
-		else if (accept(TokenType::_signed))
+		else if (accept(TokenType::_signed, &simple_type_start))
 		{
 			if (accept(TokenType::_char))
 			{
@@ -469,7 +517,9 @@ namespace Dlink
 			else if (accept(TokenType::_int))
 			{
 				// signed int
-				out = std::make_shared<SimpleType>("int");
+				out = std::make_shared<SimpleType>(simple_type_start, "int");
+
+				assign_token(start_token, simple_type_start);
 				return true;
 			}
 			else if (accept(TokenType::_long))
@@ -480,7 +530,9 @@ namespace Dlink
 			else
 			{
 				// signed int
-				out = std::make_shared<SimpleType>("int");
+				out = std::make_shared<SimpleType>(simple_type_start, "int");
+
+				assign_token(start_token, simple_type_start);
 				return true;
 			}
 		}
@@ -495,10 +547,12 @@ namespace Dlink
 			// short
 			return false; // TODO: 아직 구현되지 않음
 		}
-		else if (accept(TokenType::_int))
+		else if (accept(TokenType::_int, &simple_type_start))
 		{
 			// int
-			out = std::make_shared<SimpleType>("int");
+			out = std::make_shared<SimpleType>(simple_type_start, "int");
+
+			assign_token(start_token, simple_type_start);
 			return true;
 		}
 		else if (accept(TokenType::_long))

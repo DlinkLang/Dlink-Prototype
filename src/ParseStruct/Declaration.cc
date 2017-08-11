@@ -7,30 +7,33 @@ namespace Dlink
 
 	/**
 	 * @brief 새 VariableDeclaration 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param type 변수의 타입입니다.
 	 * @param identifier 변수의 식별자입니다.
 	 */
-	VariableDeclaration::VariableDeclaration(TypePtr type, const std::string& identifier)
-		: type(type), identifier(identifier)
+	VariableDeclaration::VariableDeclaration(const Token& token, TypePtr type,
+		const std::string& identifier)
+		: Statement(token), type(type), identifier(identifier)
 	{}
 	/**
 	* @brief 새 VariableDeclaration 인스턴스를 만듭니다.
+	* @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	* @param type 변수의 타입입니다.
 	* @param identifier 변수의 식별자입니다.
 	* @param expression 변수의 초기화 식입니다.
 	*/
-	VariableDeclaration::VariableDeclaration(TypePtr type, const std::string& identifier,
-		ExpressionPtr expression)
-		: type(type), identifier(identifier), expression(expression)
+	VariableDeclaration::VariableDeclaration(const Token& token, TypePtr type,
+		const std::string& identifier, ExpressionPtr expression)
+		: Statement(token), type(type), identifier(identifier), expression(expression)
 	{}
 
-	std::string VariableDeclaration::tree_gen(std::size_t depth)
+	std::string VariableDeclaration::tree_gen(std::size_t depth) const
 	{
 		std::string result;
 		result += tree_prefix(depth) + "VariableDeclaration:\n";
 		++depth;
 		result += tree_prefix(depth) + "type:\n" + type->tree_gen(depth + 1) + '\n';
-		result += tree_prefix(depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
+		result += tree_prefix(depth) + "identifier:\n" + identifier + '\n';
 		if (expression)
 			result += tree_prefix(depth) + "expression: \n" + expression->tree_gen(depth + 1);
 		else
@@ -40,7 +43,7 @@ namespace Dlink
 	}
 	LLVM::Value VariableDeclaration::code_gen()
 	{
-		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier.id);
+		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
 		var->setAlignment(4);
 
 		if (expression)
@@ -49,7 +52,7 @@ namespace Dlink
 			LLVM::builder.CreateStore(init_expr, var);
 		}
 
-		symbol_table->map.insert(std::make_pair(identifier.id, var));
+		symbol_table->map.insert(std::make_pair(identifier, var));
 		return var;
 	}
 
@@ -60,18 +63,18 @@ namespace Dlink
 	 * @param parameter 함수의 매개 변수입니다.
 	 * @param body 함수의 몸체입니다.
 	 */
-	FunctionDeclaration::FunctionDeclaration(TypePtr return_type, Identifer identifier,
+	FunctionDeclaration::FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
 		const std::vector<VariableDeclaration>& parameter, StatementPtr body)
-		: return_type(return_type), identifier(identifier), parameter(parameter), body(body)
+		: Statement(token), return_type(return_type), identifier(identifier), parameter(parameter), body(body)
 	{}
 
-	std::string FunctionDeclaration::tree_gen(std::size_t depth)
+	std::string FunctionDeclaration::tree_gen(std::size_t depth) const
 	{
 		std::string result;
 		result += tree_prefix(depth) + "FunctionDeclaration:\n";
 		++depth;
 		result += tree_prefix(depth) + "return_type:\n" + return_type->tree_gen(depth + 1) + '\n';
-		result += tree_prefix(depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
+		result += tree_prefix(depth) + "identifier:\n" + identifier + '\n';
 		result += tree_prefix(depth) + "parameter:";
 		if (parameter.size() == 0)
 			result += " empty\n";
@@ -102,12 +105,12 @@ namespace Dlink
 
 		llvm::FunctionType* func_type = llvm::FunctionType::get(return_type->get_type(), param_type, false);
 		llvm::Function* func =
-			llvm::Function::Create(func_type, llvm::GlobalValue::ExternalLinkage, identifier.id, LLVM::module.get());
+			llvm::Function::Create(func_type, llvm::GlobalValue::ExternalLinkage, identifier, LLVM::module.get());
 
 		std::size_t i = 0;
 		for (auto& param : func->args())
 		{
-			param.setName(parameter[i++].identifier.id);
+			param.setName(parameter[i++].identifier);
 			symbol_table->map[param.getName()] = &param;
 		}
 
@@ -133,7 +136,9 @@ namespace Dlink
 			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
 			{
 				// 함수의 반환 값 타입이 void는 아니지만 반환 값이 없을 경우 null을 리턴합니다.
-				LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
+				// LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
+				
+				throw Error(token, "Expected return statement at the end of non-void returning function declaration");
 			}
 			else
 			{

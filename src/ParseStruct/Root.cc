@@ -4,20 +4,29 @@
 namespace Dlink
 {
 	extern std::string tree_prefix(std::size_t depth);
+	
+	/**
+	 * @brief 이 Node 인스턴스의 멤버를 초기화합니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 */
+	Node::Node(const Token& token)
+		: token(token)
+	{}
 
 	/**
 	 * @brief 새 Identifier 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param id 식별자 값입니다.
 	 */
-	Identifer::Identifer(const std::string& id)
-		: id(id)
+	Identifier::Identifier(const Token& token, const std::string& id)
+		: Expression(token), id(id)
 	{}
 
-	std::string Identifer::tree_gen(std::size_t depth)
+	std::string Identifier::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "Identifier(\"" + id + "\")";
 	}
-	LLVM::Value Identifer::code_gen()
+	LLVM::Value Identifier::code_gen()
 	{
 		LLVM::Value result = symbol_table->find(id);
 
@@ -32,13 +41,14 @@ namespace Dlink
 
 	/**
 	 * @brief 새 Block 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param statements Statement들의 집합입니다.
 	 */
-	Block::Block(const std::vector<StatementPtr>& statements)
-		: statements(statements)
+	Block::Block(const Token& token, const std::vector<StatementPtr>& statements)
+		: Statement(token), statements(statements)
 	{}
 
-	std::string Block::tree_gen(std::size_t depth)
+	std::string Block::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "Block Start\n";
 
@@ -65,14 +75,15 @@ namespace Dlink
 
 	/**
 	 * @brief 새 Scope 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param statements Statement들의 집합입니다.
 	 * @param parent 현재 스코프의 상위 스코프입니다.
 	 */
-	Scope::Scope(const std::vector<StatementPtr>& statements, StatementPtr parent)
-		: Block(statements), parent(parent)
+	Scope::Scope(const Token& token, const std::vector<StatementPtr>& statements, StatementPtr parent)
+		: Block(token, statements), parent(parent)
 	{}
 	
-	std::string Scope::tree_gen(std::size_t depth)
+	std::string Scope::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "Scope Start\n";
 
@@ -107,13 +118,14 @@ namespace Dlink
 
 	/**
 	 * @brief 새 ExpressionStatement 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param expression 식입니다.
 	 */
-	ExpressionStatement::ExpressionStatement(ExpressionPtr expression)
-		: expression(expression)
+	ExpressionStatement::ExpressionStatement(const Token& token, ExpressionPtr expression)
+		: Statement(token), expression(expression)
 	{}
 
-	std::string ExpressionStatement::tree_gen(std::size_t depth)
+	std::string ExpressionStatement::tree_gen(std::size_t depth) const
 	{
 		return expression->tree_gen(depth);
 	}
@@ -121,4 +133,15 @@ namespace Dlink
 	{
 		return expression->code_gen();
 	}
+}
+
+namespace Dlink
+{
+	/**
+	 * @brief 이 Type 인스턴스의 멤버를 초기화합니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 */
+	Type::Type(const Token& token)
+		: token(token)
+	{}
 }

@@ -91,13 +91,14 @@ namespace Dlink
 	/**
 	 * @brief 새 Integer32 인스턴스를 만듭니다.
 	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param data 32비트 부호 있는 정수 상수입니다.
 	 */
-	Integer32::Integer32(std::int32_t data) noexcept
-		: data(data)
+	Integer32::Integer32(const Token& token, std::int32_t data) noexcept
+		: Expression(token), data(data)
 	{}
 
-	std::string Integer32::tree_gen(std::size_t depth)
+	std::string Integer32::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "Integer32(" + std::to_string(data) + ')';
 	}
@@ -111,15 +112,16 @@ namespace Dlink
 {
 	/**
 	 * @brief 새 BinaryOperation 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param op 연산자 타입입니다.
 	 * @param lhs 좌측 피연산자입니다.
 	 * @param rhs 우측 피연산자입니다.
 	 */
-	BinaryOperation::BinaryOperation(TokenType op, ExpressionPtr lhs, ExpressionPtr rhs)
-		: op(op), lhs(lhs), rhs(rhs)
+	BinaryOperation::BinaryOperation(const Token& token, TokenType op, ExpressionPtr lhs, ExpressionPtr rhs)
+		: Expression(token), op(op), lhs(lhs), rhs(rhs)
 	{}
 
-	std::string BinaryOperation::tree_gen(std::size_t depth)
+	std::string BinaryOperation::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "BinaryOperation:\n";
 		++depth;
@@ -160,14 +162,15 @@ namespace Dlink
 
 	/**
 	 * @brief 새 UnaryOperation 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param op 연산자 타입입니다.
 	 * @param rhs 피연산자입니다.
 	 */
-	UnaryOperation::UnaryOperation(TokenType op, ExpressionPtr rhs)
-		: op(op), rhs(rhs)
+	UnaryOperation::UnaryOperation(const Token& token, TokenType op, ExpressionPtr rhs)
+		: Expression(token), op(op), rhs(rhs)
 	{}
 
-	std::string UnaryOperation::tree_gen(std::size_t depth)
+	std::string UnaryOperation::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "UnaryOperation:\n";
 		++depth;
@@ -195,19 +198,49 @@ namespace Dlink
 			return LLVM::builder.getFalse();
 		}
 	}
+
+	/**
+	 * @brief 새 FunctionCallOperation 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param identifier 호출할 함수의 식별자입니다.
+	 * @param argument 인수입니다.
+	 */
+	FunctionCallOperation::FunctionCallOperation(const Token& token, Identifier identifier, const std::vector<ExpressionPtr>& arugment)
+		: Expression(token), identifier(identifier), argument(arugment)
+	{}
+	std::string FunctionCallOperation::tree_gen(std::size_t depth) const
+	{
+		std::string result;
+		result += tree_prefix(depth) + "FunctionCallOperation:\n";
+		++depth;
+		result += tree_prefix(depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
+		result += tree_prefix(depth) + "argument:\n";
+		++depth;
+		for (auto arg : argument)
+		{
+			result += arg->tree_gen(depth);
+		}
+
+		return result;
+	}
+	LLVM::Value FunctionCallOperation::code_gen()
+	{
+		return nullptr; // TODO
+	}
 }
 
 namespace Dlink
 {
 	/**
 	 * @brief 새 ReturnStatement 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param return_expr 반환할 식입니다.
 	 */
-	ReturnStatement::ReturnStatement(ExpressionPtr return_expr)
-		: return_expr(return_expr)
+	ReturnStatement::ReturnStatement(const Token& token, ExpressionPtr return_expr)
+		: Statement(token), return_expr(return_expr)
 	{}
 
-	std::string ReturnStatement::tree_gen(std::size_t depth)
+	std::string ReturnStatement::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "ReturnStatement:\n";
 		tree += return_expr->tree_gen(depth + 1);
