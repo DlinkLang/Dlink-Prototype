@@ -80,6 +80,7 @@ namespace Dlink
 		MAP_TOKEN(_short),
 		MAP_TOKEN(_int),
 		MAP_TOKEN(_long),
+		MAP_TOKEN(_void),
     };
 
     #undef MAP_TOKEN

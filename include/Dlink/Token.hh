@@ -109,6 +109,7 @@ namespace Dlink
 		_short,				/**< 키워드 'short' 입니다. */
 		_int,				/**< 키워드 'int' 입니다. */
 		_long,				/**< 키워드 'long' 입니다. */
+		_void,				/**< 키워드 'void' 입니다. */
     };
 
 	/**

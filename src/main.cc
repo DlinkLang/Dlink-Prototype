@@ -11,8 +11,9 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-int main(int a)
+void main(int a)
 {
+	int b = a + 5;
 }
 	)");
 
@@ -29,7 +30,7 @@ int main(int a)
 	{
 		std::cout << "Parsing Succeed\n";
 		std::string temp = ast->tree_gen(0);
-		std::cout << ast->tree_gen(0) << '\n';
+		std::cout << ast->tree_gen(0) << "\n\n";
 
 		try
 		{
@@ -47,7 +48,6 @@ int main(int a)
 			std::cerr << " Col " << error_token.col;
 			
 			std::cerr << " " << error.what() << '\n';
-			return 0;
 		}
 	}
 	else

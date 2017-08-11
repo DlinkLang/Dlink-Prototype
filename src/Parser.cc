@@ -31,7 +31,7 @@ namespace Dlink
 	{
 		return errors_.get_errors();
 	}
-	
+
 	void Parser::assign_token(Token* dest, Token source)
 	{
 		if (dest)
@@ -72,14 +72,14 @@ namespace Dlink
 	{
 		std::vector<StatementPtr> statements;
 		StatementPtr statement;
-		
+
 		Token block_start;
 		while (scope(statement, &block_start))
 		{
 			statements.push_back(statement);
 			statement = nullptr;
 		}
-		
+
 		if (errors_.get_errors().empty())
 		{
 			out = std::make_shared<Block>(block_start, statements);
@@ -105,7 +105,7 @@ namespace Dlink
 				statements.push_back(statement);
 				statement = nullptr;
 			}
-			
+
 			if (accept(TokenType::rbrace))
 			{
 				out = std::make_shared<Scope>(scope_start, statements, nullptr/* TODO: it's temp */);
@@ -141,7 +141,7 @@ namespace Dlink
 	bool Parser::var_decl(StatementPtr& out, Token* start_token)
 	{
 		TypePtr type_expr;
-		
+
 		Token var_decl_start;
 		if (type(type_expr, &var_decl_start))
 		{
@@ -155,10 +155,18 @@ namespace Dlink
 
 					if (expr(expression))
 					{
-						out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
+						if (accept(TokenType::semicolon))
+						{
+							out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
 
-						assign_token(start_token, var_decl_start);
-						return true;
+							assign_token(start_token, var_decl_start);
+							return true;
+						}
+						else
+						{
+							errors_.add_error(Error(current_token(), "Expected ';', but got \"" + current_token().data + "\""));
+							return false;
+						}
 					}
 					else
 					{
@@ -169,7 +177,7 @@ namespace Dlink
 				else if (accept(TokenType::semicolon))
 				{
 					out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
-					
+
 					assign_token(start_token, var_decl_start);
 					return true;
 				}
@@ -185,7 +193,7 @@ namespace Dlink
 		else
 		{
 			StatementPtr statement;
-			
+
 			Token return_start;
 			if (return_stmt(statement, &return_start))
 			{
@@ -194,7 +202,7 @@ namespace Dlink
 				assign_token(start_token, return_start);
 				return true;
 			}
-			
+
 			return false;
 		}
 	}
@@ -233,7 +241,7 @@ namespace Dlink
 		}
 
 		StatementPtr body;
-		
+
 		if (!scope(body))
 		{
 			errors_.add_error(Error(current_token(), "Unexpected \"" + current_token().data + "\""));
@@ -249,17 +257,17 @@ namespace Dlink
 	bool Parser::return_stmt(StatementPtr& out, Token* start_token)
 	{
 		Token return_start;
-		if(accept(TokenType::_return, &return_start))
+		if (accept(TokenType::_return, &return_start))
 		{
 			ExpressionPtr return_expr;
 
-			if(!expr(return_expr))
+			if (!expr(return_expr))
 			{
 				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
 			}
 
-			if(accept(TokenType::semicolon))
+			if (accept(TokenType::semicolon))
 			{
 				out = std::make_shared<ReturnStatement>(return_start, return_expr);
 
@@ -275,7 +283,7 @@ namespace Dlink
 		else
 		{
 			StatementPtr statement;
-			
+
 			Token expr_stmt_start;
 			if (expr_stmt(statement, &expr_stmt_start))
 			{
@@ -288,18 +296,18 @@ namespace Dlink
 			return false;
 		}
 	}
-	
+
 	bool Parser::expr_stmt(StatementPtr& out, Token* start_token)
 	{
 		ExpressionPtr expression;
 
 		Token expr_stmt_start;
-		if(!expr(expression, &expr_stmt_start))
+		if (!expr(expression, &expr_stmt_start))
 		{
 			return false;
 		}
 
-		if(accept(TokenType::semicolon))
+		if (accept(TokenType::semicolon))
 		{
 			out = std::make_shared<ExpressionStatement>(expr_stmt_start, expression);
 
@@ -332,7 +340,7 @@ namespace Dlink
 		}
 
 		TokenType op;
-		
+
 		std::vector<ExpressionPtr> operands;
 		operands.push_back(lhs);
 
@@ -346,17 +354,17 @@ namespace Dlink
 				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
 			}
-			
+
 			operands.push_back(rhs);
 		}
-		
+
 		ExpressionPtr result;
 
 		result = operands.back();
 		operands.pop_back();
 		std::reverse(operands.begin(), operands.end());
 
-		for(ExpressionPtr operand : operands)
+		for (ExpressionPtr operand : operands)
 		{
 			result = std::make_shared<BinaryOperation>(assign_start, TokenType::assign, result, operand);
 		}
@@ -368,7 +376,7 @@ namespace Dlink
 	bool Parser::addsub(ExpressionPtr& out, Token* start_token)
 	{
 		ExpressionPtr lhs;
-		
+
 		Token addsub_start;
 		if (!muldiv(lhs, &addsub_start))
 		{
@@ -398,7 +406,7 @@ namespace Dlink
 	bool Parser::muldiv(ExpressionPtr& out, Token* start_token)
 	{
 		ExpressionPtr lhs;
-		
+
 		Token muldiv_start;
 		if (!atom(lhs, &muldiv_start))
 		{
@@ -536,7 +544,7 @@ namespace Dlink
 				return true;
 			}
 		}
-		
+
 		else if (accept(TokenType::_char))
 		{
 			// char
@@ -559,6 +567,14 @@ namespace Dlink
 		{
 			// long
 			return false; // TODO: 아직 구현되지 않음
+		}
+		else if (accept(TokenType::_void))
+		{
+			// void
+			out = std::make_shared<SimpleType>(simple_type_start, "void");
+
+			assign_token(start_token, simple_type_start);
+			return true;
 		}
 
 		return false;

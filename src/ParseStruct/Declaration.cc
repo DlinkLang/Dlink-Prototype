@@ -33,7 +33,7 @@ namespace Dlink
 		result += tree_prefix(depth) + "VariableDeclaration:\n";
 		++depth;
 		result += tree_prefix(depth) + "type:\n" + type->tree_gen(depth + 1) + '\n';
-		result += tree_prefix(depth) + "identifier:\n" + identifier + '\n';
+		result += tree_prefix(depth) + "identifier: " + identifier + '\n';
 		if (expression)
 			result += tree_prefix(depth) + "expression: \n" + expression->tree_gen(depth + 1);
 		else
@@ -74,7 +74,7 @@ namespace Dlink
 		result += tree_prefix(depth) + "FunctionDeclaration:\n";
 		++depth;
 		result += tree_prefix(depth) + "return_type:\n" + return_type->tree_gen(depth + 1) + '\n';
-		result += tree_prefix(depth) + "identifier:\n" + identifier + '\n';
+		result += tree_prefix(depth) + "identifier: " + identifier + '\n';
 		result += tree_prefix(depth) + "parameter:";
 		if (parameter.size() == 0)
 			result += " empty\n";
