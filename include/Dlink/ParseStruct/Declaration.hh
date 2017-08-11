@@ -22,8 +22,8 @@ namespace Dlink
 	 */
 	struct VariableDeclaration : public Statement
 	{
-		VariableDeclaration(const Token& token, TypePtr type, const std::string& identifier);
-		VariableDeclaration(const Token& token, TypePtr type, const std::string& identifier, ExpressionPtr expression);
+		VariableDeclaration(const Token& token, TypePtr type, Identifier identifier);
+		VariableDeclaration(const Token& token, TypePtr type, Identifier identifier, ExpressionPtr expression);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;

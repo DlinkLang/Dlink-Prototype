@@ -22,8 +22,8 @@ namespace Dlink
 	 */
 	struct SimpleType final : public Type
 	{
-		SimpleType(const std::string& identifier);
-		SimpleType(const std::string& identifier, bool is_unsigned);
+		SimpleType(Identifier identifier);
+		SimpleType(Identifier identifier, bool is_unsigned);
 
 		std::string tree_gen(std::size_t depth) const override;
 		llvm::Type* get_type() override;

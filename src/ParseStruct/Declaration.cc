@@ -12,7 +12,7 @@ namespace Dlink
 	 * @param identifier 변수의 식별자입니다.
 	 */
 	VariableDeclaration::VariableDeclaration(const Token& token, TypePtr type,
-		const std::string& identifier)
+		Identifier identifier)
 		: Statement(token), type(type), identifier(identifier)
 	{}
 	/**
@@ -23,7 +23,7 @@ namespace Dlink
 	* @param expression 변수의 초기화 식입니다.
 	*/
 	VariableDeclaration::VariableDeclaration(const Token& token, TypePtr type,
-		const std::string& identifier, ExpressionPtr expression)
+		Identifier identifier, ExpressionPtr expression)
 		: Statement(token), type(type), identifier(identifier), expression(expression)
 	{}
 

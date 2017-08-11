@@ -78,7 +78,7 @@ namespace Dlink
 	 */
 	struct FunctionCallOperation final : public Expression
 	{
-		FunctionCallOperation(const Token& token, const std::string& identifier, const std::vector<ExpressionPtr>& arugment);
+		FunctionCallOperation(const Token& token, Identifier identifier, const std::vector<ExpressionPtr>& arugment);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;

@@ -10,7 +10,7 @@ namespace Dlink
 	 * @details is_unsigned가 false로 초기화 됩니다.
 	 * @param identifier 타입의 식별자입니다.
 	 */
-	SimpleType::SimpleType(const std::string& identifier)
+	SimpleType::SimpleType(Identifier identifier)
 		: SimpleType(identifier, false)
 	{}
 	/**
@@ -18,7 +18,7 @@ namespace Dlink
 	 * @param identifier 타입의 식별자입니다.
 	 * @param is_unsigned 타입이 unsigned인지 여부입니다.
 	 */
-	SimpleType::SimpleType(const std::string& identifier, bool is_unsigned)
+	SimpleType::SimpleType(Identifier identifier, bool is_unsigned)
 		: identifier(identifier), is_unsigned(is_unsigned)
 	{}
 

@@ -205,7 +205,7 @@ namespace Dlink
 	 * @param identifier 호출할 함수의 식별자입니다.
 	 * @param argument 인수입니다.
 	 */
-	FunctionCallOperation::FunctionCallOperation(const Token& token, const std::string& identifier, const std::vector<ExpressionPtr>& arugment)
+	FunctionCallOperation::FunctionCallOperation(const Token& token, Identifier identifier, const std::vector<ExpressionPtr>& arugment)
 		: Expression(token), identifier(identifier), argument(arugment)
 	{}
 	std::string FunctionCallOperation::tree_gen(std::size_t depth) const
