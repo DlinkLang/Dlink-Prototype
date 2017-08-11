@@ -13,7 +13,6 @@ int main(int argc, const char** argv)
 	lexer.lex(R"(
 int main(int a)
 {
-	return a;
 }
 	)");
 
@@ -39,9 +38,13 @@ int main(int a)
 			std::cout << "Code generation Succeed\n";
 			Dlink::LLVM::module->dump();
 		}
-		catch (...)
+		catch (const Dlink::Error& error)
 		{
-			std::cout << "Code generation Failed\n";
+			Dlink::Token error_token = error.error_token();
+			std::cerr << "Line " << error_token.line;
+			std::cerr << " Col " << error_token.col;
+			
+			std::cerr << " " << error.what() << '\n';
 			return 0;
 		}
 	}
@@ -52,10 +55,10 @@ int main(int a)
 		for (auto error : parser.get_errors())
 		{
 			Dlink::Token error_token = error.error_token();
-			std::cout << "Line " << error_token.line;
-			std::cout << " Col " << error_token.col;
+			std::cerr << "Line " << error_token.line;
+			std::cerr << " Col " << error_token.col;
 
-			std::cout << " " << error.what() << "\n";
+			std::cerr << " " << error.what() << '\n';
 		}
 	}
 

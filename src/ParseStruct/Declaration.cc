@@ -136,7 +136,9 @@ namespace Dlink
 			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
 			{
 				// 함수의 반환 값 타입이 void는 아니지만 반환 값이 없을 경우 null을 리턴합니다.
-				LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
+				// LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
+				
+				throw Error(token, "Expected return statement at the end of non-void returning function declaration");
 			}
 			else
 			{
