@@ -13,7 +13,8 @@
 
 #include "llvm/IR/Value.h"
 
-#include "../LLVMValue.hh"
+#include "LLVMValue.hh"
+#include "Token.hh"
 
 namespace Dlink
 {
@@ -22,31 +23,40 @@ namespace Dlink
 	 */
 	struct Node
 	{
+		Node(const Token& token);
+
 		/**
-		 * @brief 현재 노드의 트리를 std::string 타입으로 시각화합니다.
+		 * @brief 이 노드의 트리를 std::string 타입으로 시각화합니다.
 		 * @param depth 전체 트리에서 현재 노드의 깊이입니다.
-		 * @return 현재 노드의 트리형 구조를 시각화 시킨 값을 반환합니다.
+		 * @return 이 노드의 트리형 구조를 시각화 시킨 값을 반환합니다.
 		 */
 		virtual std::string tree_gen(std::size_t depth) const = 0;
 
 		/**
-		 * @brief 현재 노드의 트리를 LLVM IR 코드로 만듭니다.
+		 * @brief 이 노드의 트리를 LLVM IR 코드로 만듭니다.
 		 * @return 파싱 노드에서 생성한 LLVM::Value를 반환합니다. 생성한 값이 없을 경우 nullptr을 반환합니다.
 		 */
 		virtual LLVM::Value code_gen() = 0;
+
+		/** 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다. */
+		const Token token;
 	};
 
 	/**
 	 * @brief Dlink 코드에서의 식입니다.
 	 */
 	struct Expression : public Node
-	{};
+	{
+		using Node::Node;
+	};
 
 	/**
 	 * @brief Dlink 코드에서의 문입니다.
 	 */
 	struct Statement : public Node
-	{};
+	{
+		using Node::Node;
+	};
 
 	/**
 	 * @brief Dlink의 타입(자료형)입니다.
