@@ -78,13 +78,13 @@ namespace Dlink
 	 */
 	struct FunctionCallOperation final : public Expression
 	{
-		FunctionCallOperation(const Token& token, const std::string& identifier, const std::vector<ExpressionPtr>& arugment);
+		FunctionCallOperation(const Token& token, ExpressionPtr func_expr, const std::vector<ExpressionPtr>& arugment);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
-		/** 호출할 함수의 식별자입니다. */
-		const std::string identifier;
+		/** 호출할 함수의 식입니다. */
+		const ExpressionPtr func_expr;
 		/** 인수입니다. */
 		const std::vector<ExpressionPtr> argument;
 	};

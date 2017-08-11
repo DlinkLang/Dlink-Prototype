@@ -11,10 +11,10 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	void foo() {}
+	void foo(int a) {}
 	void main()
 	{
-		foo();
+		foo(1);
 	}
 	)");
 

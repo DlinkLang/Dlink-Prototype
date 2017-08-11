@@ -143,6 +143,11 @@ namespace Dlink
 
 		symbol_table->map.insert(std::make_pair(identifier, func));
 		LLVM::function_pm->run(*func);
+		
+		for (auto& param : func->args())
+		{
+			symbol_table->map.erase(param.getName());
+		}
 
 		return func;
 	}

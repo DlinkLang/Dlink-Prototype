@@ -435,7 +435,7 @@ namespace Dlink
 			op = previous_token().type;
 
 			ExpressionPtr rhs;
-			if (!number(rhs))
+			if (!func_call(rhs))
 			{
 				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
@@ -452,28 +452,15 @@ namespace Dlink
 	{
 		// INFO: 졸음코딩 된 코드입니다. 어딘가에 시한폭탄이 있을지 모릅니다!
 
-		ExpressionPtr identifier;
+		ExpressionPtr func_expr;
 
 		Token func_call_start;
-		if (!atom(identifier, &func_call_start))
+		if (!atom(func_expr, &func_call_start))
 		{
 			return false;
 		}
 
-		std::string identifier_id;
-
-		if (dynamic_cast<Identifier*>(identifier.get()))
-		{
-			identifier_id = dynamic_cast<Identifier*>(identifier.get())->id;
-		}
-		else
-		{
-			// TODO: 오류 메세지 채워주세요.
-			errors_.add_error(Error(current_token(), "TODO"));
-			return false;
-		}
-
-		if (accept(TokenType::lparen))
+		while (accept(TokenType::lparen))
 		{
 			std::vector<ExpressionPtr> arg;
 
@@ -486,19 +473,33 @@ namespace Dlink
 
 					if (accept(TokenType::rparen))
 					{
-						out = std::make_shared<FunctionCallOperation>(func_call_start, identifier_id, arg);
-						return true;
+						func_expr = std::make_shared<FunctionCallOperation>(func_call_start, func_expr, arg);
+						
+						break;
+					}
+					else if(accept(TokenType::comma))
+					{
+						continue;
+					}
+					else
+					{
+						errors_.add_error(Error(current_token(), "Expected ',' or ';', but got \"" + current_token().data + "\""));
+						return false;
 					}
 				}
 				else if (accept(TokenType::rparen))
 				{
-					out = std::make_shared<FunctionCallOperation>(func_call_start, identifier_id, arg);
-					return true;
+					func_expr = std::make_shared<FunctionCallOperation>(func_call_start, func_expr, arg);
+
+					break;
 				}
 			}
 		}
 
-		return false;
+		out = func_expr;
+		assign_token(start_token, func_call_start);
+
+		return true;
 	}
 
 	bool Parser::atom(ExpressionPtr& out, Token* start_token)
