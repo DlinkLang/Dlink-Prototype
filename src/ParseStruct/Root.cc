@@ -9,15 +9,15 @@ namespace Dlink
 	 * @brief 새 Identifier 인스턴스를 만듭니다.
 	 * @param id 식별자 값입니다.
 	 */
-	Identifer::Identifer(const std::string& id)
+	Identifier::Identifier(const std::string& id)
 		: id(id)
 	{}
 
-	std::string Identifer::tree_gen(std::size_t depth)
+	std::string Identifier::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "Identifier(\"" + id + "\")";
 	}
-	LLVM::Value Identifer::code_gen()
+	LLVM::Value Identifier::code_gen()
 	{
 		LLVM::Value result = symbol_table->find(id);
 
@@ -38,7 +38,7 @@ namespace Dlink
 		: statements(statements)
 	{}
 
-	std::string Block::tree_gen(std::size_t depth)
+	std::string Block::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "Block Start\n";
 
@@ -72,7 +72,7 @@ namespace Dlink
 		: Block(statements), parent(parent)
 	{}
 	
-	std::string Scope::tree_gen(std::size_t depth)
+	std::string Scope::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "Scope Start\n";
 
@@ -113,7 +113,7 @@ namespace Dlink
 		: expression(expression)
 	{}
 
-	std::string ExpressionStatement::tree_gen(std::size_t depth)
+	std::string ExpressionStatement::tree_gen(std::size_t depth) const
 	{
 		return expression->tree_gen(depth);
 	}

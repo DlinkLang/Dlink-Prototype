@@ -2,7 +2,7 @@
 
 /**
  * @file Operation.hh
- * @date 2017.08.01
+ * @date 2017.08.11
  * @author kmc7468, dev_kr
  * @brief Dlink 코드 파서의 결과가 생성하는 추상 구문 트리의 노드들 중 연산과 관련된 노드들을 정의합니다.
  */
@@ -26,7 +26,7 @@ namespace Dlink
 	{
 		Integer32(std::int32_t data_) noexcept;
 
-		std::string tree_gen(std::size_t depth) override;
+		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
 		/** 32비트 부호 있는 정수 상수입니다. */
@@ -44,7 +44,7 @@ namespace Dlink
 	{
 		BinaryOperation(TokenType op_, ExpressionPtr lhs_, ExpressionPtr rhs_);
 
-		std::string tree_gen(std::size_t depth) override;
+		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
 		/** 연산자 타입입니다. */
@@ -63,13 +63,30 @@ namespace Dlink
 	{
 		UnaryOperation(TokenType op_, ExpressionPtr rhs_);
 
-		std::string tree_gen(std::size_t depth) override;
+		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
 		/** 연산자 타입입니다. */
 		TokenType op;
 		/** 피연산자입니다. */
 		ExpressionPtr rhs;
+	};
+
+	/**
+	 * @brief 함수 호출 연산의 구조를 담는 추상 구문 트리의 노드입니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
+	 */
+	struct FunctionCallOperation final : public Expression
+	{
+		FunctionCallOperation(const std::string& identifier, const std::vector<ExpressionPtr>& arugment);
+
+		std::string tree_gen(std::size_t depth) const override;
+		LLVM::Value code_gen() override;
+
+		/** 호출할 함수의 식별자입니다. */
+		const Identifier identifier;
+		/** 인수입니다. */
+		const std::vector<ExpressionPtr> argument;
 	};
 }
 
@@ -83,7 +100,7 @@ namespace Dlink
 	{
 		ReturnStatement(ExpressionPtr return_value);
 
-		std::string tree_gen(std::size_t depth) override;
+		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
 		/** 반환할 식입니다. */

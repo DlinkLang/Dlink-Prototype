@@ -27,7 +27,7 @@ namespace Dlink
 		 * @param depth 전체 트리에서 현재 노드의 깊이입니다.
 		 * @return 현재 노드의 트리형 구조를 시각화 시킨 값을 반환합니다.
 		 */
-		virtual std::string tree_gen(std::size_t depth) = 0;
+		virtual std::string tree_gen(std::size_t depth) const = 0;
 
 		/**
 		 * @brief 현재 노드의 트리를 LLVM IR 코드로 만듭니다.
@@ -58,7 +58,7 @@ namespace Dlink
 		 * @param depth 전체 트리에서 현재 노드의 깊이입니다.
 		 * @return 현재 노드의 트리를 시각화 시킨 값을 반환합니다.
 		 */
-		virtual std::string tree_gen(std::size_t depth) = 0;
+		virtual std::string tree_gen(std::size_t depth) const = 0;
 
 		/**
 		 * @brief 현재 타입 노드를 LLVM Type으로 만듭니다.
@@ -81,11 +81,11 @@ namespace Dlink
 	 * @brief 식별자입니다.
 	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */
-	struct Identifer final : public Expression
+	struct Identifier final : public Expression
 	{
-		Identifer(const std::string& id_);
+		Identifier(const std::string& id_);
 
-		std::string tree_gen(std::size_t depth) override;
+		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
 		/** 실질적인 식별자 값입니다. */
@@ -99,7 +99,7 @@ namespace Dlink
 	{
 		Block(const std::vector<StatementPtr>& statements);
 
-		std::string tree_gen(std::size_t depth) override;
+		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
 		/** Statemenet들의 집합입니다. */
@@ -114,7 +114,7 @@ namespace Dlink
 	{
 		Scope(const std::vector<StatementPtr>& statements, StatementPtr parent);
 
-		std::string tree_gen(std::size_t depth) override;
+		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
 		/** 현재 Scope의 상위 Block 또는 상위 Scope입니다. */
@@ -133,7 +133,7 @@ namespace Dlink
 	{
 		ExpressionStatement(ExpressionPtr expression_);
 
-		std::string tree_gen(std::size_t depth) override;
+		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
 
 		/** 식입니다. */

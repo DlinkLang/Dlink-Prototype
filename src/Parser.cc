@@ -407,7 +407,7 @@ namespace Dlink
 	{
 		if (accept(TokenType::identifier))
 		{
-			out = std::make_shared<Identifer>(previous_token().data);
+			out = std::make_shared<Identifier>(previous_token().data);
 			return true;
 		}
 

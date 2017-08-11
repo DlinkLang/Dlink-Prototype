@@ -22,7 +22,7 @@ namespace Dlink
 		: identifier(identifier), is_unsigned(is_unsigned)
 	{}
 
-	std::string SimpleType::tree_gen(std::size_t depth)
+	std::string SimpleType::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "SimpleType(" + identifier.id + ")\n"
 			+ tree_prefix(depth + 1) + "is_unsigned: " + (is_unsigned ? "true" : "false");

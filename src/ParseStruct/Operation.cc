@@ -97,7 +97,7 @@ namespace Dlink
 		: data(data)
 	{}
 
-	std::string Integer32::tree_gen(std::size_t depth)
+	std::string Integer32::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "Integer32(" + std::to_string(data) + ')';
 	}
@@ -119,7 +119,7 @@ namespace Dlink
 		: op(op), lhs(lhs), rhs(rhs)
 	{}
 
-	std::string BinaryOperation::tree_gen(std::size_t depth)
+	std::string BinaryOperation::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "BinaryOperation:\n";
 		++depth;
@@ -167,7 +167,7 @@ namespace Dlink
 		: op(op), rhs(rhs)
 	{}
 
-	std::string UnaryOperation::tree_gen(std::size_t depth)
+	std::string UnaryOperation::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "UnaryOperation:\n";
 		++depth;
@@ -195,6 +195,33 @@ namespace Dlink
 			return LLVM::builder.getFalse();
 		}
 	}
+
+	/**
+	 * @brief 새 FunctionCallOperation 인스턴스를 만듭니다.
+	 * @param identifier 호출할 함수의 식별자입니다.
+	 * @param argument 인수입니다.
+	 */
+	FunctionCallOperation::FunctionCallOperation(const std::string& identifier, const std::vector<ExpressionPtr>& arugment)
+		: identifier(identifier), argument(arugment)
+	{}
+	std::string FunctionCallOperation::tree_gen(std::size_t depth) const
+	{
+		std::string result;
+		result += tree_prefix(depth) + "FunctionCallOperation:\n";
+		result += tree_prefix(++depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
+		result += tree_prefix(depth) + "argument:\n";
+		++depth;
+		for (auto arg : argument)
+		{
+			result += arg->tree_gen(depth);
+		}
+
+		return result;
+	}
+	LLVM::Value FunctionCallOperation::code_gen()
+	{
+		return nullptr; // TODO
+	}
 }
 
 namespace Dlink
@@ -207,7 +234,7 @@ namespace Dlink
 		: return_expr(return_expr)
 	{}
 
-	std::string ReturnStatement::tree_gen(std::size_t depth)
+	std::string ReturnStatement::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "ReturnStatement:\n";
 		tree += return_expr->tree_gen(depth + 1);

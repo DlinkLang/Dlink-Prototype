@@ -24,7 +24,7 @@ namespace Dlink
 		: type(type), identifier(identifier), expression(expression)
 	{}
 
-	std::string VariableDeclaration::tree_gen(std::size_t depth)
+	std::string VariableDeclaration::tree_gen(std::size_t depth) const
 	{
 		std::string result;
 		result += tree_prefix(depth) + "VariableDeclaration:\n";
@@ -60,12 +60,12 @@ namespace Dlink
 	 * @param parameter 함수의 매개 변수입니다.
 	 * @param body 함수의 몸체입니다.
 	 */
-	FunctionDeclaration::FunctionDeclaration(TypePtr return_type, Identifer identifier,
+	FunctionDeclaration::FunctionDeclaration(TypePtr return_type, Identifier identifier,
 		const std::vector<VariableDeclaration>& parameter, StatementPtr body)
 		: return_type(return_type), identifier(identifier), parameter(parameter), body(body)
 	{}
 
-	std::string FunctionDeclaration::tree_gen(std::size_t depth)
+	std::string FunctionDeclaration::tree_gen(std::size_t depth) const
 	{
 		std::string result;
 		result += tree_prefix(depth) + "FunctionDeclaration:\n";
