@@ -7,21 +7,24 @@ namespace Dlink
 
 	/**
 	 * @brief 새 VariableDeclaration 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param type 변수의 타입입니다.
 	 * @param identifier 변수의 식별자입니다.
 	 */
-	VariableDeclaration::VariableDeclaration(TypePtr type, const std::string& identifier)
-		: type(type), identifier(identifier)
+	VariableDeclaration::VariableDeclaration(const Token& token, TypePtr type,
+		const std::string& identifier)
+		: Statement(token), type(type), identifier(identifier)
 	{}
 	/**
 	* @brief 새 VariableDeclaration 인스턴스를 만듭니다.
+	* @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	* @param type 변수의 타입입니다.
 	* @param identifier 변수의 식별자입니다.
 	* @param expression 변수의 초기화 식입니다.
 	*/
-	VariableDeclaration::VariableDeclaration(TypePtr type, const std::string& identifier,
-		ExpressionPtr expression)
-		: type(type), identifier(identifier), expression(expression)
+	VariableDeclaration::VariableDeclaration(const Token& token, TypePtr type,
+		const std::string& identifier, ExpressionPtr expression)
+		: Statement(token), type(type), identifier(identifier), expression(expression)
 	{}
 
 	std::string VariableDeclaration::tree_gen(std::size_t depth) const
@@ -60,9 +63,9 @@ namespace Dlink
 	 * @param parameter 함수의 매개 변수입니다.
 	 * @param body 함수의 몸체입니다.
 	 */
-	FunctionDeclaration::FunctionDeclaration(TypePtr return_type, Identifier identifier,
+	FunctionDeclaration::FunctionDeclaration(const Token& token, TypePtr return_type, Identifier identifier,
 		const std::vector<VariableDeclaration>& parameter, StatementPtr body)
-		: return_type(return_type), identifier(identifier), parameter(parameter), body(body)
+		: Statement(token), return_type(return_type), identifier(identifier), parameter(parameter), body(body)
 	{}
 
 	std::string FunctionDeclaration::tree_gen(std::size_t depth) const

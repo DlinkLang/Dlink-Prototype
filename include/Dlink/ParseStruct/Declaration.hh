@@ -22,8 +22,8 @@ namespace Dlink
 	 */
 	struct VariableDeclaration : public Statement
 	{
-		VariableDeclaration(TypePtr type, const std::string& identifier);
-		VariableDeclaration(TypePtr type, const std::string& identifier, ExpressionPtr expression);
+		VariableDeclaration(const Token& token, TypePtr type, const std::string& identifier);
+		VariableDeclaration(const Token& token, TypePtr type, const std::string& identifier, ExpressionPtr expression);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -41,7 +41,7 @@ namespace Dlink
 	 */
 	struct FunctionDeclaration : public Statement
 	{
-		FunctionDeclaration(TypePtr return_type, Identifier identifier,
+		FunctionDeclaration(const Token& token, TypePtr return_type, Identifier identifier,
 			const std::vector<VariableDeclaration>& parameter, StatementPtr body);
 
 		std::string tree_gen(std::size_t depth) const override;
