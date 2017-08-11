@@ -423,7 +423,7 @@ namespace Dlink
 		ExpressionPtr lhs;
 
 		Token muldiv_start;
-		if (!atom(lhs, &muldiv_start))
+		if (!func_call(lhs, &muldiv_start))
 		{
 			return false;
 		}
@@ -446,6 +446,59 @@ namespace Dlink
 
 		out = lhs;
 		return true;
+	}
+
+	bool Parser::func_call(ExpressionPtr& out, Token* start_token)
+	{
+		// INFO: 졸음코딩 된 코드입니다. 어딘가에 시한폭탄이 있을지 모릅니다!
+
+		ExpressionPtr identifier;
+
+		Token func_call_start;
+		if (!atom(identifier, &func_call_start))
+		{
+			return false;
+		}
+
+		std::string identifier_id;
+
+		if (dynamic_cast<Identifier*>(identifier.get()))
+		{
+			identifier_id = dynamic_cast<Identifier*>(identifier.get())->id;
+		}
+		else
+		{
+			// TODO: 오류 메세지 채워주세요.
+			errors_.add_error(Error(current_token(), "TODO"));
+			return false;
+		}
+
+		if (accept(TokenType::lparen))
+		{
+			std::vector<ExpressionPtr> arg;
+
+			while (true)
+			{
+				ExpressionPtr a_arg;
+				if (expr(a_arg))
+				{
+					arg.push_back(a_arg);
+
+					if (accept(TokenType::rparen))
+					{
+						out = std::make_shared<FunctionCallOperation>(func_call_start, identifier_id, arg);
+						return true;
+					}
+				}
+				else if (accept(TokenType::rparen))
+				{
+					out = std::make_shared<FunctionCallOperation>(func_call_start, identifier_id, arg);
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	bool Parser::atom(ExpressionPtr& out, Token* start_token)

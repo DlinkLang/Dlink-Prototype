@@ -11,10 +11,11 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-void main(void)
-{
-	int b = 5 + a;
-}
+	void foo() {}
+	void main()
+	{
+		foo();
+	}
 	)");
 
 	std::cout << "Lexing Succeed\n";

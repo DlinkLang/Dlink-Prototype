@@ -141,6 +141,7 @@ namespace Dlink
 			}
 		}
 
+		symbol_table->map.insert(std::make_pair(identifier, func));
 		LLVM::function_pm->run(*func);
 
 		return func;

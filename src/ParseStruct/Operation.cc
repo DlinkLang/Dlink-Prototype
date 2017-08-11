@@ -205,7 +205,7 @@ namespace Dlink
 	 * @param identifier 호출할 함수의 식별자입니다.
 	 * @param argument 인수입니다.
 	 */
-	FunctionCallOperation::FunctionCallOperation(const Token& token, Identifier identifier, const std::vector<ExpressionPtr>& arugment)
+	FunctionCallOperation::FunctionCallOperation(const Token& token, const std::string& identifier, const std::vector<ExpressionPtr>& arugment)
 		: Expression(token), identifier(identifier), argument(arugment)
 	{}
 	std::string FunctionCallOperation::tree_gen(std::size_t depth) const
@@ -213,7 +213,7 @@ namespace Dlink
 		std::string result;
 		result += tree_prefix(depth) + "FunctionCallOperation:\n";
 		++depth;
-		result += tree_prefix(depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
+		result += tree_prefix(depth) + "identifier: " + identifier + '\n';
 		result += tree_prefix(depth) + "argument:\n";
 		++depth;
 		for (auto arg : argument)
@@ -225,7 +225,23 @@ namespace Dlink
 	}
 	LLVM::Value FunctionCallOperation::code_gen()
 	{
-		return nullptr; // TODO
+		llvm::Function* function = static_cast<llvm::Function*>(symbol_table->find(identifier).get());
+
+		if (function)
+		{
+			std::vector<llvm::Value*> arg_real;
+
+			for (auto arg : argument)
+			{
+				arg_real.push_back(arg->code_gen());
+			}
+
+			return LLVM::builder.CreateCall(function, arg_real);
+		}
+		else
+		{
+			throw Error(token, "Unbound symbol \"" + identifier + "\"");
+		}
 	}
 }
 
