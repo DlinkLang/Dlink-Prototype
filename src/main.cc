@@ -40,6 +40,8 @@ int main(int a)
 		}
 		catch (const Dlink::Error& error)
 		{
+			std::cerr << "Code generation Failed\n";
+
 			Dlink::Token error_token = error.error_token();
 			std::cerr << "Line " << error_token.line;
 			std::cerr << " Col " << error_token.col;
