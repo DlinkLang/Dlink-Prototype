@@ -38,6 +38,7 @@ namespace Dlink
 	struct SymbolTable final
 	{
 		LLVM::Value find(const std::string& name);
+		bool find_bool(const std::string& name) const;
 
 		/** 현재 심볼 테이블의 상위 심볼 테이블입니다. */
 		std::shared_ptr<SymbolTable> parent = nullptr;
@@ -55,6 +56,7 @@ namespace Dlink
 	struct TypeSymbolTable final
 	{
 		llvm::Type* find(const std::string& name);
+		bool find_bool(const std::string& name) const;
 
 		/** 현재 심볼 테이블의 상위 심볼 테이블입니다. */
 		std::shared_ptr<TypeSymbolTable> parent = nullptr;

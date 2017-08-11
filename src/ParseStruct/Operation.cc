@@ -136,6 +136,25 @@ namespace Dlink
 	}
 	LLVM::Value BinaryOperation::code_gen()
 	{
+		if (dynamic_cast<Identifier*>(lhs.get()))
+		{
+			if (!symbol_table->find(dynamic_cast<Identifier*>(lhs.get())->id))
+			{
+				// TODO: 오류 메세지 추가해 주세요.
+				// TODO: 심볼을 못 찾은 상황입니다.
+				throw Error(token, "TODO");
+			}
+		}
+		else if (dynamic_cast<Identifier*>(rhs.get()))
+		{
+			if (!symbol_table->find(dynamic_cast<Identifier*>(rhs.get())->id))
+			{
+				// TODO: 오류 메세지 추가해 주세요.
+				// TODO: 심볼을 못 찾은 상황입니다.
+				throw Error(token, "TODO");
+			}
+		}
+
 		LLVM::Value lhs_value = lhs->code_gen();
 		LLVM::Value rhs_value = rhs->code_gen();
 

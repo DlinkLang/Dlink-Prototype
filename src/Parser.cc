@@ -216,19 +216,34 @@ namespace Dlink
 			TypePtr param_type;
 			if (type(param_type))
 			{
-				if (accept(TokenType::identifier))
+				if (param_type->token.type == TokenType::_void)
 				{
-					VariableDeclaration param(var_decl_start_token, param_type, previous_token().data);
-					param_list.push_back(param);
-
-					if (accept(TokenType::comma))
-						continue;
+					if (accept(TokenType::rparen))
+						break;
+					else
+					{
+						// TODO: 오류 메세지 추가좀 해주세요.
+						// TODO: int main(void, int i) {} 이런 상황에 발생하는 오류입니다.
+						errors_.add_error(Error(current_token(), "TODO"));
+						return false;
+					}
 				}
-				else if (accept(TokenType::comma))
+				else
 				{
-					VariableDeclaration param(var_decl_start_token, param_type, "");
-					param_list.push_back(param);
-					continue;
+					if (accept(TokenType::identifier))
+					{
+						VariableDeclaration param(var_decl_start_token, param_type, previous_token().data);
+						param_list.push_back(param);
+
+						if (accept(TokenType::comma))
+							continue;
+					}
+					else if (accept(TokenType::comma))
+					{
+						VariableDeclaration param(var_decl_start_token, param_type, "");
+						param_list.push_back(param);
+						continue;
+					}
 				}
 			}
 			else if (accept(TokenType::rparen))
@@ -568,7 +583,7 @@ namespace Dlink
 			// long
 			return false; // TODO: 아직 구현되지 않음
 		}
-		else if (accept(TokenType::_void))
+		else if (accept(TokenType::_void, &simple_type_start))
 		{
 			// void
 			out = std::make_shared<SimpleType>(simple_type_start, "void");

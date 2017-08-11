@@ -103,7 +103,10 @@ namespace Dlink
 			param_type.push_back(param.type->get_type());
 		}
 
-		llvm::FunctionType* func_type = llvm::FunctionType::get(return_type->get_type(), param_type, false);
+		llvm::FunctionType* func_type =
+			param_type.size() != 0 ?
+			llvm::FunctionType::get(return_type->get_type(), param_type, false) :
+			llvm::FunctionType::get(return_type->get_type(), false);
 		llvm::Function* func =
 			llvm::Function::Create(func_type, llvm::GlobalValue::ExternalLinkage, identifier, LLVM::module.get());
 
@@ -117,14 +120,8 @@ namespace Dlink
 		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context, "entry", func, nullptr);
 		LLVM::builder.SetInsertPoint(func_block);
 
-		auto new_sym_table = std::make_shared<SymbolTable>();
-		new_sym_table->parent = symbol_table;
-		symbol_table = new_sym_table;
-
 		llvm::Value* body_gen = body->code_gen();
 		llvm::ReturnInst* ret = nullptr;
-
-		symbol_table = symbol_table->parent;
 
 		if (body_gen)
 		{
@@ -135,9 +132,6 @@ namespace Dlink
 		{
 			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
 			{
-				// 함수의 반환 값 타입이 void는 아니지만 반환 값이 없을 경우 null을 리턴합니다.
-				// LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
-				
 				throw Error(token, "Expected return statement at the end of non-void returning function declaration");
 			}
 			else

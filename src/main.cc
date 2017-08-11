@@ -11,9 +11,9 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-void main(int a)
+void main(void)
 {
-	int b = a + 5;
+	int b = 6 + 5;
 }
 	)");
 
