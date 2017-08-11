@@ -24,7 +24,7 @@ namespace Dlink
 	 */
 	struct Integer32 final : public Expression
 	{
-		Integer32(std::int32_t data_) noexcept;
+		Integer32(const Token& token, std::int32_t data) noexcept;
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -42,7 +42,7 @@ namespace Dlink
 	 */
 	struct BinaryOperation final : public Expression
 	{
-		BinaryOperation(TokenType op_, ExpressionPtr lhs_, ExpressionPtr rhs_);
+		BinaryOperation(const Token& token, TokenType op, ExpressionPtr lhs, ExpressionPtr rhs);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -61,7 +61,7 @@ namespace Dlink
 	 */
 	struct UnaryOperation final : public Expression
 	{
-		UnaryOperation(TokenType op_, ExpressionPtr rhs_);
+		UnaryOperation(const Token& token, TokenType op, ExpressionPtr rhs);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -78,7 +78,7 @@ namespace Dlink
 	 */
 	struct FunctionCallOperation final : public Expression
 	{
-		FunctionCallOperation(const std::string& identifier, const std::vector<ExpressionPtr>& arugment);
+		FunctionCallOperation(const Token& token, const std::string& identifier, const std::vector<ExpressionPtr>& arugment);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -98,7 +98,7 @@ namespace Dlink
 	 */
 	struct ReturnStatement final : public Statement
 	{
-		ReturnStatement(ExpressionPtr return_value);
+		ReturnStatement(const Token& token, ExpressionPtr return_value);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
