@@ -93,7 +93,7 @@ namespace Dlink
 	 */
 	struct Identifier final : public Expression
 	{
-		Identifier(const std::string& id_);
+		Identifier(const Token& token, const std::string& id);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -107,7 +107,7 @@ namespace Dlink
 	 */
 	struct Block : public Statement
 	{
-		Block(const std::vector<StatementPtr>& statements);
+		Block(const Token& token, const std::vector<StatementPtr>& statements);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -122,7 +122,7 @@ namespace Dlink
 	 */
 	struct Scope final : public Block
 	{
-		Scope(const std::vector<StatementPtr>& statements, StatementPtr parent);
+		Scope(const Token& token, const std::vector<StatementPtr>& statements, StatementPtr parent);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -141,7 +141,7 @@ namespace Dlink
 	 */
 	struct ExpressionStatement final : public Statement
 	{
-		ExpressionStatement(ExpressionPtr expression_);
+		ExpressionStatement(const Token& token, ExpressionPtr expression);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;

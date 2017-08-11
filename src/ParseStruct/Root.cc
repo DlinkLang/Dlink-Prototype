@@ -15,10 +15,11 @@ namespace Dlink
 
 	/**
 	 * @brief 새 Identifier 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param id 식별자 값입니다.
 	 */
-	Identifier::Identifier(const std::string& id)
-		: id(id)
+	Identifier::Identifier(const Token& token, const std::string& id)
+		: Expression(token), id(id)
 	{}
 
 	std::string Identifier::tree_gen(std::size_t depth) const
@@ -40,10 +41,11 @@ namespace Dlink
 
 	/**
 	 * @brief 새 Block 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param statements Statement들의 집합입니다.
 	 */
-	Block::Block(const std::vector<StatementPtr>& statements)
-		: statements(statements)
+	Block::Block(const Token& token, const std::vector<StatementPtr>& statements)
+		: Statement(token), statements(statements)
 	{}
 
 	std::string Block::tree_gen(std::size_t depth) const
@@ -73,11 +75,12 @@ namespace Dlink
 
 	/**
 	 * @brief 새 Scope 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param statements Statement들의 집합입니다.
 	 * @param parent 현재 스코프의 상위 스코프입니다.
 	 */
-	Scope::Scope(const std::vector<StatementPtr>& statements, StatementPtr parent)
-		: Block(statements), parent(parent)
+	Scope::Scope(const Token& token, const std::vector<StatementPtr>& statements, StatementPtr parent)
+		: Block(token, statements), parent(parent)
 	{}
 	
 	std::string Scope::tree_gen(std::size_t depth) const
@@ -115,10 +118,11 @@ namespace Dlink
 
 	/**
 	 * @brief 새 ExpressionStatement 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param expression 식입니다.
 	 */
-	ExpressionStatement::ExpressionStatement(ExpressionPtr expression)
-		: expression(expression)
+	ExpressionStatement::ExpressionStatement(const Token& token, ExpressionPtr expression)
+		: Statement(token), expression(expression)
 	{}
 
 	std::string ExpressionStatement::tree_gen(std::size_t depth) const
