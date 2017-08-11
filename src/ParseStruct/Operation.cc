@@ -99,7 +99,7 @@ namespace Dlink
 
 	std::string Integer32::tree_gen(std::size_t depth)
 	{
-		return tree_prefix(depth) + "Integer32(" + std::to_string(data) + ")\n";
+		return tree_prefix(depth) + "Integer32(" + std::to_string(data) + ')';
 	}
 	LLVM::Value Integer32::code_gen()
 	{
@@ -123,12 +123,12 @@ namespace Dlink
 	{
 		std::string tree = tree_prefix(depth) + "BinaryOperation:\n";
 		++depth;
-		tree += tree_prefix(depth) + "lhs: \n";
+		tree += tree_prefix(depth) + "lhs:\n";
 		tree += lhs->tree_gen(depth + 1) + '\n';
-		tree += tree_prefix(depth) + "rhs: \n";
-		tree += rhs->tree_gen(depth + 1);
-		tree += tree_prefix(depth) + "op: \n";
-		tree += tree_prefix(depth + 1) + operator_string(op) + '(' + token_map.at(op) + ")\n";
+		tree += tree_prefix(depth) + "rhs:\n";
+		tree += rhs->tree_gen(depth + 1) + '\n';
+		tree += tree_prefix(depth) + "op:\n";
+		tree += tree_prefix(depth + 1) + operator_string(op) + '(' + token_map.at(op) + ')';
 
 		return tree;
 	}
@@ -172,9 +172,9 @@ namespace Dlink
 		std::string tree = tree_prefix(depth) + "UnaryOperation:\n";
 		++depth;
 		tree += tree_prefix(depth) + "rhs:\n";
-		tree += rhs->tree_gen(depth + 1);
-		tree += tree_prefix(depth) + "op: \n";
-		tree += tree_prefix(depth + 1) + operator_string(op) + '(' + token_map.at(op) + ")\n";
+		tree += rhs->tree_gen(depth + 1) + '\n';
+		tree += tree_prefix(depth) + "op:\n";
+		tree += tree_prefix(depth + 1) + operator_string(op) + '(' + token_map.at(op) + ')';
 
 		return tree;
 	}
@@ -210,7 +210,7 @@ namespace Dlink
 	std::string ReturnStatement::tree_gen(std::size_t depth)
 	{
 		std::string tree = tree_prefix(depth) + "ReturnStatement:\n";
-		tree += return_expr->tree_gen(depth+1) + "\n";
+		tree += return_expr->tree_gen(depth + 1);
 
 		return tree;
 	}

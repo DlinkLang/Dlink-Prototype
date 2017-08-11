@@ -29,12 +29,12 @@ namespace Dlink
 		std::string result;
 		result += tree_prefix(depth) + "VariableDeclaration:\n";
 		++depth;
-		result += tree_prefix(depth) + "type: \n" + type->tree_gen(depth + 1) + "\n";
-		result += tree_prefix(depth) + "identifier: \n" + identifier.tree_gen(depth + 1) + "\n";
+		result += tree_prefix(depth) + "type:\n" + type->tree_gen(depth + 1) + '\n';
+		result += tree_prefix(depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
 		if (expression)
-			result += tree_prefix(depth) + "expression: \n" + expression->tree_gen(depth + 1) + "\n";
+			result += tree_prefix(depth) + "expression: \n" + expression->tree_gen(depth + 1);
 		else
-			result += tree_prefix(depth) + "expression: empty\n";
+			result += tree_prefix(depth) + "expression: empty";
 
 		return result;
 	}
@@ -53,10 +53,18 @@ namespace Dlink
 		return var;
 	}
 
+	/**
+	 * @brief 새 FunctionDeclaration 인스턴스를 만듭니다.
+	 * @param return_type 함수의 반환 값 타입입니다.
+	 * @param identifier 함수의 식별자입니다.
+	 * @param parameter 함수의 매개 변수입니다.
+	 * @param body 함수의 몸체입니다.
+	 */
 	FunctionDeclaration::FunctionDeclaration(TypePtr return_type, Identifer identifier,
 		const std::vector<VariableDeclaration>& parameter, StatementPtr body)
 		: return_type(return_type), identifier(identifier), parameter(parameter), body(body)
 	{}
+
 	std::string FunctionDeclaration::tree_gen(std::size_t depth)
 	{
 		std::string result;

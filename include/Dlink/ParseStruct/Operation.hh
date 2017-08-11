@@ -82,10 +82,10 @@ namespace Dlink
 	struct ReturnStatement final : public Statement
 	{
 		ReturnStatement(ExpressionPtr return_value);
-		
+
 		std::string tree_gen(std::size_t depth) override;
 		LLVM::Value code_gen() override;
-		
+
 		/** 반환할 식입니다. */
 		ExpressionPtr return_expr;
 	};

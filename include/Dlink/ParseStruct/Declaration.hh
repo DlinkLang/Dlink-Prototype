@@ -47,7 +47,7 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) override;
 		LLVM::Value code_gen() override;
 
-		/** 함수 반환 값의 타입입니다. */
+		/** 함수의 반환 값 타입입니다. */
 		TypePtr return_type;
 		/** 함수의 식별자입니다. */
 		Identifer identifier;

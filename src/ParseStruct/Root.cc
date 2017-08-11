@@ -15,7 +15,7 @@ namespace Dlink
 
 	std::string Identifer::tree_gen(std::size_t depth)
 	{
-		return tree_prefix(depth) + "Identifier(\"" + id + "\")\n";
+		return tree_prefix(depth) + "Identifier(\"" + id + "\")";
 	}
 	LLVM::Value Identifer::code_gen()
 	{
@@ -44,10 +44,10 @@ namespace Dlink
 
 		for (StatementPtr statement : statements)
 		{
-			tree += statement->tree_gen(depth + 1);
+			tree += statement->tree_gen(depth + 1) + '\n';
 		}
 
-		tree += tree_prefix(depth) + "Block End\n";
+		tree += tree_prefix(depth) + "Block End";
 
 		return tree;
 	}
@@ -79,11 +79,11 @@ namespace Dlink
 		++depth;
 		for (StatementPtr statement : statements)
 		{
-			tree += statement->tree_gen(depth);
+			tree += statement->tree_gen(depth) + '\n';
 		}
 		--depth;
 
-		tree += tree_prefix(depth) + "Scope End\n";
+		tree += tree_prefix(depth) + "Scope End";
 
 		return tree;
 	}

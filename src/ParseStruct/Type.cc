@@ -25,7 +25,7 @@ namespace Dlink
 	std::string SimpleType::tree_gen(std::size_t depth)
 	{
 		return tree_prefix(depth) + "SimpleType(" + identifier.id + ")\n"
-			+ tree_prefix(depth + 1) + "is_unsigned: " + (is_unsigned ? "true" : "false") + "\n";
+			+ tree_prefix(depth + 1) + "is_unsigned: " + (is_unsigned ? "true" : "false");
 	}
 	llvm::Type* SimpleType::get_type()
 	{
