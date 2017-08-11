@@ -13,8 +13,8 @@
 
 #include "llvm/IR/Value.h"
 
-#include "LLVMValue.hh"
-#include "Token.hh"
+#include "../LLVMValue.hh"
+#include "../Token.hh"
 
 namespace Dlink
 {
@@ -63,6 +63,8 @@ namespace Dlink
 	 */
 	struct Type
 	{
+		Type(const Token& token);
+
 		/**
 		 * @brief 현재 타입 노드의 트리를 std::string 타입으로 시각화합니다.
 		 * @param depth 전체 트리에서 현재 노드의 깊이입니다.
@@ -75,6 +77,9 @@ namespace Dlink
 		 * @return 만들어진 LLVM Type을 반환합니다.
 		 */
 		virtual llvm::Type* get_type() = 0;
+		
+		/** 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다. */
+		const Token token;
 	};
 
 	/** Expression 구조체에 대한 std::shared_ptr 타입입니다. */

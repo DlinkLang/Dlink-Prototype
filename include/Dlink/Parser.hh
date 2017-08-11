@@ -41,29 +41,31 @@ namespace Dlink
 		const std::vector<Error>& get_errors() const noexcept;
 
 	private:
+		void assign_token(Token* dest, Token source);
+
 		Token current_token() const;
 		Token previous_token() const;
 		Token next_token() const;
-		bool accept(TokenType token_type);
+		bool accept(TokenType token_type, Token* start_token = nullptr);
 
-		bool block(StatementPtr& out);
-		bool scope(StatementPtr& out);
-		bool var_decl(StatementPtr& out);
-		bool func_decl(StatementPtr& out, TypePtr return_type, const std::string& identifier);
-		bool return_stmt(StatementPtr& out);
-		bool expr_stmt(StatementPtr& out);
+		bool block(StatementPtr& out, Token* start_token = nullptr);
+		bool scope(StatementPtr& out, Token* start_token = nullptr);
+		bool var_decl(StatementPtr& out, Token* start_token = nullptr);
+		bool func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token = nullptr);
+		bool return_stmt(StatementPtr& out, Token* start_token = nullptr);
+		bool expr_stmt(StatementPtr& out, Token* start_token = nullptr);
 		
-		bool expr(ExpressionPtr& out);
-		bool assign(ExpressionPtr& out);
-		bool addsub(ExpressionPtr& out);
-		bool muldiv(ExpressionPtr& out);
-		bool atom(ExpressionPtr& out);
+		bool expr(ExpressionPtr& out, Token* start_token = nullptr);
+		bool assign(ExpressionPtr& out, Token* start_token = nullptr);
+		bool addsub(ExpressionPtr& out, Token* start_token = nullptr);
+		bool muldiv(ExpressionPtr& out, Token* start_token = nullptr);
+		bool atom(ExpressionPtr& out, Token* start_token = nullptr);
 
-		bool number(ExpressionPtr& out);
-		bool identifier(ExpressionPtr& out);
+		bool number(ExpressionPtr& out, Token* start_token = nullptr);
+		bool identifier(ExpressionPtr& out, Token* start_token = nullptr);
 
-		bool type(TypePtr& out);
-		bool simple_type(TypePtr& out);
+		bool type(TypePtr& out, Token* start_token = nullptr);
+		bool simple_type(TypePtr& out, Token* start_token = nullptr);
 
 	private:
 		TokenSeq input_;

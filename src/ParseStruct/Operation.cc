@@ -212,7 +212,8 @@ namespace Dlink
 	{
 		std::string result;
 		result += tree_prefix(depth) + "FunctionCallOperation:\n";
-		result += tree_prefix(++depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
+		++depth;
+		result += tree_prefix(depth) + "identifier:\n" + identifier.tree_gen(depth + 1) + '\n';
 		result += tree_prefix(depth) + "argument:\n";
 		++depth;
 		for (auto arg : argument)

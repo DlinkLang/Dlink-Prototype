@@ -14,6 +14,7 @@
 
 #include "Root.hh"
 #include "../LLVMValue.hh"
+#include "../Token.hh"
 
 namespace Dlink
 {
@@ -22,8 +23,8 @@ namespace Dlink
 	 */
 	struct VariableDeclaration : public Statement
 	{
-		VariableDeclaration(const Token& token, TypePtr type, Identifier identifier);
-		VariableDeclaration(const Token& token, TypePtr type, Identifier identifier, ExpressionPtr expression);
+		VariableDeclaration(const Token& token, TypePtr type, const std::string& identifier);
+		VariableDeclaration(const Token& token, TypePtr type, const std::string& identifier, ExpressionPtr expression);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -31,7 +32,7 @@ namespace Dlink
 		/** 변수의 타입입니다. */
 		TypePtr type;
 		/** 변수의 식별자입니다. */
-		Identifier identifier;
+		std::string identifier;
 		/** 변수의 초기화 식입니다. */
 		ExpressionPtr expression;
 	};
@@ -41,7 +42,7 @@ namespace Dlink
 	 */
 	struct FunctionDeclaration : public Statement
 	{
-		FunctionDeclaration(const Token& token, TypePtr return_type, Identifier identifier,
+		FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
 			const std::vector<VariableDeclaration>& parameter, StatementPtr body);
 
 		std::string tree_gen(std::size_t depth) const override;
@@ -50,7 +51,7 @@ namespace Dlink
 		/** 함수의 반환 값 타입입니다. */
 		TypePtr return_type;
 		/** 함수의 식별자입니다. */
-		Identifier identifier;
+		std::string identifier;
 		/** 함수의 매개 변수입니다. */
 		std::vector<VariableDeclaration> parameter;
 		/** 함수의 몸체입니다. */

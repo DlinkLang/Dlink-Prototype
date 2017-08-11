@@ -134,3 +134,14 @@ namespace Dlink
 		return expression->code_gen();
 	}
 }
+
+namespace Dlink
+{
+	/**
+	 * @brief 이 Type 인스턴스의 멤버를 초기화합니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 */
+	Type::Type(const Token& token)
+		: token(token)
+	{}
+}
