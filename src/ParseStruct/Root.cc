@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "ParseStruct/Root.hh"
 #include "CodeGen.hh"
 
@@ -32,8 +34,7 @@ namespace Dlink
 
 		if (result == nullptr)
 		{
-			// TODO
-			return nullptr;
+			throw Error(token, "Unbound symbol \"" + id + "\"");
 		}
 
 		return result;

@@ -471,7 +471,7 @@ namespace Dlink
 	bool Parser::identifier(ExpressionPtr& out, Token* start_token)
 	{
 		Token identifier_start;
-		if (accept(TokenType::identifier))
+		if (accept(TokenType::identifier, &identifier_start))
 		{
 			out = std::make_shared<Identifier>(identifier_start, previous_token().data);
 			return true;

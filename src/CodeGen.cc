@@ -81,7 +81,7 @@ namespace Dlink
 		}
 		else
 		{
-			return parent == nullptr ? false : parent->find(name);
+			return parent == nullptr ? false : parent->find_bool(name);
 		}
 	}
 
