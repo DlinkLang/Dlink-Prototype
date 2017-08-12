@@ -1,4 +1,5 @@
 #include "ParseStruct/Declaration.hh"
+#include "ParseStruct/Type.hh"
 #include "CodeGen.hh"
 
 namespace Dlink
@@ -46,9 +47,24 @@ namespace Dlink
 		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
 		var->setAlignment(4);
 
-		if (expression)
+		if (dynamic_cast<LValueReference*>(type.get()))
+		{
+			if (!expression)
+			{
+				// TODO: 에러 메세지 추가해 주세요.
+				// TODO: int& i; 이런식으로 초기화 식이 없는 상황입니다.
+				throw Error(token, "TODO");
+			}
+			else
+			{
+				// TODO: 좌측 값 참조 초기화 식 대입(?)
+				return nullptr;
+			}
+		}
+		else if (expression) // Reference가 아닌데 expression이 있는 상황
 		{
 			LLVM::Value init_expr = expression->code_gen();
+			
 			LLVM::builder.CreateStore(init_expr, var);
 		}
 

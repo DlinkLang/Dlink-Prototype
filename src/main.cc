@@ -14,7 +14,7 @@ int main(int argc, const char** argv)
 	int main()
 	{
 		int i = 0;
-		int& ir;
+		int& ir = i;
 
 		return 0;
 	}
