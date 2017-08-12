@@ -49,12 +49,7 @@ namespace Dlink
 	{
 		using Node::Node;
 
-		/**
-		* @brief 이 식을 Dlink 코드를 컴파일 하는 중에 계산합니다.
-		* @param out 계산된 값을 저장할 Any 인스턴스입니다.
-		* @return 컴파일 시간에 계산을 성공했을 경우 true를, 실패했을 경우 false를 반환합니다.
-		*/
-		virtual bool evaluate(Any& out) = 0;
+		virtual bool evaluate(Any& out);
 	};
 
 	/**

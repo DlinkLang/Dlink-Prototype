@@ -16,6 +16,16 @@ namespace Dlink
 	{}
 
 	/**
+	 * @brief 이 식을 Dlink 코드를 컴파일 하는 중에 계산합니다.
+	 * @param out 계산된 값을 저장할 Any 인스턴스입니다.
+	 * @return 컴파일 시간에 계산을 성공했을 경우 true를, 실패했을 경우 false를 반환합니다.
+	 */
+	bool Expression::evaluate(Any& out)
+	{
+		return false;
+	}
+
+	/**
 	 * @brief 새 Identifier 인스턴스를 만듭니다.
 	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param id 식별자 값입니다.
