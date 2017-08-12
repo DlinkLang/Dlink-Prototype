@@ -222,9 +222,7 @@ namespace Dlink
 						break;
 					else
 					{
-						// TODO: 오류 메세지 추가좀 해주세요.
-						// TODO: int main(void, int i) {} 이런 상황에 발생하는 오류입니다.
-						errors_.add_error(Error(current_token(), "TODO"));
+						errors_.add_error(Error(current_token(), "Unexpected additional parameter in void paramter function"));
 						return false;
 					}
 				}
@@ -446,8 +444,6 @@ namespace Dlink
 
 	bool Parser::func_call(ExpressionPtr& out, Token* start_token)
 	{
-		// INFO: 졸음코딩 된 코드입니다. 어딘가에 시한폭탄이 있을지 모릅니다!
-
 		ExpressionPtr func_expr;
 
 		Token func_call_start;

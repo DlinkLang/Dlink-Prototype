@@ -15,9 +15,10 @@ int main(int argc, const char** argv)
 	{
 		return;
 	}
-	int main()
+	int main(void)
 	{
-		return 10;
+		int a = 10;
+		return a;
 	}
 	)");
 
