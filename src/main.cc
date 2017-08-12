@@ -15,7 +15,7 @@ int main(int argc, const char** argv)
 	{
 		return;
 	}
-	int main(void)
+	int main(void, int)
 	{
 		int a = 10;
 		return a;
@@ -48,7 +48,8 @@ int main(int argc, const char** argv)
 		{
 			std::cerr << "Code generation Failed\n";
 
-			Dlink::Token error_token = error.error_token();
+			Dlink::Token error_token = error.message_token();
+			std::cerr << "Error at ";
 			std::cerr << "Line " << error_token.line;
 			std::cerr << " Col " << error_token.col;
 			
@@ -61,7 +62,8 @@ int main(int argc, const char** argv)
 
 		for (auto error : parser.get_errors())
 		{
-			Dlink::Token error_token = error.error_token();
+			Dlink::Token error_token = error.message_token();
+			std::cerr << "Error at ";
 			std::cerr << "Line " << error_token.line;
 			std::cerr << " Col " << error_token.col;
 
