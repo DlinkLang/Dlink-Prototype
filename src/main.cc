@@ -15,10 +15,11 @@ int main(int argc, const char** argv)
 	{
 		return;
 	}
-	int main(void, int)
+	int main(void)
 	{
 		int a = 10;
 		return a;
+		1+1;
 	}
 	)");
 
@@ -33,6 +34,16 @@ int main(int argc, const char** argv)
 	Dlink::StatementPtr ast;
 	if (parser.parse(ast))
 	{
+		for(auto warning : parser.get_warnings())
+		{
+			Dlink::Token warning_token = warning.message_token();
+			std::cerr << "Warning at ";
+			std::cerr << "Line " << warning_token.line;
+			std::cerr << " Col " << warning_token.col;
+
+			std::cerr << " " << warning.what() << '\n';
+		}
+
 		std::cout << "Parsing Succeed\n";
 		std::string temp = ast->tree_gen(0);
 		std::cout << ast->tree_gen(0) << "\n\n";
@@ -40,6 +51,16 @@ int main(int argc, const char** argv)
 		try
 		{
 			ast->code_gen();
+
+			for(auto warning : Dlink::CompileMessage::warnings.get_warnings())
+			{
+				Dlink::Token warning_token = warning.message_token();
+				std::cerr << "Warning at ";
+				std::cerr << "Line " << warning_token.line;
+				std::cerr << " Col " << warning_token.col;
+
+				std::cerr << " " << warning.what() << '\n';
+			}
 
 			std::cout << "Code generation Succeed\n";
 			Dlink::LLVM::module->dump();
