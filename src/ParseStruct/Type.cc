@@ -96,4 +96,23 @@ namespace Dlink
 
 		return llvm::ArrayType::get(type_llvm, length_real);
 	}
+
+	/**
+	 * @brief 이 Reference 인스턴스의 멤버를 초기화합니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param type 참조할 값의 타입입니다.
+	 */
+	Reference::Reference(const Token& token, TypePtr type)
+		: Type(token), type(type)
+	{}
+	llvm::Type* Reference::get_type()
+	{
+		return type->get_type()->getPointerTo();
+	}
+
+	std::string LValueReference::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "LValueReference:\n" +
+			tree_prefix(++depth) + "type:\n" + type->tree_gen(++depth);
+	}
 }

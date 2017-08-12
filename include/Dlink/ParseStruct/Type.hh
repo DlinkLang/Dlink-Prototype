@@ -53,4 +53,28 @@ namespace Dlink
 		/** 배열의 길이입니다. */
 		ExpressionPtr length;
 	};
+
+	/**
+	 * @brief 참조 타입의 루트 노드입니다.
+	 */
+	struct Reference : public Type
+	{
+		Reference(const Token& token, TypePtr type);
+
+		llvm::Type* get_type() override;
+
+		/** 참조하고 있는 값의 타입입니다. */
+		TypePtr type;
+	};
+
+	/**
+	 * @brief 좌측 값 참조 타입입니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
+	 */
+	struct LValueReference final : public Reference
+	{
+		using Reference::Reference;
+
+		std::string tree_gen(std::size_t depth) const override;
+	};
 }

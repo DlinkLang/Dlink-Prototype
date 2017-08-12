@@ -420,7 +420,7 @@ namespace Dlink
 		}
 
 		out = lhs;
-		
+
 		assign_token(start_token, addsub_start);
 		return true;
 	}
@@ -519,10 +519,10 @@ namespace Dlink
 					if (accept(TokenType::rparen))
 					{
 						func_expr = std::make_shared<FunctionCallOperation>(func_call_start, func_expr, arg);
-						
+
 						break;
 					}
-					else if(accept(TokenType::comma))
+					else if (accept(TokenType::comma))
 					{
 						continue;
 					}
@@ -558,7 +558,7 @@ namespace Dlink
 			if (accept(TokenType::rparen))
 			{
 				out = expression;
-				
+
 				assign_token(start_token, paren_start);
 				return true;
 			}
@@ -637,7 +637,7 @@ namespace Dlink
 		Token array_start_token;
 		TypePtr type;
 
-		if (simple_type(type, &array_start_token))
+		if (reference_type(type, &array_start_token))
 		{
 			TypePtr lhs_array_type = type;
 
@@ -650,10 +650,10 @@ namespace Dlink
 					if (accept(TokenType::rbparen))
 					{
 						lhs_array_type = std::make_shared<StaticArray>(array_start_token, lhs_array_type, length);
-						
+
 						if (accept(TokenType::lbparen))
 							goto loop;
-						
+
 						out = lhs_array_type;
 						assign_token(start_token, array_start_token);
 						return true;
@@ -675,10 +675,34 @@ namespace Dlink
 				return true;
 			}
 		}
-		else
+
+		return false;
+	}
+
+	bool Parser::reference_type(TypePtr& out, Token* start_token)
+	{
+		Token reference_start_token;
+		TypePtr type;
+
+		if (simple_type(type, &reference_start_token))
 		{
-			return false;
+			if (accept(TokenType::bit_and))
+			{
+				out = std::make_shared<LValueReference>(reference_start_token, type);
+
+				assign_token(start_token, reference_start_token);
+				return true;
+			}
+			else
+			{
+				out = type;
+
+				assign_token(start_token, reference_start_token);
+				return true;
+			}
 		}
+
+		return false;
 	}
 
 	bool Parser::simple_type(TypePtr& out, Token* start_token)
