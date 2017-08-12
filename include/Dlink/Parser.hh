@@ -70,6 +70,7 @@ namespace Dlink
 		bool identifier(ExpressionPtr& out, Token* start_token = nullptr);
 
 		bool type(TypePtr& out, Token* start_token = nullptr);
+		bool array_type(TypePtr& out, Token* start_token = nullptr);
 		bool simple_type(TypePtr& out, Token* start_token = nullptr);
 
 	private:

@@ -629,7 +629,49 @@ namespace Dlink
 {
 	bool Parser::type(TypePtr& out, Token* start_token)
 	{
-		return simple_type(out, start_token);
+		return array_type(out, start_token);
+	}
+
+	bool Parser::array_type(TypePtr& out, Token* start_token)
+	{
+		Token array_start_token;
+		TypePtr type;
+
+		if (simple_type(type, &array_start_token))
+		{
+			if (accept(TokenType::lbparen))
+			{
+				ExpressionPtr length;
+				if (expr(length))
+				{
+					if (accept(TokenType::rbparen))
+					{
+						out = std::make_shared<StaticArray>(array_start_token, type, length);
+						
+						assign_token(start_token, array_start_token);
+						return true;
+					}
+				}
+				else
+				{
+					// TODO: 에러  메세지 추가해 주세요.
+					// TODO: int[return 5;] a; 이런 상황이랄까요
+					errors_.add_error(Error(current_token(), "TODO"));
+					return false;
+				}
+			}
+			else
+			{
+				out = type;
+
+				assign_token(start_token, array_start_token);
+				return true;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	bool Parser::simple_type(TypePtr& out, Token* start_token)

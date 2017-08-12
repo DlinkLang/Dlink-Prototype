@@ -44,7 +44,6 @@ namespace Dlink
 	struct StaticArray final : public Type
 	{
 		StaticArray(const Token& token, TypePtr type, ExpressionPtr length);
-		StaticArray(const Token& token, TypePtr type, ExpressionPtr length, ExpressionPtr expression);
 
 		std::string tree_gen(std::size_t depth) const override;
 		llvm::Type* get_type() override;
@@ -53,7 +52,5 @@ namespace Dlink
 		TypePtr type;
 		/** 배열의 길이입니다. */
 		ExpressionPtr length;
-		/** 배열의 초기화 식입니다. */
-		ExpressionPtr expression;
 	};
 }
