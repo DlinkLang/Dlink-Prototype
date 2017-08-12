@@ -160,10 +160,22 @@ namespace Dlink
 		case TokenType::divide:
 			// TODO: 임시 방안
 			return LLVM::builder.CreateSDiv(lhs_value, rhs_value);
+		
+		case TokenType::assign:
+		{
+			if (dynamic_cast<Identifier*>(lhs.get()))
+			{
+				return LLVM::builder.CreateStore(rhs_value, lhs_value);
+			}
+			
+			// TODO: 에러 메세지 채워주세요.
+			// TODO: 5 = 3; 이런 상황이랄까요. 식별자가 아닌 곳에 대입을 하는 상황입니다.
+			throw Error(token, "TODO");
+			return false;
+		}
 
 		default:
-			// TODO: 오류 처리
-			return LLVM::builder.getFalse();
+			return nullptr;
 		}
 	}
 	bool BinaryOperation::evaluate(Any& out)

@@ -384,7 +384,7 @@ namespace Dlink
 
 		for (ExpressionPtr operand : operands)
 		{
-			result = std::make_shared<BinaryOperation>(assign_start, TokenType::assign, result, operand);
+			result = std::make_shared<BinaryOperation>(assign_start, TokenType::assign, operand, result);
 		}
 
 		out = result;
