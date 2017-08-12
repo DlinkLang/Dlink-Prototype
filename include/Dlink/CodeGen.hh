@@ -18,6 +18,7 @@
 
 #include "LLVMValue.hh"
 #include "ParseStruct/Root.hh"
+#include "ParseStruct/Declaration.hh"
 #include "Error.hh"
 
 namespace Dlink
@@ -68,4 +69,6 @@ namespace Dlink
 
 	extern SymbolTablePtr symbol_table;
 	extern TypeSymbolTablePtr type_symbol_table;
+	
+	extern std::shared_ptr<FunctionDeclaration> current_func;
 }

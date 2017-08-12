@@ -89,4 +89,7 @@ namespace Dlink
 	SymbolTablePtr symbol_table = std::make_shared<SymbolTable>();
 	/** 현재 사용자 정의 타입 심볼 테이블입니다. */
 	TypeSymbolTablePtr type_symbol_table = std::make_shared<TypeSymbolTable>();
+
+	/** 현재 code_gen 중인 함수입니다. */
+	std::shared_ptr<FunctionDeclaration> current_func = nullptr;
 }

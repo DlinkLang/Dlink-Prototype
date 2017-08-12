@@ -266,6 +266,10 @@ namespace Dlink
 	}
 	LLVM::Value ReturnStatement::code_gen()
 	{
+		if (current_func->return_type->get_type() == LLVM::builder.getVoidTy())
+		{
+			throw Error(token, "Unexpected return statement in void function");
+		}
 		return LLVM::builder.CreateRet(return_expr->code_gen());
 	}
 }

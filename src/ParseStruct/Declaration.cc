@@ -97,6 +97,8 @@ namespace Dlink
 	}
 	LLVM::Value FunctionDeclaration::code_gen()
 	{
+		current_func = std::make_shared<FunctionDeclaration>(token, return_type, identifier, parameter, body);
+
 		std::vector<llvm::Type*> param_type;
 		for (const auto& param : parameter)
 		{
@@ -148,6 +150,8 @@ namespace Dlink
 		{
 			symbol_table->map.erase(param.getName());
 		}
+
+		current_func = nullptr;
 
 		return func;
 	}
