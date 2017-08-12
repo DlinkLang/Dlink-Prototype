@@ -4,6 +4,6 @@ namespace Dlink
 {
 	std::string tree_prefix(std::size_t depth)
 	{
-		return std::string(depth * 6, ' ');
+		return std::string(depth * 4, ' ');
 	}
 }

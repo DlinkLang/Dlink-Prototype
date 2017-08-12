@@ -639,15 +639,22 @@ namespace Dlink
 
 		if (simple_type(type, &array_start_token))
 		{
+			TypePtr lhs_array_type = type;
+
 			if (accept(TokenType::lbparen))
 			{
+			loop:
 				ExpressionPtr length;
 				if (expr(length))
 				{
 					if (accept(TokenType::rbparen))
 					{
-						out = std::make_shared<StaticArray>(array_start_token, type, length);
+						lhs_array_type = std::make_shared<StaticArray>(array_start_token, lhs_array_type, length);
 						
+						if (accept(TokenType::lbparen))
+							goto loop;
+						
+						out = lhs_array_type;
 						assign_token(start_token, array_start_token);
 						return true;
 					}
