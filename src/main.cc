@@ -17,7 +17,7 @@ int main(int argc, const char** argv)
 	}
 	int main()
 	{
-		return 1();
+		return -(-(+1));
 	}
 	)");
 

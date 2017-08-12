@@ -12,9 +12,10 @@
 
 #include "llvm/IR/Value.h"
 
-#include "LLVMValue.hh"
-#include "Token.hh"
-#include "ParseStruct/Root.hh"
+#include "../LLVMValue.hh"
+#include "../Token.hh"
+#include "../ParseStruct/Root.hh"
+#include "../Any.hh"
 
 namespace Dlink
 {

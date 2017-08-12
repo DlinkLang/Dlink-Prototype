@@ -388,6 +388,8 @@ namespace Dlink
 		}
 
 		out = result;
+
+		assign_token(start_token, assign_start);
 		return true;
 	}
 
@@ -418,6 +420,8 @@ namespace Dlink
 		}
 
 		out = lhs;
+		
+		assign_token(start_token, addsub_start);
 		return true;
 	}
 
@@ -426,7 +430,7 @@ namespace Dlink
 		ExpressionPtr lhs;
 
 		Token muldiv_start;
-		if (!func_call(lhs, &muldiv_start))
+		if (!unary_plusminus(lhs, &muldiv_start))
 		{
 			return false;
 		}
@@ -438,7 +442,7 @@ namespace Dlink
 			op = previous_token().type;
 
 			ExpressionPtr rhs;
-			if (!func_call(rhs))
+			if (!unary_plusminus(rhs))
 			{
 				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
@@ -448,7 +452,47 @@ namespace Dlink
 		}
 
 		out = lhs;
+
+		assign_token(start_token, muldiv_start);
 		return true;
+	}
+
+	bool Parser::unary_plusminus(ExpressionPtr& out, Token* start_token)
+	{
+		Token plusminus_start;
+		if (accept(TokenType::plus, &plusminus_start) || accept(TokenType::minus, &plusminus_start))
+		{
+			TokenType op = previous_token().type;
+
+			ExpressionPtr rhs;
+			if (!func_call(rhs))
+			{
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+				return false;
+			}
+
+			out = std::make_shared<UnaryOperation>(plusminus_start, op, rhs);
+			assign_token(start_token, plusminus_start);
+
+			return true;
+		}
+		else
+		{
+			Token func_call_start;
+
+			ExpressionPtr func_call_expr;
+			if (func_call(func_call_expr, &func_call_start))
+			{
+				out = func_call_expr;
+
+				assign_token(start_token, func_call_start);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 
 	bool Parser::func_call(ExpressionPtr& out, Token* start_token)

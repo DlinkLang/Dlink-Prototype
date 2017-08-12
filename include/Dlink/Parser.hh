@@ -61,6 +61,7 @@ namespace Dlink
 		bool assign(ExpressionPtr& out, Token* start_token = nullptr);
 		bool addsub(ExpressionPtr& out, Token* start_token = nullptr);
 		bool muldiv(ExpressionPtr& out, Token* start_token = nullptr);
+		bool unary_plusminus(ExpressionPtr& out, Token* start_token = nullptr);
 		bool func_call(ExpressionPtr& out, Token* start_token = nullptr);
 		bool paren(ExpressionPtr& out, Token* start_token = nullptr);
 		bool atom(ExpressionPtr& out, Token* start_token = nullptr);

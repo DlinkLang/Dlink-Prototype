@@ -13,9 +13,9 @@
 
 #include "llvm/IR/Value.h"
 
-#include "Any.hh"
-#include "LLVMValue.hh"
-#include "Token.hh"
+#include "../Any.hh"
+#include "../LLVMValue.hh"
+#include "../Token.hh"
 
 namespace Dlink
 {
