@@ -36,4 +36,24 @@ namespace Dlink
 		 */
 		const bool is_unsigned;
 	};
+
+	/**
+	 * @brief 정적 배열 타입입니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
+	 */
+	struct StaticArray final : public Type
+	{
+		StaticArray(const Token& token, TypePtr type, ExpressionPtr length);
+		StaticArray(const Token& token, TypePtr type, ExpressionPtr length, ExpressionPtr expression);
+
+		std::string tree_gen(std::size_t depth) const override;
+		llvm::Type* get_type() override;
+
+		/** 배열 아이템의 타입입니다. */
+		TypePtr type;
+		/** 배열의 길이입니다. */
+		ExpressionPtr length;
+		/** 배열의 초기화 식입니다. */
+		ExpressionPtr expression;
+	};
 }
