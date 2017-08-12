@@ -456,7 +456,7 @@ namespace Dlink
 		ExpressionPtr func_expr;
 
 		Token func_call_start;
-		if (!atom(func_expr, &func_call_start))
+		if (!paren(func_expr, &func_call_start))
 		{
 			return false;
 		}
@@ -501,6 +501,47 @@ namespace Dlink
 		assign_token(start_token, func_call_start);
 
 		return true;
+	}
+
+	bool Parser::paren(ExpressionPtr& out, Token* start_token)
+	{
+		Token paren_start;
+		if (accept(TokenType::lparen))
+		{
+			ExpressionPtr expression;
+			expr(expression);
+
+			if (accept(TokenType::rparen))
+			{
+				out = expression;
+
+				assign_token(start_token, paren_start);
+				return true;
+			}
+			else
+			{
+				errors_.add_error(Error(current_token(), "Expected ')', but got \"" + current_token().data + "\""));
+
+				return false;
+			}
+		}
+		else
+		{
+			ExpressionPtr atom_expr;
+
+			Token atom_start;
+			if (atom(atom_expr, &atom_start))
+			{
+				out = atom_expr;
+
+				assign_token(start_token, atom_start);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 
 	bool Parser::atom(ExpressionPtr& out, Token* start_token)

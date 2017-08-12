@@ -13,11 +13,7 @@ int main(int argc, const char** argv)
 	lexer.lex(R"(
 	int main()
 	{
-		return foo(0);
-	}
-	int foo(int a)
-	{
-		return a;
+		return (1 + 1)(10);
 	}
 	)");
 
