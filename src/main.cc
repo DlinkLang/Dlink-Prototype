@@ -11,9 +11,13 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
+	int f()
+	{
+		return 1;
+	}
 	int main()
 	{
-		return (1 + 1)(10);
+		return 1();
 	}
 	)");
 

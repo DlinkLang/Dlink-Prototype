@@ -1,6 +1,8 @@
 #include "ParseStruct/Operation.hh"
 #include "CodeGen.hh"
 
+#include <iostream>
+
 namespace Dlink
 {
 	extern std::string tree_prefix(std::size_t depth);
@@ -226,7 +228,7 @@ namespace Dlink
 	}
 	LLVM::Value FunctionCallOperation::code_gen()
 	{
-		llvm::Function* function = static_cast<llvm::Function*>(func_expr->code_gen().get());
+		llvm::Function* function = dynamic_cast<llvm::Function*>(func_expr->code_gen().get());
 
 		if (function)
 		{

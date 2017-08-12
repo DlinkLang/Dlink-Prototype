@@ -506,7 +506,7 @@ namespace Dlink
 	bool Parser::paren(ExpressionPtr& out, Token* start_token)
 	{
 		Token paren_start;
-		if (accept(TokenType::lparen))
+		if (accept(TokenType::lparen, &paren_start))
 		{
 			ExpressionPtr expression;
 			expr(expression);
@@ -514,7 +514,7 @@ namespace Dlink
 			if (accept(TokenType::rparen))
 			{
 				out = expression;
-
+				
 				assign_token(start_token, paren_start);
 				return true;
 			}
@@ -558,6 +558,8 @@ namespace Dlink
 		if (accept(TokenType::dec_integer, &number_start))
 		{
 			out = std::make_shared<Integer32>(number_start, std::stoi(previous_token().data));
+
+			assign_token(start_token, number_start);
 			return true;
 		}
 
@@ -570,6 +572,8 @@ namespace Dlink
 		if (accept(TokenType::identifier, &identifier_start))
 		{
 			out = std::make_shared<Identifier>(identifier_start, previous_token().data);
+
+			assign_token(start_token, identifier_start);
 			return true;
 		}
 
