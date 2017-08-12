@@ -247,6 +247,39 @@ namespace Dlink
 			return LLVM::builder.getFalse();
 		}
 	}
+	bool UnaryOperation::evaluate(Any& out)
+	{
+		Any rhs_eval;
+		bool rhs_eval_ok = rhs->evaluate(rhs_eval);
+
+		if (rhs_eval_ok)
+		{
+			Any eval;
+			bool eval_ok;
+
+			switch (op)
+			{
+			case TokenType::plus:
+				eval_ok = any_add(0, rhs_eval, eval);
+				break;
+
+			case TokenType::minus:
+				eval_ok = any_sub(0, rhs_eval, eval);
+				break;
+
+			default:
+				return false;
+			}
+
+			if (eval_ok)
+			{
+				out = eval;
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	/**
 	 * @brief 새 FunctionCallOperation 인스턴스를 만듭니다.
