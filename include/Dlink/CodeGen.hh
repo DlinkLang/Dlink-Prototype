@@ -19,7 +19,7 @@
 #include "LLVMValue.hh"
 #include "ParseStruct/Root.hh"
 #include "ParseStruct/Declaration.hh"
-#include "Error.hh"
+#include "Message/Error.hh"
 
 namespace Dlink
 {

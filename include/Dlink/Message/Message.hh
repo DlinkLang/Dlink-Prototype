@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-#include "Token.hh"
+#include "../Token.hh"
 
 namespace Dlink
 {

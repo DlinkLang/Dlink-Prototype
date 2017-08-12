@@ -1,4 +1,4 @@
-#include "Warning.hh"
+#include "Message/Warning.hh"
 
 namespace Dlink
 {

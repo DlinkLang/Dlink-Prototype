@@ -11,7 +11,7 @@
 #include <set>
 #include <vector>
 
-#include "Error.hh"
+#include "Message/Error.hh"
 #include "ParseStruct.hh"
 #include "Token.hh"
 
