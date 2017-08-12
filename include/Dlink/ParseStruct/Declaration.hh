@@ -44,6 +44,8 @@ namespace Dlink
 	{
 		FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
 			const std::vector<VariableDeclaration>& parameter, StatementPtr body);
+		FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
+			const std::vector<VariableDeclaration>& parameter, StatementPtr body, bool);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
@@ -56,5 +58,9 @@ namespace Dlink
 		std::vector<VariableDeclaration> parameter;
 		/** 함수의 몸체입니다. */
 		StatementPtr body;
+
+	private:
+		llvm::Function* func_;
+		llvm::FunctionType* func_type_;
 	};
 }

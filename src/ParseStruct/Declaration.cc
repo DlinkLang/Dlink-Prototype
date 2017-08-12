@@ -66,6 +66,41 @@ namespace Dlink
 	FunctionDeclaration::FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
 		const std::vector<VariableDeclaration>& parameter, StatementPtr body)
 		: Statement(token), return_type(return_type), identifier(identifier), parameter(parameter), body(body)
+	{
+		std::vector<llvm::Type*> param_type;
+		for (const auto& param : parameter)
+		{
+			param_type.push_back(param.type->get_type());
+		}
+
+		func_type_ =
+			param_type.size() != 0 ?
+			llvm::FunctionType::get(return_type->get_type(), param_type, false) :
+			llvm::FunctionType::get(return_type->get_type(), false);
+		func_ =
+			llvm::Function::Create(func_type_, llvm::GlobalValue::ExternalLinkage, identifier, LLVM::module.get());
+
+		std::size_t i = 0;
+		for (auto& param : func_->args())
+		{
+			param.setName(parameter[i++].identifier);
+			symbol_table->map[param.getName()] = &param;
+		}
+
+		symbol_table->map.insert(std::make_pair(identifier, func_));
+	}
+	/**
+	 * @brief 새 더미 FunctionDeclaration 인스턴스를 만듭니다.
+	 * @details 마지막 bool 타입 인수로는 아무 값이나 주어도 더미 인스턴스로 만들어집니다.
+	 * @param return_type 함수의 반환 값 타입입니다.
+	 * @param identifier 함수의 식별자입니다.
+	 * @param parameter 함수의 매개 변수입니다.
+	 * @param body 함수의 몸체입니다.
+	 */
+	FunctionDeclaration::FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
+		const std::vector<VariableDeclaration>& parameter, StatementPtr body, bool)
+		: Statement(token), return_type(return_type), identifier(identifier), parameter(parameter), body(body),
+		func_type_(nullptr), func_(nullptr)
 	{}
 
 	std::string FunctionDeclaration::tree_gen(std::size_t depth) const
@@ -97,31 +132,11 @@ namespace Dlink
 	}
 	LLVM::Value FunctionDeclaration::code_gen()
 	{
-		current_func = std::make_shared<FunctionDeclaration>(token, return_type, identifier, parameter, body);
-
-		std::vector<llvm::Type*> param_type;
-		for (const auto& param : parameter)
-		{
-			param_type.push_back(param.type->get_type());
-		}
-
-		llvm::FunctionType* func_type =
-			param_type.size() != 0 ?
-			llvm::FunctionType::get(return_type->get_type(), param_type, false) :
-			llvm::FunctionType::get(return_type->get_type(), false);
-		llvm::Function* func =
-			llvm::Function::Create(func_type, llvm::GlobalValue::ExternalLinkage, identifier, LLVM::module.get());
-
-		std::size_t i = 0;
-		for (auto& param : func->args())
-		{
-			param.setName(parameter[i++].identifier);
-			symbol_table->map[param.getName()] = &param;
-		}
-
-		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context, "entry", func, nullptr);
-		LLVM::builder.SetInsertPoint(func_block);
+		current_func = std::make_shared<FunctionDeclaration>(token, return_type, identifier, parameter, body, true);
 		
+		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context, "entry", func_, nullptr);
+		LLVM::builder.SetInsertPoint(func_block);
+
 		llvm::Value* body_gen = body->code_gen();
 		llvm::ReturnInst* ret = nullptr;
 
@@ -146,16 +161,15 @@ namespace Dlink
 			}
 		}
 
-		symbol_table->map.insert(std::make_pair(identifier, func));
-		LLVM::function_pm->run(*func);
+		LLVM::function_pm->run(*func_);
 		
-		for (auto& param : func->args())
+		for (auto& param : func_->args())
 		{
 			symbol_table->map.erase(param.getName());
 		}
 
 		current_func = nullptr;
 
-		return func;
+		return func_;
 	}
 }
