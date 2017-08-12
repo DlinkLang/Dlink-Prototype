@@ -260,16 +260,34 @@ namespace Dlink
 	std::string ReturnStatement::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "ReturnStatement:\n";
-		tree += return_expr->tree_gen(depth + 1);
+		if (return_expr)
+		{
+			tree += return_expr->tree_gen(depth + 1);
+		}
+		else
+		{
+			tree += tree_prefix(depth + 1) + "empty";
+		}
 
 		return tree;
 	}
 	LLVM::Value ReturnStatement::code_gen()
 	{
-		if (current_func->return_type->get_type() == LLVM::builder.getVoidTy())
+		if (return_expr)
 		{
-			throw Error(token, "Unexpected return statement in void function");
+			if (current_func->return_type->get_type() == LLVM::builder.getVoidTy())
+			{
+				throw Error(token, "Unexpected value return statement in void function");
+			}
+			return LLVM::builder.CreateRet(return_expr->code_gen());
 		}
-		return LLVM::builder.CreateRet(return_expr->code_gen());
+		else
+		{
+			if (current_func->return_type->get_type() != LLVM::builder.getVoidTy())
+			{
+				throw Error(token, "Expected value return statement in non-void returning function");
+			}
+			return LLVM::builder.CreateRetVoid();
+		}
 	}
 }

@@ -276,11 +276,7 @@ namespace Dlink
 		{
 			ExpressionPtr return_expr;
 
-			if (!expr(return_expr))
-			{
-				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
-				return false;
-			}
+			expr(return_expr);
 
 			if (accept(TokenType::semicolon))
 			{

@@ -98,7 +98,7 @@ namespace Dlink
 	 */
 	struct ReturnStatement final : public Statement
 	{
-		ReturnStatement(const Token& token, ExpressionPtr return_value);
+		ReturnStatement(const Token& token, ExpressionPtr return_value = nullptr);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
