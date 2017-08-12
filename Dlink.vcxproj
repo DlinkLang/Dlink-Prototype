@@ -21,10 +21,12 @@
   <ItemGroup>
     <ClCompile Include="src\CodeGen.cc" />
     <ClCompile Include="src\CommandLine.cc" />
-    <ClCompile Include="src\Error.cc" />
     <ClCompile Include="src\Lexer.cc" />
     <ClCompile Include="src\LLVMValue.cc" />
     <ClCompile Include="src\main.cc" />
+    <ClCompile Include="src\Message\Error.cc" />
+    <ClCompile Include="src\Message\Message.cc" />
+    <ClCompile Include="src\Message\Warning.cc" />
     <ClCompile Include="src\Parser.cc" />
     <ClCompile Include="src\ParseStruct.cc" />
     <ClCompile Include="src\ParseStruct\Declaration.cc" />

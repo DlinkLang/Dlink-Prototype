@@ -13,6 +13,9 @@
     <Filter Include="Header-Files\ParseStruct">
       <UniqueIdentifier>{827b406d-9986-4028-b36b-161862eabea3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source-Files\Message">
+      <UniqueIdentifier>{f9dbf609-85b5-44c9-8592-c7ee5ebf8a58}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cc">
@@ -39,9 +42,6 @@
     <ClCompile Include="src\LLVMValue.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Error.cc">
-      <Filter>Source-Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ParseStruct\Declaration.cc">
       <Filter>Source-Files\ParseStruct</Filter>
     </ClCompile>
@@ -53,6 +53,15 @@
     </ClCompile>
     <ClCompile Include="src\ParseStruct\Type.cc">
       <Filter>Source-Files\ParseStruct</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Message\Error.cc">
+      <Filter>Source-Files\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Message\Message.cc">
+      <Filter>Source-Files\Message</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Message\Warning.cc">
+      <Filter>Source-Files\Message</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
