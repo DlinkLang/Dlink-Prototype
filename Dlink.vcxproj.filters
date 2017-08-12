@@ -63,6 +63,9 @@
     <ClCompile Include="src\Message\Warning.cc">
       <Filter>Source-Files\Message</Filter>
     </ClCompile>
+    <ClCompile Include="src\Any.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Dlink\CodeGen.hh">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="include\Dlink\ParseStruct\Type.hh">
       <Filter>Header-Files\ParseStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Any.hh">
+      <Filter>Header-Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
