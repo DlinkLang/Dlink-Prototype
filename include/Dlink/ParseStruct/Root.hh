@@ -13,8 +13,9 @@
 
 #include "llvm/IR/Value.h"
 
-#include "../LLVMValue.hh"
-#include "../Token.hh"
+#include "Any.hh"
+#include "LLVMValue.hh"
+#include "Token.hh"
 
 namespace Dlink
 {
@@ -31,7 +32,6 @@ namespace Dlink
 		 * @return 이 노드의 트리형 구조를 시각화 시킨 값을 반환합니다.
 		 */
 		virtual std::string tree_gen(std::size_t depth) const = 0;
-
 		/**
 		 * @brief 이 노드의 트리를 LLVM IR 코드로 만듭니다.
 		 * @return 파싱 노드에서 생성한 LLVM::Value를 반환합니다. 생성한 값이 없을 경우 nullptr을 반환합니다.
@@ -48,6 +48,13 @@ namespace Dlink
 	struct Expression : public Node
 	{
 		using Node::Node;
+
+		/**
+		* @brief 이 식을 Dlink 코드를 컴파일 하는 중에 계산합니다.
+		* @param out 계산된 값을 저장할 Any 인스턴스입니다.
+		* @return 컴파일 시간에 계산을 성공했을 경우 true를, 실패했을 경우 false를 반환합니다.
+		*/
+		virtual bool evaluate(Any& out) = 0;
 	};
 
 	/**
