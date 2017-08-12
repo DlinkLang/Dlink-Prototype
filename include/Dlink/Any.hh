@@ -4,7 +4,7 @@
  * @file Any.hh
  * @date 2017.08.12
  * @author kmc7468
- * @brief Any Å¬·¡½º¸¦ Á¤ÀÇÇÕ´Ï´Ù.
+ * @brief Any í´ë˜ìŠ¤ë¥¼ ì •ì˜í•©ë‹ˆë‹¤.
  */
 
 #include <memory>
@@ -14,8 +14,8 @@
 namespace Dlink
 {
 	/**
-	 * @brief Å¸ÀÔ¿¡ »ó°ü ¾øÀÌ °ªÀ» ÀúÀåÇÒ ¼ö ÀÖ´Â °´Ã¼ÀÔ´Ï´Ù.
-	 * @details boost.anyÀÇ ÀÛµ¿ ¹æ½ÄÀ» Ã¤ÅÃÇß½À´Ï´Ù. ÀÌ Å¬·¡½º´Â ´Ù¸¥ °÷¿¡¼­ »ó¼Ó¹ŞÀ» ¼ö ¾ø½À´Ï´Ù.
+	 * @brief íƒ€ì…ì— ìƒê´€ ì—†ì´ ê°’ì„ ì €ì¥í•  ìˆ˜ ìˆëŠ” ê°ì²´ì…ë‹ˆë‹¤.
+	 * @details boost.anyì˜ ì‘ë™ ë°©ì‹ì„ ì±„íƒí–ˆìŠµë‹ˆë‹¤. ì´ í´ë˜ìŠ¤ëŠ” ë‹¤ë¥¸ ê³³ì—ì„œ ìƒì†ë°›ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
 	 */
 	class Any final
 	{
@@ -51,8 +51,8 @@ namespace Dlink
 	public:
 		Any();
 		/**
-		 * @brief »õ Any ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-		 * @param value ÀúÀåÇÒ °ªÀÔ´Ï´Ù.
+		 * @brief ìƒˆ Any ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+		 * @param value ì €ì¥í•  ê°’ì…ë‹ˆë‹¤.
 		 */
 		template<typename Ty_>
 		Any(const Ty_& value)
@@ -70,11 +70,11 @@ namespace Dlink
 		bool is_empty() const noexcept;
 		const std::type_info& type() const;
 		/**
-		 * @brief ÇöÀç Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ªÀ» °¡Á®¿É´Ï´Ù.
-		 * @param Ty_ ÅÛÇÃ¸´ ¸Å°³ º¯¼öÀÔ´Ï´Ù. ÀúÀåµÈ °ªÀÇ Å¸ÀÔÀÔ´Ï´Ù.
-		 * @return ÇöÀç Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ªÀÔ´Ï´Ù.
-		 * @exception std::bad_cast ÇöÀç ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ªÀÇ Å¸ÀÔ°ú ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Ty_ÀÇ Å¸ÀÔÀÌ ´Ù¸¨´Ï´Ù.
-		 * @exception std::runtime_error ÇöÀç ÀÎ½ºÅÏ½º°¡ ºñ¾î ÀÖ½À´Ï´Ù.
+		 * @brief í˜„ì¬ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ì¥ëœ ê°’ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
+		 * @param Ty_ í…œí”Œë¦¿ ë§¤ê°œ ë³€ìˆ˜ì…ë‹ˆë‹¤. ì €ì¥ëœ ê°’ì˜ íƒ€ì…ì…ë‹ˆë‹¤.
+		 * @return í˜„ì¬ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ì¥ëœ ê°’ì…ë‹ˆë‹¤.
+		 * @exception std::bad_cast í˜„ì¬ ì¸ìŠ¤í„´ìŠ¤ì— ì €ì¥ëœ ê°’ì˜ íƒ€ì…ê³¼ í…œí”Œë¦¿ ë§¤ê°œ ë³€ìˆ˜ Ty_ì˜ íƒ€ì…ì´ ë‹¤ë¦…ë‹ˆë‹¤.
+		 * @exception std::runtime_error í˜„ì¬ ì¸ìŠ¤í„´ìŠ¤ê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.
 		 */
 		template<typename Ty_>
 		const Ty_& get() const
@@ -82,17 +82,17 @@ namespace Dlink
 			if (typeid(Ty_) == data_->type())
 			{
 				if (is_empty())
-					throw std::runtime_error("ÇöÀç Any ÀÎ½ºÅÏ½º´Â ºñ¾î ÀÖ½À´Ï´Ù.");
+					throw std::runtime_error("í˜„ì¬ Any ì¸ìŠ¤í„´ìŠ¤ëŠ” ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 				return reinterpret_cast<const RealData_<Ty_>*>(data_.get())->data;
 			}
 			throw std::bad_cast();
 		}
 		/**
-		* @brief ÇöÀç Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ªÀ» °¡Á®¿É´Ï´Ù.
-		* @param Ty_ ÅÛÇÃ¸´ ¸Å°³ º¯¼öÀÔ´Ï´Ù. ÀúÀåµÈ °ªÀÇ Å¸ÀÔÀÔ´Ï´Ù.
-		* @return ÇöÀç Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ªÀÔ´Ï´Ù.
-		* @exception std::bad_cast ÇöÀç ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ªÀÇ Å¸ÀÔ°ú ÅÛÇÃ¸´ ¸Å°³ º¯¼ö Ty_ÀÇ Å¸ÀÔÀÌ ´Ù¸¨´Ï´Ù.
-		* @exception std::runtime_error ÇöÀç ÀÎ½ºÅÏ½º°¡ ºñ¾î ÀÖ½À´Ï´Ù.
+		* @brief í˜„ì¬ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ì¥ëœ ê°’ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
+		* @param Ty_ í…œí”Œë¦¿ ë§¤ê°œ ë³€ìˆ˜ì…ë‹ˆë‹¤. ì €ì¥ëœ ê°’ì˜ íƒ€ì…ì…ë‹ˆë‹¤.
+		* @return í˜„ì¬ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ì¥ëœ ê°’ì…ë‹ˆë‹¤.
+		* @exception std::bad_cast í˜„ì¬ ì¸ìŠ¤í„´ìŠ¤ì— ì €ì¥ëœ ê°’ì˜ íƒ€ì…ê³¼ í…œí”Œë¦¿ ë§¤ê°œ ë³€ìˆ˜ Ty_ì˜ íƒ€ì…ì´ ë‹¤ë¦…ë‹ˆë‹¤.
+		* @exception std::runtime_error í˜„ì¬ ì¸ìŠ¤í„´ìŠ¤ê°€ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.
 		*/
 		template<typename Ty_>
 		Ty_& get()
@@ -100,7 +100,7 @@ namespace Dlink
 			if (typeid(Ty_) == data_->type())
 			{
 				if (is_empty())
-					throw std::runtime_error("ÇöÀç Any ÀÎ½ºÅÏ½º´Â ºñ¾î ÀÖ½À´Ï´Ù.");
+					throw std::runtime_error("í˜„ì¬ Any ì¸ìŠ¤í„´ìŠ¤ëŠ” ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
 				return reinterpret_cast<RealData_<Ty_>*>(data_.get())->data;
 			}
 			throw std::bad_cast();

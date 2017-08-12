@@ -4,14 +4,14 @@
 namespace Dlink
 {
 	/**
-	 * @brief ºó Any ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
+	 * @brief ë¹ˆ Any ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
 	 */
 	Any::Any()
 		: data_(nullptr)
 	{}
 	/**
-	 * @brief ±âÁ¸ ÀÎ½ºÅÏ½º¸¦ º¹»çÇØ »õ Value ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param any º¹»çÇÒ ±âÁ¸ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+	 * @brief ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë³µì‚¬í•´ ìƒˆ Value ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param any ë³µì‚¬í•  ê¸°ì¡´ ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
 	 */
 	Any::Any(const Any& any)
 	{
@@ -22,9 +22,9 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief ´Ù¸¥ Any ÀÎ½ºÅÏ½ºÀÇ °ªÀ» ÇöÀç ÀÎ½ºÅÏ½º¿¡ ´ëÀÔÇÕ´Ï´Ù.
-	 * @param any ´ëÀÔÇÒ ´Ù¸¥ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @return ÇöÀç ÀÎ½ºÅÏ½º¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
+	 * @brief ë‹¤ë¥¸ Any ì¸ìŠ¤í„´ìŠ¤ì˜ ê°’ì„ í˜„ìž¬ ì¸ìŠ¤í„´ìŠ¤ì— ëŒ€ìž…í•©ë‹ˆë‹¤.
+	 * @param any ëŒ€ìž…í•  ë‹¤ë¥¸ ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @return í˜„ìž¬ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	Any& Any::operator=(const Any& any)
 	{
@@ -36,23 +36,23 @@ namespace Dlink
 	}
 
 	/**
-	 * @brief ÇöÀç Any ÀÎ½ºÅÏ½º°¡ ºñ¾î ÀÖ´ÂÁö È®ÀÎÇÕ´Ï´Ù.
-	 * @details ÀÌ ÇÔ¼ö´Â ¿¹¿Ü¸¦ ¹ß»ý½ÃÅ°Áö ¾Ê½À´Ï´Ù.
-	 * @return ÇöÀç ÀÎ½ºÅÏ½º°¡ ºñ¾î ÀÖÀ¸¸é true¸¦, ºñ¾î ÀÖÁö ¾ÊÀ¸¸é false¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
+	 * @brief í˜„ìž¬ Any ì¸ìŠ¤í„´ìŠ¤ê°€ ë¹„ì–´ ìžˆëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤.
+	 * @details ì´ í•¨ìˆ˜ëŠ” ì˜ˆì™¸ë¥¼ ë°œìƒì‹œí‚¤ì§€ ì•ŠìŠµë‹ˆë‹¤.
+	 * @return í˜„ìž¬ ì¸ìŠ¤í„´ìŠ¤ê°€ ë¹„ì–´ ìžˆìœ¼ë©´ trueë¥¼, ë¹„ì–´ ìžˆì§€ ì•Šìœ¼ë©´ falseë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	bool Any::is_empty() const noexcept
 	{
 		return data_ == nullptr;
 	}
 	/**
-	 * @brief ÇöÀç Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ªÀÇ Å¸ÀÔÀ» °¡Á®¿É´Ï´Ù.
-	 * @return ÇöÀç ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ªÀÇ Å¸ÀÔÀ» ¹ÝÈ¯ÇÕ´Ï´Ù.
-	 * @exception std::runtime_error ÇöÀç ÀÎ½ºÅÏ½º°¡ ºñ¾î ÀÖ½À´Ï´Ù.
+	 * @brief í˜„ìž¬ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ìž¥ëœ ê°’ì˜ íƒ€ìž…ì„ ê°€ì ¸ì˜µë‹ˆë‹¤.
+	 * @return í˜„ìž¬ ì¸ìŠ¤í„´ìŠ¤ì— ì €ìž¥ëœ ê°’ì˜ íƒ€ìž…ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
+	 * @exception std::runtime_error í˜„ìž¬ ì¸ìŠ¤í„´ìŠ¤ê°€ ë¹„ì–´ ìžˆìŠµë‹ˆë‹¤.
 	 */
 	const std::type_info& Any::type() const
 	{
 		if (is_empty())
-			throw std::runtime_error("ÇöÀç Any ÀÎ½ºÅÏ½º´Â ºñ¾î ÀÖ½À´Ï´Ù.");
+			throw std::runtime_error("í˜„ìž¬ Any ì¸ìŠ¤í„´ìŠ¤ëŠ” ë¹„ì–´ ìžˆìŠµë‹ˆë‹¤.");
 		return data_->type();
 	}
 }
@@ -60,12 +60,12 @@ namespace Dlink
 namespace Dlink
 {
 	/**
-	 * @brief µÎ Any ÀÎ½ºÅÏ½º³¢¸® ÀÌÇ× ´õÇÏ±â ¿¬»êÀ» ¼öÇàÇÕ´Ï´Ù.
-	 * @details °¢°¢ÀÇ Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ª³¢¸® ÀÌÇ× ´õÇÏ±â ¿¬»êÀ» ¼öÇàÇÏ°Ô µË´Ï´Ù.
-	 * @param lhs ÀÌÇ× ´õÇÏ±â ¿¬»ê¿¡¼­ ¿ÞÂÊ¿¡ ¿Ã Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @param rhs ÀÌÇ× ´õÇÏ±â ¿¬»ê¿¡¼­ ¿À¸¥ÂÊ¿¡ ¿Ã Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @param out ÀÌÇ× ´õÇÏ±â ¿¬»êÀÇ °è»ê °ªÀ» ÀúÀåÇÒ Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @return ÀÌÇ× ´õÇÏ±â ¿¬»êÀ» ¼º°øÇß´Ù¸é true, ½ÇÆÐÇß´Ù¸é false¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
+	 * @brief ë‘ Any ì¸ìŠ¤í„´ìŠ¤ë¼ë¦¬ ì´í•­ ë”í•˜ê¸° ì—°ì‚°ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+	 * @details ê°ê°ì˜ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ìž¥ëœ ê°’ë¼ë¦¬ ì´í•­ ë”í•˜ê¸° ì—°ì‚°ì„ ìˆ˜í–‰í•˜ê²Œ ë©ë‹ˆë‹¤.
+	 * @param lhs ì´í•­ ë”í•˜ê¸° ì—°ì‚°ì—ì„œ ì™¼ìª½ì— ì˜¬ Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @param rhs ì´í•­ ë”í•˜ê¸° ì—°ì‚°ì—ì„œ ì˜¤ë¥¸ìª½ì— ì˜¬ Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @param out ì´í•­ ë”í•˜ê¸° ì—°ì‚°ì˜ ê³„ì‚° ê°’ì„ ì €ìž¥í•  Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @return ì´í•­ ë”í•˜ê¸° ì—°ì‚°ì„ ì„±ê³µí–ˆë‹¤ë©´ true, ì‹¤íŒ¨í–ˆë‹¤ë©´ falseë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	bool Expression::any_add(const Any& lhs, const Any& rhs, Any& out)
 	{
@@ -81,12 +81,12 @@ namespace Dlink
 		return false;
 	}
 	/**
-	 * @brief µÎ Any ÀÎ½ºÅÏ½º³¢¸® ÀÌÇ× »©±â ¿¬»êÀ» ¼öÇàÇÕ´Ï´Ù.
-	 * @details °¢°¢ÀÇ Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ª³¢¸® ÀÌÇ× »©±â ¿¬»êÀ» ¼öÇàÇÏ°Ô µË´Ï´Ù.
-	 * @param lhs ÀÌÇ× »©±â ¿¬»ê¿¡¼­ ¿ÞÂÊ¿¡ ¿Ã Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @param rhs ÀÌÇ× »©±â ¿¬»ê¿¡¼­ ¿À¸¥ÂÊ¿¡ ¿Ã Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @param out ÀÌÇ× »©±â ¿¬»êÀÇ °è»ê °ªÀ» ÀúÀåÇÒ Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @return ÀÌÇ× »©±â ¿¬»êÀ» ¼º°øÇß´Ù¸é true, ½ÇÆÐÇß´Ù¸é false¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
+	 * @brief ë‘ Any ì¸ìŠ¤í„´ìŠ¤ë¼ë¦¬ ì´í•­ ë¹¼ê¸° ì—°ì‚°ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+	 * @details ê°ê°ì˜ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ìž¥ëœ ê°’ë¼ë¦¬ ì´í•­ ë¹¼ê¸° ì—°ì‚°ì„ ìˆ˜í–‰í•˜ê²Œ ë©ë‹ˆë‹¤.
+	 * @param lhs ì´í•­ ë¹¼ê¸° ì—°ì‚°ì—ì„œ ì™¼ìª½ì— ì˜¬ Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @param rhs ì´í•­ ë¹¼ê¸° ì—°ì‚°ì—ì„œ ì˜¤ë¥¸ìª½ì— ì˜¬ Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @param out ì´í•­ ë¹¼ê¸° ì—°ì‚°ì˜ ê³„ì‚° ê°’ì„ ì €ìž¥í•  Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @return ì´í•­ ë¹¼ê¸° ì—°ì‚°ì„ ì„±ê³µí–ˆë‹¤ë©´ true, ì‹¤íŒ¨í–ˆë‹¤ë©´ falseë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	bool Expression::any_sub(const Any& lhs, const Any& rhs, Any& out)
 	{
@@ -102,12 +102,12 @@ namespace Dlink
 		return false;
 	}
 	/**
-	 * @brief µÎ Any ÀÎ½ºÅÏ½º³¢¸® ÀÌÇ× °öÇÏ±â ¿¬»êÀ» ¼öÇàÇÕ´Ï´Ù.
-	 * @details °¢°¢ÀÇ Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ª³¢¸® ÀÌÇ× °öÇÏ±â ¿¬»êÀ» ¼öÇàÇÏ°Ô µË´Ï´Ù.
-	 * @param lhs ÀÌÇ× °öÇÏ±â ¿¬»ê¿¡¼­ ¿ÞÂÊ¿¡ ¿Ã Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @param rhs ÀÌÇ× °öÇÏ±â ¿¬»ê¿¡¼­ ¿À¸¥ÂÊ¿¡ ¿Ã Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @param out ÀÌÇ× °öÇÏ±â ¿¬»êÀÇ °è»ê °ªÀ» ÀúÀåÇÒ Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @return ÀÌÇ× °öÇÏ±â ¿¬»êÀ» ¼º°øÇß´Ù¸é true, ½ÇÆÐÇß´Ù¸é false¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
+	 * @brief ë‘ Any ì¸ìŠ¤í„´ìŠ¤ë¼ë¦¬ ì´í•­ ê³±í•˜ê¸° ì—°ì‚°ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+	 * @details ê°ê°ì˜ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ìž¥ëœ ê°’ë¼ë¦¬ ì´í•­ ê³±í•˜ê¸° ì—°ì‚°ì„ ìˆ˜í–‰í•˜ê²Œ ë©ë‹ˆë‹¤.
+	 * @param lhs ì´í•­ ê³±í•˜ê¸° ì—°ì‚°ì—ì„œ ì™¼ìª½ì— ì˜¬ Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @param rhs ì´í•­ ê³±í•˜ê¸° ì—°ì‚°ì—ì„œ ì˜¤ë¥¸ìª½ì— ì˜¬ Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @param out ì´í•­ ê³±í•˜ê¸° ì—°ì‚°ì˜ ê³„ì‚° ê°’ì„ ì €ìž¥í•  Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @return ì´í•­ ê³±í•˜ê¸° ì—°ì‚°ì„ ì„±ê³µí–ˆë‹¤ë©´ true, ì‹¤íŒ¨í–ˆë‹¤ë©´ falseë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	bool Expression::any_mul(const Any& lhs, const Any& rhs, Any& out)
 	{
@@ -123,12 +123,12 @@ namespace Dlink
 		return false;
 	}
 	/**
-	 * @brief µÎ Any ÀÎ½ºÅÏ½º³¢¸® ÀÌÇ× ³ª´©±â ¿¬»êÀ» ¼öÇàÇÕ´Ï´Ù.
-	 * @details °¢°¢ÀÇ Any ÀÎ½ºÅÏ½º¿¡ ÀúÀåµÈ °ª³¢¸® ÀÌÇ× °öÇÏ±â ¿¬»êÀ» ¼öÇàÇÏ°Ô µË´Ï´Ù.
-	 * @param lhs ÀÌÇ× ³ª´©±â ¿¬»ê¿¡¼­ ¿ÞÂÊ¿¡ ¿Ã Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @param rhs ÀÌÇ× ³ª´©±â ¿¬»ê¿¡¼­ ¿À¸¥ÂÊ¿¡ ¿Ã Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @param out ÀÌÇ× ³ª´©±â ¿¬»êÀÇ °è»ê °ªÀ» ÀúÀåÇÒ Any ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
-	 * @return ÀÌÇ× ³ª´©±â ¿¬»êÀ» ¼º°øÇß´Ù¸é true, ½ÇÆÐÇß´Ù¸é false¸¦ ¹ÝÈ¯ÇÕ´Ï´Ù.
+	 * @brief ë‘ Any ì¸ìŠ¤í„´ìŠ¤ë¼ë¦¬ ì´í•­ ë‚˜ëˆ„ê¸° ì—°ì‚°ì„ ìˆ˜í–‰í•©ë‹ˆë‹¤.
+	 * @details ê°ê°ì˜ Any ì¸ìŠ¤í„´ìŠ¤ì— ì €ìž¥ëœ ê°’ë¼ë¦¬ ì´í•­ ê³±í•˜ê¸° ì—°ì‚°ì„ ìˆ˜í–‰í•˜ê²Œ ë©ë‹ˆë‹¤.
+	 * @param lhs ì´í•­ ë‚˜ëˆ„ê¸° ì—°ì‚°ì—ì„œ ì™¼ìª½ì— ì˜¬ Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @param rhs ì´í•­ ë‚˜ëˆ„ê¸° ì—°ì‚°ì—ì„œ ì˜¤ë¥¸ìª½ì— ì˜¬ Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @param out ì´í•­ ë‚˜ëˆ„ê¸° ì—°ì‚°ì˜ ê³„ì‚° ê°’ì„ ì €ìž¥í•  Any ì¸ìŠ¤í„´ìŠ¤ìž…ë‹ˆë‹¤.
+	 * @return ì´í•­ ë‚˜ëˆ„ê¸° ì—°ì‚°ì„ ì„±ê³µí–ˆë‹¤ë©´ true, ì‹¤íŒ¨í–ˆë‹¤ë©´ falseë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.
 	 */
 	bool Expression::any_div(const Any& lhs, const Any& rhs, Any& out)
 	{
