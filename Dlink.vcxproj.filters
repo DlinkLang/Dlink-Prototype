@@ -74,9 +74,6 @@
     <ClInclude Include="include\Dlink\CommandLine.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Dlink\Error.hh">
-      <Filter>Header-Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\Dlink\Lexer.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
