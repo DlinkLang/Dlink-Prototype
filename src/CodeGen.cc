@@ -14,6 +14,11 @@ namespace Dlink
 		llvm::IRBuilder<> builder(context);
 		std::unique_ptr<llvm::legacy::FunctionPassManager> function_pm;
 	}
+	
+	namespace CompileMessage
+	{
+		Warnings warnings;
+	}
 
 	/**
 	 * @brief 현재 심볼 테이블과 상위 심볼 테이블에서 심볼을 찾습니다.

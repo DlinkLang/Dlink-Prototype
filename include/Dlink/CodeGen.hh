@@ -20,6 +20,7 @@
 #include "ParseStruct/Root.hh"
 #include "ParseStruct/Declaration.hh"
 #include "Message/Error.hh"
+#include "Message/Warning.hh"
 
 namespace Dlink
 {
@@ -29,6 +30,11 @@ namespace Dlink
 		extern std::shared_ptr<llvm::Module> module;
 		extern llvm::IRBuilder<> builder;
 		extern std::unique_ptr<llvm::legacy::FunctionPassManager> function_pm;
+	}
+
+	namespace CompileMessage
+	{
+		extern Warnings warnings;
 	}
 
 	/**
