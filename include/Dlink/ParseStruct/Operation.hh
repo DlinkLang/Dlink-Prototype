@@ -12,9 +12,9 @@
 
 #include "llvm/IR/Value.h"
 
-#include "Root.hh"
-#include "../LLVMValue.hh"
-#include "../Token.hh"
+#include "LLVMValue.hh"
+#include "Token.hh"
+#include "ParseStruct/Root.hh"
 
 namespace Dlink
 {
@@ -28,6 +28,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		bool evaluate(Any& out) override;
 
 		/** 32비트 부호 있는 정수 상수입니다. */
 		std::int32_t data;
@@ -46,6 +47,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		bool evaluate(Any& out) override;
 
 		/** 연산자 타입입니다. */
 		TokenType op;
