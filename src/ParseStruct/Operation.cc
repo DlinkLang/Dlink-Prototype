@@ -108,6 +108,11 @@ namespace Dlink
 	{
 		return LLVM::builder.getInt32(data);
 	}
+	bool Integer32::evaluate(Any& out)
+	{
+		out = static_cast<std::int64_t>(data);
+		return true;
+	}
 }
 
 namespace Dlink
@@ -160,6 +165,48 @@ namespace Dlink
 			// TODO: 오류 처리
 			return LLVM::builder.getFalse();
 		}
+	}
+	bool BinaryOperation::evaluate(Any& out)
+	{
+		Any lhs_eval, rhs_eval;
+		bool lhs_eval_ok = lhs->evaluate(lhs_eval);
+		bool rhs_eval_ok = rhs->evaluate(rhs_eval);
+
+		if (lhs_eval_ok && rhs_eval_ok)
+		{
+			Any eval;
+			bool eval_ok;
+
+			switch (op)
+			{
+			case TokenType::plus:
+				eval_ok = any_add(lhs_eval, rhs_eval, eval);
+				break;
+
+			case TokenType::minus:
+				eval_ok = any_sub(lhs_eval, rhs_eval, eval);
+				break;
+
+			case TokenType::multiply:
+				eval_ok = any_mul(lhs_eval, rhs_eval, eval);
+				break;
+
+			case TokenType::divide:
+				eval_ok = any_div(lhs_eval, rhs_eval, eval);
+				break;
+
+			default:
+				return false;
+			}
+
+			if (eval_ok)
+			{
+				out = eval;
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

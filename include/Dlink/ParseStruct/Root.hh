@@ -50,6 +50,12 @@ namespace Dlink
 		using Node::Node;
 
 		virtual bool evaluate(Any& out);
+
+	protected:
+		bool any_add(const Any& lhs, const Any& rhs, Any& out);
+		bool any_sub(const Any& lhs, const Any& rhs, Any& out);
+		bool any_mul(const Any& lhs, const Any& rhs, Any& out);
+		bool any_div(const Any& lhs, const Any& rhs, Any& out);
 	};
 
 	/**

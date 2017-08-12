@@ -1,4 +1,5 @@
 #include "Any.hh"
+#include "ParseStruct/Root.hh"
 
 namespace Dlink
 {
@@ -53,5 +54,93 @@ namespace Dlink
 		if (is_empty())
 			throw std::runtime_error("현재 Any 인스턴스는 비어 있습니다.");
 		return data_->type();
+	}
+}
+
+namespace Dlink
+{
+	/**
+	 * @brief 두 Any 인스턴스끼리 이항 더하기 연산을 수행합니다.
+	 * @details 각각의 Any 인스턴스에 저장된 값끼리 이항 더하기 연산을 수행하게 됩니다.
+	 * @param lhs 이항 더하기 연산에서 왼쪽에 올 Any 인스턴스입니다.
+	 * @param rhs 이항 더하기 연산에서 오른쪽에 올 Any 인스턴스입니다.
+	 * @param out 이항 더하기 연산의 계산 값을 저장할 Any 인스턴스입니다.
+	 * @return 이항 더하기 연산을 성공했다면 true, 실패했다면 false를 반환합니다.
+	 */
+	bool Expression::any_add(const Any& lhs, const Any& rhs, Any& out)
+	{
+		if (lhs.type() == typeid(std::int64_t))
+		{
+			if (rhs.type() == typeid(std::int64_t))
+			{
+				out = lhs.get<std::int64_t>() + rhs.get<std::int64_t>();
+				return true;
+			}
+		}
+
+		return false;
+	}
+	/**
+	 * @brief 두 Any 인스턴스끼리 이항 빼기 연산을 수행합니다.
+	 * @details 각각의 Any 인스턴스에 저장된 값끼리 이항 빼기 연산을 수행하게 됩니다.
+	 * @param lhs 이항 빼기 연산에서 왼쪽에 올 Any 인스턴스입니다.
+	 * @param rhs 이항 빼기 연산에서 오른쪽에 올 Any 인스턴스입니다.
+	 * @param out 이항 빼기 연산의 계산 값을 저장할 Any 인스턴스입니다.
+	 * @return 이항 빼기 연산을 성공했다면 true, 실패했다면 false를 반환합니다.
+	 */
+	bool Expression::any_sub(const Any& lhs, const Any& rhs, Any& out)
+	{
+		if (lhs.type() == typeid(std::int64_t))
+		{
+			if (rhs.type() == typeid(std::int64_t))
+			{
+				out = lhs.get<std::int64_t>() - rhs.get<std::int64_t>();
+				return true;
+			}
+		}
+
+		return false;
+	}
+	/**
+	 * @brief 두 Any 인스턴스끼리 이항 곱하기 연산을 수행합니다.
+	 * @details 각각의 Any 인스턴스에 저장된 값끼리 이항 곱하기 연산을 수행하게 됩니다.
+	 * @param lhs 이항 곱하기 연산에서 왼쪽에 올 Any 인스턴스입니다.
+	 * @param rhs 이항 곱하기 연산에서 오른쪽에 올 Any 인스턴스입니다.
+	 * @param out 이항 곱하기 연산의 계산 값을 저장할 Any 인스턴스입니다.
+	 * @return 이항 곱하기 연산을 성공했다면 true, 실패했다면 false를 반환합니다.
+	 */
+	bool Expression::any_mul(const Any& lhs, const Any& rhs, Any& out)
+	{
+		if (lhs.type() == typeid(std::int64_t))
+		{
+			if (rhs.type() == typeid(std::int64_t))
+			{
+				out = lhs.get<std::int64_t>() * rhs.get<std::int64_t>();
+				return true;
+			}
+		}
+
+		return false;
+	}
+	/**
+	 * @brief 두 Any 인스턴스끼리 이항 나누기 연산을 수행합니다.
+	 * @details 각각의 Any 인스턴스에 저장된 값끼리 이항 곱하기 연산을 수행하게 됩니다.
+	 * @param lhs 이항 나누기 연산에서 왼쪽에 올 Any 인스턴스입니다.
+	 * @param rhs 이항 나누기 연산에서 오른쪽에 올 Any 인스턴스입니다.
+	 * @param out 이항 나누기 연산의 계산 값을 저장할 Any 인스턴스입니다.
+	 * @return 이항 나누기 연산을 성공했다면 true, 실패했다면 false를 반환합니다.
+	 */
+	bool Expression::any_div(const Any& lhs, const Any& rhs, Any& out)
+	{
+		if (lhs.type() == typeid(std::int64_t))
+		{
+			if (rhs.type() == typeid(std::int64_t))
+			{
+				out = lhs.get<std::int64_t>() / rhs.get<std::int64_t>();
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
