@@ -275,7 +275,7 @@ namespace Dlink
 	{
 		if (return_expr)
 		{
-			if (current_func->return_type->get_type() == LLVM::builder.getVoidTy())
+			if (LLVM::builder.getCurrentFunctionReturnType() == LLVM::builder.getVoidTy())
 			{
 				throw Error(token, "Unexpected value return statement in void function");
 			}
@@ -283,7 +283,7 @@ namespace Dlink
 		}
 		else
 		{
-			if (current_func->return_type->get_type() != LLVM::builder.getVoidTy())
+			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
 			{
 				throw Error(token, "Expected value return statement in non-void returning function");
 			}
