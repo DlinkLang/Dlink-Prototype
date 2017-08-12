@@ -219,7 +219,7 @@ namespace Dlink
 		++depth;
 		for (auto arg : argument)
 		{
-			result += arg->tree_gen(depth);
+			result += arg->tree_gen(depth) + '\n';
 		}
 
 		return result;
