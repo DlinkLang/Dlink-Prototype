@@ -2,15 +2,12 @@
 
 /**
  * @file Error.hh
- * @date 2017.08.08
- * @author dev_kr, kmc7468
- * @brief Dlink 컴파일 오류와 관련된 클래스들의 집합입니다.
+ * @date 2017.08.12
+ * @author dev_kr
+ * @brief Dlink 컴파일 에러와 관련된 클래스의 집합입니다.
  */
 
-#include <string>
-#include <vector>
-
-#include "Token.hh"
+#include "Message.hh"
 
 namespace Dlink
 {
@@ -18,29 +15,11 @@ namespace Dlink
 	 * @brief Dlink 코드를 컴파일 하는 중 발생한 에러입니다.
 	 * @details 이 클래스는 다른 곳에서 상속받을 수 없습니다.
 	 */
-	class Error final
+	class Error final : public Message
 	{
-	public:
-		Error(const Token& error_token, const std::string& error_message);
-		Error(const Error& error);
-		Error(Error&& error) noexcept;
-		~Error() = default;
-
-	public:
-		Error& operator=(const Error& error) = delete;
-		Error& operator=(Error&& error) noexcept = delete;
-		bool operator==(const Error& error) const noexcept = delete;
-		bool operator!=(const Error& error) const noexcept = delete;
-
-	public:
-		std::string what() const;
-		const Token& error_token() const noexcept;
-
-	private:
-		Token error_token_;
-		std::string error_message_;
+		using Message::Message;
 	};
-
+	
 	/**
 	 * @brief Dlink 코드를 컴파일 하는 중 발생한 에러 집합입니다.
 	 * @details 이 클래스는 다른 곳에서 상속받을 수 없습니다.

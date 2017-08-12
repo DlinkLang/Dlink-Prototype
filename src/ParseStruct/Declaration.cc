@@ -135,6 +135,8 @@ namespace Dlink
 			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
 			{
 				LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
+				
+				CompileMessage::warnings.add_warning(Warning(token, "Expected return statement at the end of non-void returning function declaration; null value will be returned"));
 				// throw Error(token, "Expected return statement at the end of non-void returning function declaration");
 			}
 			else
