@@ -31,6 +31,15 @@ namespace Dlink
 	{
 		return errors_.get_errors();
 	}
+	/**
+	 * @brief 파싱을 하는 도중 발생한 경고 집합을 가져옵니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @return 경고 집합을 반환합니다.
+	 */
+	const std::vector<Warning>& Parser::get_warnings() const noexcept
+	{
+		return warnings_.get_warnings();
+	}
 
 	void Parser::assign_token(Token* dest, Token source)
 	{

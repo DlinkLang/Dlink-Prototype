@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "Message/Error.hh"
+#include "Message/Warning.hh"
 #include "ParseStruct.hh"
 #include "Token.hh"
 
@@ -39,6 +40,7 @@ namespace Dlink
 	public:
 		bool parse(StatementPtr& output);
 		const std::vector<Error>& get_errors() const noexcept;
+		const std::vector<Warning>& get_warnings() const noexcept;
 
 	private:
 		void assign_token(Token* dest, Token source);
@@ -74,5 +76,6 @@ namespace Dlink
 		ExpressionPtr output_;
 
 		Errors errors_;
+		Warnings warnings_;
 	};
 }
