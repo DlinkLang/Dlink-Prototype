@@ -100,7 +100,6 @@ namespace Dlink
 		for (auto& param : func_->args())
 		{
 			param.setName(parameter[i++].identifier);
-			symbol_table->map[param.getName()] = &param;
 		}
 
 		symbol_table->map.insert(std::make_pair(identifier, func_));
@@ -152,6 +151,14 @@ namespace Dlink
 		
 		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context, "entry", func_, nullptr);
 		LLVM::builder.SetInsertPoint(func_block);
+
+		for(auto& param : func_->args())
+		{
+			llvm::AllocaInst* param_alloca = LLVM::builder.CreateAlloca(param.getType(), nullptr, param.getName());
+			LLVM::builder.CreateStore(&param, param_alloca);
+
+			symbol_table->map.insert(std::make_pair(param.getName(), param_alloca));
+		}
 
 		llvm::Value* body_gen = body->code_gen();
 		llvm::ReturnInst* ret = nullptr;

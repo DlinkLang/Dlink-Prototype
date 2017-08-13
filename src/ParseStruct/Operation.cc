@@ -320,7 +320,18 @@ namespace Dlink
 	}
 	LLVM::Value FunctionCallOperation::code_gen()
 	{
-		llvm::Function* function = dynamic_cast<llvm::Function*>(func_expr->code_gen().get());
+		llvm::Function* function;
+
+		Identifier* dest;
+		if ((dest = dynamic_cast<Identifier*>(func_expr.get())))
+		{
+			function = dynamic_cast<llvm::Function*>(symbol_table->find(dest->id).get());
+		}
+		else
+		{
+			function = dynamic_cast<llvm::Function*>(func_expr->code_gen().get());
+		}
+		
 
 		if (function)
 		{
