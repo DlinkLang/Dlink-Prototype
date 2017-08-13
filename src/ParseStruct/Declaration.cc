@@ -116,7 +116,7 @@ namespace Dlink
 	FunctionDeclaration::FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
 		const std::vector<VariableDeclaration>& parameter, StatementPtr body, bool)
 		: Statement(token), return_type(return_type), identifier(identifier), parameter(parameter), body(body),
-		func_type_(nullptr), func_(nullptr)
+		func_(nullptr), func_type_(nullptr)
 	{}
 
 	std::string FunctionDeclaration::tree_gen(std::size_t depth) const

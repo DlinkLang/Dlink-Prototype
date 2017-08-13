@@ -163,15 +163,15 @@ namespace Dlink
 		
 		case TokenType::assign:
 		{
-			if (dynamic_cast<Identifier*>(lhs.get()))
+			Identifier* dest;
+			if ((dest = dynamic_cast<Identifier*>(lhs.get())))
 			{
-				return LLVM::builder.CreateStore(rhs_value, lhs_value);
+				return LLVM::builder.CreateStore(rhs_value, symbol_table->find(dest->id));
 			}
 			
 			// TODO: 에러 메세지 채워주세요.
 			// TODO: 5 = 3; 이런 상황이랄까요. 식별자가 아닌 곳에 대입을 하는 상황입니다.
 			throw Error(token, "TODO");
-			return false;
 		}
 
 		default:
