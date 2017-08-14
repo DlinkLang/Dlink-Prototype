@@ -22,6 +22,7 @@
     <ClCompile Include="src\Any.cc" />
     <ClCompile Include="src\CodeGen.cc" />
     <ClCompile Include="src\CommandLine.cc" />
+    <ClCompile Include="src\Encoder.cc" />
     <ClCompile Include="src\Lexer.cc" />
     <ClCompile Include="src\LLVMValue.cc" />
     <ClCompile Include="src\main.cc" />
@@ -40,6 +41,8 @@
     <ClInclude Include="include\Dlink\Any.hh" />
     <ClInclude Include="include\Dlink\CodeGen.hh" />
     <ClInclude Include="include\Dlink\CommandLine.hh" />
+    <ClInclude Include="include\Dlink\Encoder.hh" />
+    <ClInclude Include="include\Dlink\Encoding.hh" />
     <ClInclude Include="include\Dlink\Lexer.hh" />
     <ClInclude Include="include\Dlink\LLVMValue.hh" />
     <ClInclude Include="include\Dlink\Parser.hh" />
