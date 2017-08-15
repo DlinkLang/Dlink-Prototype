@@ -22,7 +22,7 @@
     <ClCompile Include="src\Any.cc" />
     <ClCompile Include="src\CodeGen.cc" />
     <ClCompile Include="src\CommandLine.cc" />
-    <ClCompile Include="src\Encoder.cc" />
+    <ClCompile Include="src\Encoding.cc" />
     <ClCompile Include="src\Lexer.cc" />
     <ClCompile Include="src\LLVMValue.cc" />
     <ClCompile Include="src\main.cc" />

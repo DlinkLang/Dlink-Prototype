@@ -3,9 +3,13 @@
 #include "Lexer.hh"
 #include "Parser.hh"
 #include "CodeGen.hh"
+#include "Encoder.hh"
 
 int main(int argc, const char** argv)
 {
+	std::u16string asdf = u"æ»≥Á«œººø‰.";
+	std::u32string asdf_ = Dlink::utf32_encode(asdf);
+
 	Dlink::LLVM::function_pm = std::make_unique<llvm::legacy::FunctionPassManager>(Dlink::LLVM::module.get());
 	Dlink::LLVM::function_pm->doInitialization();
 

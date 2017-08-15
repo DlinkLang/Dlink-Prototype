@@ -16,4 +16,8 @@ namespace Dlink
 {
 	std::size_t utf32_encode_length(const std::string& string);
 	std::size_t utf32_encode_length(const std::string& string, Encoding encoding);
+	
+	std::size_t utf32_encode_length(const std::u16string& utf16string);
+
+	std::u32string utf32_encode(const std::u16string& utf16string);
 }
