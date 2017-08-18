@@ -19,7 +19,9 @@ namespace Dlink
 		UTF8,		/**< UTF-8 인코딩 방식입니다. */
 		UTF16,		/**< UTF-16 Little Endian 인코딩 방식입니다. */
 		UTF32,		/**< UTF-32 Little Endian 인코딩 방식입니다. */
-		UTF16Big,	/**< UTF-16 Big Endian 인코딩 방식입니다. */
-		UTF32Big,	/**< UTF-32 Big Endian 인코딩 방식입니다. */
+		UTF16BE,	/**< UTF-16 Big Endian 인코딩 방식입니다. */
+		UTF32BE,	/**< UTF-32 Big Endian 인코딩 방식입니다. */
 	};
+
+	Encoding check_encoding(const std::string& string);
 }
