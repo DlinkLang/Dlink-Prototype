@@ -6,7 +6,7 @@ namespace Dlink
 {
 	static bool is_surrogate(char16_t c)
 	{
-		return static_cast<std::int32_t>(c) - 0xD800 < 2048;
+		return static_cast<std::int32_t>(c) - 0xD800 > 2048;
 	}
 	static bool is_high_surrogate(char16_t c)
 	{
