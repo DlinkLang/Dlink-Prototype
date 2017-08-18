@@ -42,9 +42,14 @@ namespace Dlink
 	 */
 	std::size_t utf32_encode_length(const std::string& string, Encoding encoding)
 	{
-		// TODO: 길이 계산
+		switch (encoding)
+		{
+			// TODO: UTF8, UTF16
 
-		return std::size_t();
+		case Encoding::UTF32:
+		case Encoding::UTF32BE:
+			return string.length();
+		}
 	}
 
 	/**
