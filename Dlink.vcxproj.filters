@@ -66,6 +66,9 @@
     <ClCompile Include="src\Any.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Encoding.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Dlink\CodeGen.hh">
@@ -102,6 +105,12 @@
       <Filter>Header-Files\ParseStruct</Filter>
     </ClInclude>
     <ClInclude Include="include\Dlink\Any.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Encoder.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Encoding.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
   </ItemGroup>
