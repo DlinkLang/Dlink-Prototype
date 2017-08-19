@@ -74,6 +74,7 @@ namespace Dlink
 
 	/**
 	 * @brief 새 FunctionDeclaration 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param return_type 함수의 반환 값 타입입니다.
 	 * @param identifier 함수의 식별자입니다.
 	 * @param parameter 함수의 매개 변수입니다.
@@ -107,6 +108,7 @@ namespace Dlink
 	/**
 	 * @brief 새 더미 FunctionDeclaration 인스턴스를 만듭니다.
 	 * @details 마지막 bool 타입 인수로는 아무 값이나 주어도 더미 인스턴스로 만들어집니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
 	 * @param return_type 함수의 반환 값 타입입니다.
 	 * @param identifier 함수의 식별자입니다.
 	 * @param parameter 함수의 매개 변수입니다.
@@ -194,5 +196,24 @@ namespace Dlink
 		current_func = nullptr;
 
 		return func_;
+	}
+
+	/**
+	 * @brief 새 UnsafeDeclaration 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param body unsafe 문의 몸체입니다.
+	 */
+	UnsafeDeclaration::UnsafeDeclaration(const Token& token, StatementPtr body)
+		: Statement(token), body(body)
+	{}
+	std::string UnsafeDeclaration::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "UnsafeDeclaration:\n" +
+			tree_prefix(++depth) + "body:\n" +
+			body->tree_gen(++depth);
+	}
+	LLVM::Value UnsafeDeclaration::code_gen()
+	{
+		return body->code_gen();
 	}
 }

@@ -90,6 +90,7 @@ namespace Dlink
         exclamation,        /**< 느낌표 '!' 입니다. */
         question,           /**< 물음표 '?' 입니다. */
 
+		unsafe,				/**< 키워드 'unsafe' 입니다. */
         _if,                /**< 키워드 'if' 입니다. */
         _else,              /**< 키워드 'else' 입니다. */
         _switch,            /**< 키워드 'switch' 입니다. */

@@ -9,6 +9,7 @@ namespace Dlink
 	 */
 	Lexer::Lexer()
 	{
+		keyword_map_["unsafe"] = TokenType::unsafe;
 		keyword_map_["if"] = TokenType::_if;
 		keyword_map_["else"] = TokenType::_else;
 		keyword_map_["switch"] = TokenType::_switch;
