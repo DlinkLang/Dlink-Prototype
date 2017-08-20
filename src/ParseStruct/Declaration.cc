@@ -1,4 +1,5 @@
 #include "ParseStruct/Declaration.hh"
+#include "ParseStruct/Operation.hh"
 #include "ParseStruct/Type.hh"
 #include "CodeGen.hh"
 
@@ -63,9 +64,26 @@ namespace Dlink
 		}
 		else if (expression) // Reference가 아닌데 expression이 있는 상황
 		{
-			LLVM::Value init_expr = expression->code_gen();
+			std::shared_ptr<ArrayInitList> array_list;
+			if ((array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
+			{
+				std::size_t idx = 0;
+				for(ExpressionPtr expression : array_list->elements)
+				{
+					llvm::Value* indexList[2] = {llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0), 
+												 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx)};
+					llvm::Value* gep = LLVM::builder.CreateGEP(var, indexList);
+					LLVM::builder.CreateStore(expression->code_gen(), gep);
+
+					++idx;
+				}
+			}
+			else
+			{
+				LLVM::Value init_expr = expression->code_gen();
 			
-			LLVM::builder.CreateStore(init_expr, var);
+				LLVM::builder.CreateStore(init_expr, var);
+			}
 		}
 
 		symbol_table->map.insert(std::make_pair(identifier, var));
