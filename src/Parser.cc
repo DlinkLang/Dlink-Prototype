@@ -147,6 +147,7 @@ namespace Dlink
 		return true;
 	}
 
+
 	bool Parser::var_decl(StatementPtr& out, Token* start_token)
 	{
 		TypePtr type_expr;
@@ -317,9 +318,30 @@ namespace Dlink
 
 	bool Parser::unsafe_stmt(StatementPtr& out, Token* start_token)
 	{
-		// TODO
+		Token unsafe_start;
 
-		return false;
+		if (accept(TokenType::unsafe, &unsafe_start))
+		{
+			StatementPtr statement;
+
+			if (expr_stmt(statement) || scope(statement))
+			{
+				out = std::make_shared<UnsafeDeclaration>(unsafe_start, statement);
+
+				assign_token(start_token, unsafe_start);
+				return true;
+			}
+			else
+			{
+				// TODO: 오류 메세지 채워주세요.
+				errors_.add_error(Error(current_token(), "TODO"));
+				return false;
+			}
+		}
+		else
+		{
+			return expr_stmt(out, start_token);
+		}
 	}
 
 	bool Parser::expr_stmt(StatementPtr& out, Token* start_token)
