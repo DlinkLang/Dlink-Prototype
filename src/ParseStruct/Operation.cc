@@ -349,6 +349,29 @@ namespace Dlink
 			throw Error(token, "Expected callable function expression");
 		}
 	}
+
+	/**
+	 * @brief 새 ArrayInitList 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param elements 배열 리스트의 원소들입니다.
+	 */
+	ArrayInitList::ArrayInitList(const Token& token, const std::vector<ExpressionPtr>& elements)
+		: Expression(token), elements(elements)
+	{}
+	std::string ArrayInitList::tree_gen(std::size_t depth) const
+	{
+		std::string result;
+		result += tree_prefix(depth) + "ArrayInitList:\n";
+		++depth;
+		result += tree_prefix(depth) + "elements:\n";
+		++depth;
+		for (auto element : elements)
+		{
+			result += element->tree_gen(depth) + '\n';
+		}
+
+		return result;
+	}
 }
 
 namespace Dlink
