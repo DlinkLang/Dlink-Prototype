@@ -301,9 +301,19 @@ namespace Dlink
 			return false;
 		}
 
-		out = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
+		StatementPtr func = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
 
-		assign_token(start_token, var_decl_start_token);
+		if (is_unsafe)
+		{
+			out = std::make_shared<UnsafeStatement>(unsafe_start, func);
+			assign_token(start_token, unsafe_start);
+		}
+		else
+		{
+			out = func;
+			assign_token(start_token, var_decl_start_token);
+		}
+
 		return true;
 	}
 

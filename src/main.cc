@@ -14,7 +14,7 @@ int main(int argc, const char** argv)
 	unsafe int main()
 	{
 		unsafe int i = 0;
-		return 0;
+		unsafe return 0;
 	}
 	)");
 
