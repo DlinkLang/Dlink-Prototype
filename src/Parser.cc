@@ -578,6 +578,67 @@ namespace Dlink
 		}
 		else
 		{
+			ExpressionPtr array_list_expr;
+
+			Token list_start;
+			if (array_init_list(array_list_expr, &list_start))
+			{
+				out = array_list_expr;
+
+				assign_token(start_token, list_start);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	bool Parser::array_init_list(ExpressionPtr& out, Token* start_token)
+	{
+		Token list_start;
+		if (accept(TokenType::lbrace, &list_start))
+		{
+			if (accept(TokenType::rbrace))
+			{
+				out = std::make_shared<ArrayInitList>(list_start, std::vector<ExpressionPtr>{});
+
+				assign_token(start_token, list_start);
+				return true;
+			}
+
+			std::vector<ExpressionPtr> elements;
+
+			while (true)
+			{
+				ExpressionPtr expression;
+				expr(expression);
+				elements.push_back(expression);
+
+				if (accept(TokenType::comma))
+				{
+					continue;
+				}
+				else if (accept(TokenType::rbrace))
+				{
+					break;
+				}
+				else
+				{
+					errors_.add_error(Error(current_token(), "Expected '}' or ',', but got \"" + current_token().data + "\""));
+
+					return false;
+				}
+			}
+
+			out = std::make_shared<ArrayInitList>(list_start, elements);
+
+			assign_token(start_token, list_start);
+			return true;
+		}
+		else
+		{
 			ExpressionPtr atom_expr;
 
 			Token atom_start;
