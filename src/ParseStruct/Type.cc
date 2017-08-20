@@ -65,7 +65,7 @@ namespace Dlink
 	llvm::Type* StaticArray::get_type()
 	{
 		llvm::Type* type_llvm = type->get_type();
-		std::uint64_t length_real;
+		std::uint64_t length_real = 0;
 		Any length_any;
 		bool length_ok = length->evaluate(length_any);
 		
@@ -113,6 +113,6 @@ namespace Dlink
 	std::string LValueReference::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "LValueReference:\n" +
-			tree_prefix(++depth) + "type:\n" + type->tree_gen(++depth);
+			tree_prefix(depth + 1) + "type:\n" + type->tree_gen(depth + 1);
 	}
 }

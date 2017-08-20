@@ -209,8 +209,8 @@ namespace Dlink
 	std::string UnsafeDeclaration::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "UnsafeDeclaration:\n" +
-			tree_prefix(++depth) + "body:\n" +
-			body->tree_gen(++depth);
+			tree_prefix(depth + 1) + "body:\n" +
+			body->tree_gen(depth + 1);
 	}
 	LLVM::Value UnsafeDeclaration::code_gen()
 	{
