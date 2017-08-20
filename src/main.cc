@@ -11,9 +11,9 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	int main()
+	unsafe int main()
 	{
-		int i = unsafe 5 + 5;
+		unsafe int i = 0;
 		return 0;
 	}
 	)");

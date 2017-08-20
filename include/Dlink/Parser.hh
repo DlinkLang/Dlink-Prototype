@@ -53,7 +53,8 @@ namespace Dlink
 		bool block(StatementPtr& out, Token* start_token = nullptr);
 		bool scope(StatementPtr& out, Token* start_token = nullptr);
 		bool var_decl(StatementPtr& out, Token* start_token = nullptr);
-		bool func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token = nullptr);
+		bool func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier,
+					   Token unsafe_start, bool is_unsafe, Token* start_token = nullptr);
 		bool return_stmt(StatementPtr& out, Token* start_token = nullptr);
 		bool expr_stmt(StatementPtr& out, Token* start_token = nullptr);
 		

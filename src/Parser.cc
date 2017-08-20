@@ -152,6 +152,13 @@ namespace Dlink
 	{
 		TypePtr type_expr;
 
+		Token unsafe_start;
+		bool is_unsafe = false;
+		if (accept(TokenType::unsafe, &unsafe_start))
+		{
+			is_unsafe = true;
+		}
+
 		Token var_decl_start;
 		if (type(type_expr, &var_decl_start))
 		{
@@ -165,11 +172,22 @@ namespace Dlink
 
 					if (expr(expression))
 					{
+						// 초기화 식이 있는 변수 선언
 						if (accept(TokenType::semicolon))
 						{
-							out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
+							StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
 
-							assign_token(start_token, var_decl_start);
+							if (is_unsafe)
+							{
+								out = std::make_shared<UnsafeStatement>(unsafe_start, var);
+								assign_token(start_token, unsafe_start);
+							}
+							else
+							{
+								out = var;
+								assign_token(start_token, var_decl_start);
+							}
+
 							return true;
 						}
 						else
@@ -184,16 +202,27 @@ namespace Dlink
 						return false;
 					}
 				}
+				// 초기화 식이 없는 변수 선언
 				else if (accept(TokenType::semicolon))
 				{
-					out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
+					StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
 
-					assign_token(start_token, var_decl_start);
+					if (is_unsafe)
+					{
+						out = std::make_shared<UnsafeStatement>(unsafe_start, var);
+						assign_token(start_token, unsafe_start);
+					}
+					else
+					{
+						out = var;
+						assign_token(start_token, var_decl_start);
+					}
+
 					return true;
 				}
 				else if (accept(TokenType::lparen))
 				{
-					return func_decl(out, var_decl_start, type_expr, name);
+					return func_decl(out, var_decl_start, type_expr, name, unsafe_start, is_unsafe);
 				}
 			}
 
@@ -217,7 +246,8 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token)
+	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier,
+		Token unsafe_start, bool is_unsafe, Token* start_token)
 	{
 		std::vector<VariableDeclaration> param_list;
 

@@ -421,13 +421,13 @@ namespace Dlink
 	 * @param statement 안전하지 않은 문입니다.
 	 */
 	UnsafeStatement::UnsafeStatement(const Token& token, StatementPtr statement)
-		: Statement(token), body(body)
+		: Statement(token), statement(statement)
 	{}
 	std::string UnsafeStatement::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "UnsafeStatement:\n" +
-			tree_prefix(++depth) + "body:\n" +
-			statement->tree_gen(++depth);
+			tree_prefix(depth + 1) + "body:\n" +
+			statement->tree_gen(depth + 2);
 	}
 	LLVM::Value UnsafeStatement::code_gen()
 	{
