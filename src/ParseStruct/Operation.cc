@@ -349,6 +349,25 @@ namespace Dlink
 			throw Error(token, "Expected callable function expression");
 		}
 	}
+
+	/**
+	 * @brief 새 UnsafeExpression 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param expression 안전하지 않은 식입니다.
+	 */
+	UnsafeExpression::UnsafeExpression(const Token& token, ExpressionPtr expression)
+		: Expression(token), expression(expression)
+	{}
+	std::string UnsafeExpression::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "UnsafeExpression:\n" +
+			tree_prefix(depth + 1) + "expression:\n" +
+			expression->tree_gen(depth + 2);
+	}
+	LLVM::Value UnsafeExpression::code_gen()
+	{
+		return expression->code_gen();
+	}
 }
 
 namespace Dlink

@@ -316,34 +316,6 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::unsafe_stmt(StatementPtr& out, Token* start_token)
-	{
-		Token unsafe_start;
-
-		if (accept(TokenType::unsafe, &unsafe_start))
-		{
-			StatementPtr statement;
-
-			if (expr_stmt(statement) || scope(statement))
-			{
-				out = std::make_shared<UnsafeDeclaration>(unsafe_start, statement);
-
-				assign_token(start_token, unsafe_start);
-				return true;
-			}
-			else
-			{
-				// TODO: 오류 메세지 채워주세요.
-				errors_.add_error(Error(current_token(), "TODO"));
-				return false;
-			}
-		}
-		else
-		{
-			return expr_stmt(out, start_token);
-		}
-	}
-
 	bool Parser::expr_stmt(StatementPtr& out, Token* start_token)
 	{
 		ExpressionPtr expression;
@@ -373,7 +345,25 @@ namespace Dlink
 {
 	bool Parser::expr(ExpressionPtr& out, Token* start_token)
 	{
-		return assign(out, start_token);
+		Token unsafe_start;
+		if (accept(TokenType::unsafe, &unsafe_start))
+		{
+			ExpressionPtr expr;
+			if (!assign(expr))
+			{
+				// TODO: 오류 메세지 채워주세요.
+				errors_.add_error(Error(current_token(), "TODO"));
+				return false;
+			}
+
+			out = std::make_shared<UnsafeExpression>(unsafe_start, expr);
+			assign_token(start_token, unsafe_start);
+			return true;
+		}
+		else
+		{
+			return assign(out, start_token);
+		}
 	}
 
 	bool Parser::assign(ExpressionPtr& out, Token* start_token)
