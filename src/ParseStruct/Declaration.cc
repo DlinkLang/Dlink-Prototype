@@ -64,7 +64,7 @@ namespace Dlink
 		else if (expression) // Reference가 아닌데 expression이 있는 상황
 		{
 			LLVM::Value init_expr = expression->code_gen();
-			
+
 			LLVM::builder.CreateStore(init_expr, var);
 		}
 
@@ -150,11 +150,11 @@ namespace Dlink
 	LLVM::Value FunctionDeclaration::code_gen()
 	{
 		current_func = std::make_shared<FunctionDeclaration>(token, return_type, identifier, parameter, body, true);
-		
+
 		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context, "entry", func_, nullptr);
 		LLVM::builder.SetInsertPoint(func_block);
 
-		for(auto& param : func_->args())
+		for (auto& param : func_->args())
 		{
 			llvm::AllocaInst* param_alloca = LLVM::builder.CreateAlloca(param.getType(), nullptr, param.getName());
 			LLVM::builder.CreateStore(&param, param_alloca);
@@ -175,7 +175,7 @@ namespace Dlink
 			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
 			{
 				LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
-				
+
 				CompileMessage::warnings.add_warning(Warning(token, "Expected return statement at the end of non-void returning function declaration; null value will be returned"));
 				// throw Error(token, "Expected return statement at the end of non-void returning function declaration");
 			}
@@ -187,7 +187,7 @@ namespace Dlink
 		}
 
 		LLVM::function_pm->run(*func_);
-		
+
 		for (auto& param : func_->args())
 		{
 			symbol_table->map.erase(param.getName());
@@ -196,24 +196,5 @@ namespace Dlink
 		current_func = nullptr;
 
 		return func_;
-	}
-
-	/**
-	 * @brief 새 UnsafeDeclaration 인스턴스를 만듭니다.
-	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
-	 * @param body unsafe 문의 몸체입니다.
-	 */
-	UnsafeDeclaration::UnsafeDeclaration(const Token& token, StatementPtr body)
-		: Statement(token), body(body)
-	{}
-	std::string UnsafeDeclaration::tree_gen(std::size_t depth) const
-	{
-		return tree_prefix(depth) + "UnsafeDeclaration:\n" +
-			tree_prefix(++depth) + "body:\n" +
-			body->tree_gen(++depth);
-	}
-	LLVM::Value UnsafeDeclaration::code_gen()
-	{
-		return body->code_gen();
 	}
 }

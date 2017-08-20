@@ -414,4 +414,23 @@ namespace Dlink
 			return LLVM::builder.CreateRetVoid();
 		}
 	}
+
+	/**
+	 * @brief 새 UnsafeStatement 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param statement 안전하지 않은 문입니다.
+	 */
+	UnsafeStatement::UnsafeStatement(const Token& token, StatementPtr statement)
+		: Statement(token), body(body)
+	{}
+	std::string UnsafeStatement::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "UnsafeStatement:\n" +
+			tree_prefix(++depth) + "body:\n" +
+			statement->tree_gen(++depth);
+	}
+	LLVM::Value UnsafeStatement::code_gen()
+	{
+		return statement->code_gen();
+	}
 }
