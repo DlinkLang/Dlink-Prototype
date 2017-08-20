@@ -231,6 +231,14 @@ namespace Dlink
 		}
 		else
 		{
+			if (is_unsafe)
+			{
+				// TODO: 오류 메세지 채워주세요.
+				// unsafe return 이라던가, 그런 상황입니다.
+				errors_.add_error(Error(current_token(), "TODO"));
+				return false;
+			}
+
 			StatementPtr statement;
 
 			Token return_start;
