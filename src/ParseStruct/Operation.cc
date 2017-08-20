@@ -372,6 +372,10 @@ namespace Dlink
 
 		return result;
 	}
+	LLVM::Value ArrayInitList::code_gen()
+	{
+		throw Error(token, "Expected Expression");
+	}
 }
 
 namespace Dlink
