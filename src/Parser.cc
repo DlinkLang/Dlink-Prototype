@@ -668,9 +668,7 @@ namespace Dlink
 				}
 				else
 				{
-					// TODO: 에러  메세지 추가해 주세요.
-					// TODO: int[return 5;] a; 이런 상황이랄까요
-					errors_.add_error(Error(current_token(), "TODO"));
+					errors_.add_error(Error(current_token(), "Expected expression"));
 					return false;
 				}
 			}
