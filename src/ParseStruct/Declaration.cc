@@ -52,9 +52,7 @@ namespace Dlink
 		{
 			if (!expression)
 			{
-				// TODO: 에러 메세지 추가해 주세요.
-				// TODO: int& i; 이런식으로 초기화 식이 없는 상황입니다.
-				throw Error(token, "TODO");
+				throw Error(token, "Expected initialization value in declaration of reference variable");
 			}
 			else
 			{
