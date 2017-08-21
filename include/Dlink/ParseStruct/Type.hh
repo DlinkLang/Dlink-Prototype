@@ -88,6 +88,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		llvm::Type* get_type() override;
+		bool is_safe() const noexcept override;
 
 		/** 포인터의 원본 타입입니다. */
 		TypePtr type;

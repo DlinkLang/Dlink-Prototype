@@ -133,4 +133,8 @@ namespace Dlink
 	{
 		return type->get_type()->getPointerTo();
 	}
+	bool Pointer::is_safe() const noexcept
+	{
+		return false;
+	}
 }
