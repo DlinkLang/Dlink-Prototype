@@ -65,15 +65,13 @@ namespace Dlink
 	llvm::Type* StaticArray::get_type()
 	{
 		llvm::Type* type_llvm = type->get_type();
-		std::uint64_t length_real;
+		std::uint64_t length_real = 0;
 		Any length_any;
 		bool length_ok = length->evaluate(length_any);
 		
 		if (!length_ok)
 		{
-			// TODO: 에러 메세지 채워주세요.
-			// TODO: 길이가 컴파일 타임 상수 값이 아닐때 발생합니다.
-			throw Error(token, "TODO");
+			throw Error(token, "Expected compile time integral value");
 		}
 
 		if (length_any.type() == typeid(std::int64_t))
@@ -82,9 +80,7 @@ namespace Dlink
 
 			if (length_any_get < 0)
 			{
-				// TODO: 에러 메세지 채워주세요.
-				// TODO: 길이가 음수일때 발생합니다.
-				throw Error(token, "TODO");
+				throw Error(token, "Expected positive integral value");
 			}
 
 			length_real = length_any_get;

@@ -233,9 +233,7 @@ namespace Dlink
 		{
 			if (is_unsafe)
 			{
-				// TODO: 오류 메세지 채워주세요.
-				// unsafe return 이라던가, 그런 상황입니다.
-				errors_.add_error(Error(current_token(), "TODO"));
+				errors_.add_error(Error(current_token(), "Unexpected \"unsafe\""));
 				return false;
 			}
 
@@ -399,8 +397,7 @@ namespace Dlink
 			ExpressionPtr expr;
 			if (!assign(expr))
 			{
-				// TODO: 오류 메세지 채워주세요.
-				errors_.add_error(Error(current_token(), "TODO"));
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
 			}
 
@@ -728,9 +725,7 @@ namespace Dlink
 				}
 				else
 				{
-					// TODO: 에러  메세지 추가해 주세요.
-					// TODO: int[return 5;] a; 이런 상황이랄까요
-					errors_.add_error(Error(current_token(), "TODO"));
+					errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 					return false;
 				}
 			}
