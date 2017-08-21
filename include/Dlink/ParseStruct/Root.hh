@@ -37,6 +37,7 @@ namespace Dlink
 		 * @return 파싱 노드에서 생성한 LLVM::Value를 반환합니다. 생성한 값이 없을 경우 nullptr을 반환합니다.
 		 */
 		virtual LLVM::Value code_gen() = 0;
+		virtual bool is_safe() const noexcept;
 
 		/** 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다. */
 		const Token token;
