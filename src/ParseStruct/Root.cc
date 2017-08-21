@@ -6,7 +6,7 @@
 namespace Dlink
 {
 	extern std::string tree_prefix(std::size_t depth);
-
+	
 	/**
 	 * @brief 이 Node 인스턴스의 멤버를 초기화합니다.
 	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
@@ -14,16 +14,6 @@ namespace Dlink
 	Node::Node(const Token& token)
 		: token(token)
 	{}
-
-	/**
-	 * @brief 이 노드가 Dlink 코드 내에서 안전한 코드를 담고 있는지 여부입니다.
-	 * @details 이 함수는 예외를 발생시키지 않습니다.
-	 * @return 이 노드가 안전한지 반환합니다.
-	 */
-	bool Node::is_safe() const noexcept
-	{
-		return true;
-	}
 
 	/**
 	 * @brief 이 식을 Dlink 코드를 컴파일 하는 중에 계산합니다.
@@ -103,7 +93,7 @@ namespace Dlink
 	Scope::Scope(const Token& token, const std::vector<StatementPtr>& statements, StatementPtr parent)
 		: Block(token, statements), parent(parent)
 	{}
-
+	
 	std::string Scope::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "Scope Start\n";
@@ -124,7 +114,7 @@ namespace Dlink
 		SymbolTablePtr new_symbol_table = std::make_shared<SymbolTable>();
 		new_symbol_table->parent = symbol_table;
 		symbol_table = new_symbol_table;
-
+		
 		LLVM::Value last_value;
 
 		for (StatementPtr statement : statements)
@@ -165,14 +155,4 @@ namespace Dlink
 	Type::Type(const Token& token)
 		: token(token)
 	{}
-
-	/**
-	 * @brief 이 노드가 Dlink 코드 내에서 안전한 코드를 담고 있는지 여부입니다.
-	 * @details 이 함수는 예외를 발생시키지 않습니다.
-	 * @return 이 노드가 안전한지 반환합니다.
-	 */
-	bool Type::is_safe() const noexcept
-	{
-		return true;
-	}
 }

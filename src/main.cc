@@ -11,10 +11,14 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	unsafe int main()
+	int f(int a)
 	{
-		unsafe int i = 0;
-		unsafe return 0;
+		a = 10;
+		return a;
+	}
+	int main()
+	{
+		return f(0);
 	}
 	)");
 

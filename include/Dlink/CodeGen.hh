@@ -75,7 +75,6 @@ namespace Dlink
 
 	extern SymbolTablePtr symbol_table;
 	extern TypeSymbolTablePtr type_symbol_table;
-
+	
 	extern std::shared_ptr<FunctionDeclaration> current_func;
-	extern bool in_unsafe_block;
 }

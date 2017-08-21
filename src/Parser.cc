@@ -147,17 +147,9 @@ namespace Dlink
 		return true;
 	}
 
-
 	bool Parser::var_decl(StatementPtr& out, Token* start_token)
 	{
 		TypePtr type_expr;
-
-		Token unsafe_start;
-		bool is_unsafe = false;
-		if (accept(TokenType::unsafe, &unsafe_start))
-		{
-			is_unsafe = true;
-		}
 
 		Token var_decl_start;
 		if (type(type_expr, &var_decl_start))
@@ -172,22 +164,11 @@ namespace Dlink
 
 					if (expr(expression))
 					{
-						// 초기화 식이 있는 변수 선언
 						if (accept(TokenType::semicolon))
 						{
-							StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
+							out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
 
-							if (is_unsafe)
-							{
-								out = std::make_shared<UnsafeStatement>(unsafe_start, var);
-								assign_token(start_token, unsafe_start);
-							}
-							else
-							{
-								out = var;
-								assign_token(start_token, var_decl_start);
-							}
-
+							assign_token(start_token, var_decl_start);
 							return true;
 						}
 						else
@@ -202,27 +183,16 @@ namespace Dlink
 						return false;
 					}
 				}
-				// 초기화 식이 없는 변수 선언
 				else if (accept(TokenType::semicolon))
 				{
-					StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
+					out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
 
-					if (is_unsafe)
-					{
-						out = std::make_shared<UnsafeStatement>(unsafe_start, var);
-						assign_token(start_token, unsafe_start);
-					}
-					else
-					{
-						out = var;
-						assign_token(start_token, var_decl_start);
-					}
-
+					assign_token(start_token, var_decl_start);
 					return true;
 				}
 				else if (accept(TokenType::lparen))
 				{
-					return func_decl(out, var_decl_start, type_expr, name, unsafe_start, is_unsafe);
+					return func_decl(out, var_decl_start, type_expr, name);
 				}
 			}
 
@@ -231,14 +201,6 @@ namespace Dlink
 		}
 		else
 		{
-			if (is_unsafe)
-			{
-				// TODO: 오류 메세지 채워주세요.
-				// unsafe return 이라던가, 그런 상황입니다.
-				errors_.add_error(Error(current_token(), "TODO"));
-				return false;
-			}
-
 			StatementPtr statement;
 
 			Token return_start;
@@ -254,8 +216,7 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier,
-		Token unsafe_start, bool is_unsafe, Token* start_token)
+	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token)
 	{
 		std::vector<VariableDeclaration> param_list;
 
@@ -309,19 +270,9 @@ namespace Dlink
 			return false;
 		}
 
-		StatementPtr func = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
+		out = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
 
-		if (is_unsafe)
-		{
-			out = std::make_shared<UnsafeStatement>(unsafe_start, func);
-			assign_token(start_token, unsafe_start);
-		}
-		else
-		{
-			out = func;
-			assign_token(start_token, var_decl_start_token);
-		}
-
+		assign_token(start_token, var_decl_start_token);
 		return true;
 	}
 
@@ -364,6 +315,13 @@ namespace Dlink
 		}
 	}
 
+	bool Parser::unsafe_stmt(StatementPtr& out, Token* start_token)
+	{
+		// TODO
+
+		return false;
+	}
+
 	bool Parser::expr_stmt(StatementPtr& out, Token* start_token)
 	{
 		ExpressionPtr expression;
@@ -393,25 +351,7 @@ namespace Dlink
 {
 	bool Parser::expr(ExpressionPtr& out, Token* start_token)
 	{
-		Token unsafe_start;
-		if (accept(TokenType::unsafe, &unsafe_start))
-		{
-			ExpressionPtr expr;
-			if (!assign(expr))
-			{
-				// TODO: 오류 메세지 채워주세요.
-				errors_.add_error(Error(current_token(), "TODO"));
-				return false;
-			}
-
-			out = std::make_shared<UnsafeExpression>(unsafe_start, expr);
-			assign_token(start_token, unsafe_start);
-			return true;
-		}
-		else
-		{
-			return assign(out, start_token);
-		}
+		return assign(out, start_token);
 	}
 
 	bool Parser::assign(ExpressionPtr& out, Token* start_token)

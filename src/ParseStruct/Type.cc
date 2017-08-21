@@ -115,26 +115,4 @@ namespace Dlink
 		return tree_prefix(depth) + "LValueReference:\n" +
 			tree_prefix(++depth) + "type:\n" + type->tree_gen(++depth);
 	}
-
-	/**
-	 * @brief 새 Pointer 인스턴스를 만듭니다.
-	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
-	 * @param type 포인터의 원본 타입입니다.
-	 */
-	Pointer::Pointer(const Token& token, TypePtr type)
-		: Type(token), type(type)
-	{}
-	std::string Pointer::tree_gen(std::size_t depth) const
-	{
-		return tree_prefix(depth) + "PointerType:\n" +
-			type->tree_gen(depth + 1);
-	}
-	llvm::Type* Pointer::get_type()
-	{
-		return type->get_type()->getPointerTo();
-	}
-	bool Pointer::is_safe() const noexcept
-	{
-		return false;
-	}
 }
