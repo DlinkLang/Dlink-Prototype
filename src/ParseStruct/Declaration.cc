@@ -66,14 +66,16 @@ namespace Dlink
 			if ((array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
 			{
 				std::size_t idx = 0;
+
+				llvm::Value* indexList[2] = {llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0), 
+											 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx)};
+				llvm::Value* prev_gep = LLVM::builder.CreateGEP(var, indexList);
+
 				for(ExpressionPtr expression : array_list->elements)
 				{
-					llvm::Value* indexList[2] = {llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0), 
-												 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx)};
-					llvm::Value* gep = LLVM::builder.CreateGEP(var, indexList);
-					LLVM::builder.CreateStore(expression->code_gen(), gep);
+					LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
 
-					++idx;
+					prev_gep = LLVM::builder.CreateGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
 				}
 			}
 			else
