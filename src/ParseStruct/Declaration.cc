@@ -43,6 +43,25 @@ namespace Dlink
 
 		return result;
 	}
+	void VariableDeclaration::array_helper(llvm::Value* var, std::shared_ptr<ArrayInitList> array_list)
+	{
+		std::size_t idx = 0;
+
+		llvm::Value* indexList[2] = {llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0), 
+									 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx)};
+		llvm::Value* prev_gep = LLVM::builder.CreateInBoundsGEP(var, indexList);
+	
+		std::size_t i = 0;
+		for (; i < array_list->elements.size() - 1; i++)
+		{
+			ExpressionPtr expression = array_list->elements[i];
+
+			LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
+			prev_gep = LLVM::builder.CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
+		}
+
+		LLVM::builder.CreateStore(array_list->elements[i]->code_gen(), prev_gep);
+	}
 	LLVM::Value VariableDeclaration::code_gen()
 	{
 		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
@@ -65,18 +84,7 @@ namespace Dlink
 			std::shared_ptr<ArrayInitList> array_list;
 			if ((array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
 			{
-				std::size_t idx = 0;
-
-				llvm::Value* indexList[2] = {llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0), 
-											 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx)};
-				llvm::Value* prev_gep = LLVM::builder.CreateGEP(var, indexList);
-
-				for(ExpressionPtr expression : array_list->elements)
-				{
-					LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
-
-					prev_gep = LLVM::builder.CreateGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
-				}
+				array_helper(var, array_list);
 			}
 			else
 			{
