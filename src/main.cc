@@ -13,7 +13,7 @@ int main(int argc, const char** argv)
 	lexer.lex(R"(
 	int main()
 	{
-		int[3] a = {1, 2, 3};
+		int[2][2][2] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
 		return 0;
 	}
 	)");

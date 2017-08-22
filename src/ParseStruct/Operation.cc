@@ -372,7 +372,7 @@ namespace Dlink
 	}
 	LLVM::Value ArrayInitList::code_gen()
 	{
-		throw Error(token, "Expected Expression");
+		throw Error(token, "Expected expression");
 	}
 }
 

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "ParseStruct/Declaration.hh"
 #include "ParseStruct/Operation.hh"
 #include "ParseStruct/Type.hh"
@@ -56,11 +58,30 @@ namespace Dlink
 		{
 			ExpressionPtr expression = array_list->elements[i];
 
-			LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
-			prev_gep = LLVM::builder.CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
+			std::shared_ptr<ArrayInitList> sub_array_list;
+			if ((sub_array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
+			{
+				array_helper(prev_gep, sub_array_list);
+				prev_gep = LLVM::builder.CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
+			}
+			else
+			{
+				LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
+				prev_gep = LLVM::builder.CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
+			}
 		}
 
-		LLVM::builder.CreateStore(array_list->elements[i]->code_gen(), prev_gep);
+		ExpressionPtr expression = array_list->elements[i];
+
+		std::shared_ptr<ArrayInitList> sub_array_list;
+		if ((sub_array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
+		{
+			array_helper(prev_gep, sub_array_list);
+		}
+		else
+		{
+			LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
+		}
 	}
 	LLVM::Value VariableDeclaration::code_gen()
 	{
