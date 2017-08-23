@@ -49,10 +49,10 @@ namespace Dlink
 	{
 		std::size_t idx = 0;
 
-		llvm::Value* indexList[2] = {llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0), 
-									 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx)};
+		llvm::Value* indexList[2] = { llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0),
+									 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx) };
 		llvm::Value* prev_gep = LLVM::builder.CreateInBoundsGEP(var, indexList);
-	
+
 		std::size_t i = 0;
 		for (; i < array_list->elements.size() - 1; i++)
 		{
@@ -110,7 +110,7 @@ namespace Dlink
 			else
 			{
 				LLVM::Value init_expr = expression->code_gen();
-			
+
 				LLVM::builder.CreateStore(init_expr, var);
 			}
 		}
@@ -197,11 +197,11 @@ namespace Dlink
 	LLVM::Value FunctionDeclaration::code_gen()
 	{
 		current_func = std::make_shared<FunctionDeclaration>(token, return_type, identifier, parameter, body, true);
-		
+
 		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context, "entry", func_, nullptr);
 		LLVM::builder.SetInsertPoint(func_block);
 
-		for(auto& param : func_->args())
+		for (auto& param : func_->args())
 		{
 			llvm::AllocaInst* param_alloca = LLVM::builder.CreateAlloca(param.getType(), nullptr, param.getName());
 			LLVM::builder.CreateStore(&param, param_alloca);
@@ -222,7 +222,7 @@ namespace Dlink
 			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
 			{
 				LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
-				
+
 				CompileMessage::warnings.add_warning(Warning(token, "Expected return statement at the end of non-void returning function declaration; null value will be returned"));
 				// throw Error(token, "Expected return statement at the end of non-void returning function declaration");
 			}
@@ -234,7 +234,7 @@ namespace Dlink
 		}
 
 		LLVM::function_pm->run(*func_);
-		
+
 		for (auto& param : func_->args())
 		{
 			symbol_table->map.erase(param.getName());

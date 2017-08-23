@@ -68,7 +68,7 @@ namespace Dlink
 		std::uint64_t length_real = 0;
 		Any length_any;
 		bool length_ok = length->evaluate(length_any);
-		
+
 		if (!length_ok)
 		{
 			throw Error(token, "Expected compile time integral value");

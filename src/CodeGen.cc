@@ -14,7 +14,7 @@ namespace Dlink
 		llvm::IRBuilder<> builder(context);
 		std::unique_ptr<llvm::legacy::FunctionPassManager> function_pm;
 	}
-	
+
 	namespace CompileMessage
 	{
 		Warnings warnings;

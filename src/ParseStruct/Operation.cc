@@ -160,7 +160,7 @@ namespace Dlink
 		case TokenType::divide:
 			// TODO: 임시 방안
 			return LLVM::builder.CreateSDiv(lhs_value, rhs_value);
-		
+
 		case TokenType::assign:
 		{
 			Identifier* dest;
@@ -168,7 +168,7 @@ namespace Dlink
 			{
 				return LLVM::builder.CreateStore(rhs_value, symbol_table->find(dest->id));
 			}
-		
+
 			return LLVM::builder.CreateStore(rhs_value, lhs_value);
 		}
 
@@ -306,7 +306,7 @@ namespace Dlink
 		result += tree_prefix(depth) + "FunctionCallOperation:\n";
 		++depth;
 		result += tree_prefix(depth) + "func_expr:\n";
-		result += func_expr->tree_gen(depth+1) + '\n';
+		result += func_expr->tree_gen(depth + 1) + '\n';
 		result += tree_prefix(depth) + "argument:\n";
 		++depth;
 		for (auto arg : argument)
@@ -329,7 +329,7 @@ namespace Dlink
 		{
 			function = dynamic_cast<llvm::Function*>(func_expr->code_gen().get());
 		}
-		
+
 
 		if (function)
 		{
