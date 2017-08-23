@@ -3,7 +3,7 @@ LLVM 기반 머신러닝&GPGPU특화 프로그래밍 언어
 
 ## 개발자
 - kmc7468: 리드 프로그래머
-- g34r: 프론트엔드
+- g34r: 풀 스택
 
 ## Special thanks
 - kiwiyou: Dlink 로고 제작
