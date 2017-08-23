@@ -54,7 +54,7 @@ namespace Dlink
 		llvm::Value* prev_gep = LLVM::builder.CreateInBoundsGEP(var, indexList);
 
 		std::size_t i = 0;
-		for (; i < array_list->elements.size() - 1; i++)
+		for (; i < array_list->elements.size() - 1; ++i)
 		{
 			ExpressionPtr expression = array_list->elements[i];
 
