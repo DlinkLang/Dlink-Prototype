@@ -42,6 +42,9 @@
     <ClInclude Include="include\Dlink\CommandLine.hh" />
     <ClInclude Include="include\Dlink\Lexer.hh" />
     <ClInclude Include="include\Dlink\LLVMValue.hh" />
+    <ClInclude Include="include\Dlink\Message\Error.hh" />
+    <ClInclude Include="include\Dlink\Message\Message.hh" />
+    <ClInclude Include="include\Dlink\Message\Warning.hh" />
     <ClInclude Include="include\Dlink\Parser.hh" />
     <ClInclude Include="include\Dlink\ParseStruct.hh" />
     <ClInclude Include="include\Dlink\ParseStruct\Declaration.hh" />
