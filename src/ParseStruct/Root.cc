@@ -24,6 +24,15 @@ namespace Dlink
 	{
 		return true;
 	}
+	/**
+	 * @brief 이 노드가 Dlink 코드 내에서 lvalue인지 여부입니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @return 이 노드가 lvalue인지 여부를 반환합니다.
+	 */
+	bool Node::is_lvalue() const noexcept
+	{
+		return false;
+	}
 
 	/**
 	 * @brief 이 식을 Dlink 코드를 컴파일 하는 중에 계산합니다.
@@ -58,6 +67,10 @@ namespace Dlink
 		}
 
 		return LLVM::builder.CreateLoad(result);
+	}
+	bool Identifier::is_lvalue() const noexcept
+	{
+		return true;
 	}
 
 	/**

@@ -14,7 +14,8 @@ int main(int argc, const char** argv)
 	unsafe int main()
 	{
 		int i;
-		int* ip;
+		int* ip = &i;
+		int j = *ip;
 	}
 	)");
 

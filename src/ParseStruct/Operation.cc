@@ -252,6 +252,26 @@ namespace Dlink
 		case TokenType::minus:
 			return LLVM::builder.CreateMul(LLVM::builder.getInt32(-1), rhs_value);
 
+		case TokenType::multiply: // 값 참조 연산
+		{
+			return LLVM::builder.CreateLoad(rhs_value);
+		}
+
+		case TokenType::bit_and: // 주소 참조 연산
+		{
+			if (rhs->is_lvalue())
+			{
+				if (dynamic_cast<llvm::AllocaInst*>(rhs_value.get()))
+				{
+					return rhs_value;
+				}
+			}
+
+			// TODO: 에러 메세지 채워주세요.
+			// lvalue가 아닌 것에 주소 참조 연산을 하려고 한 것입니다.
+			throw Error(token, "TODO");
+		}
+
 		default:
 			// TODO: 오류 처리
 			return LLVM::builder.getFalse();
