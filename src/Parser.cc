@@ -494,7 +494,7 @@ namespace Dlink
 		ExpressionPtr lhs;
 
 		Token muldiv_start;
-		if (!unary_plusminus(lhs, &muldiv_start))
+		if (!unary(lhs, &muldiv_start))
 		{
 			return false;
 		}
@@ -506,7 +506,7 @@ namespace Dlink
 			op = previous_token().type;
 
 			ExpressionPtr rhs;
-			if (!unary_plusminus(rhs))
+			if (!unary(rhs))
 			{
 				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
@@ -521,42 +521,9 @@ namespace Dlink
 		return true;
 	}
 
-	bool Parser::unary_plusminus(ExpressionPtr& out, Token* start_token)
+	bool Parser::unary(ExpressionPtr& out, Token* start_token)
 	{
-		Token plusminus_start;
-		if (accept(TokenType::plus, &plusminus_start) || accept(TokenType::minus, &plusminus_start))
-		{
-			TokenType op = previous_token().type;
-
-			ExpressionPtr rhs;
-			if (!func_call(rhs))
-			{
-				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
-				return false;
-			}
-
-			out = std::make_shared<UnaryOperation>(plusminus_start, op, rhs);
-			assign_token(start_token, plusminus_start);
-
-			return true;
-		}
-		else
-		{
-			Token func_call_start;
-
-			ExpressionPtr func_call_expr;
-			if (func_call(func_call_expr, &func_call_start))
-			{
-				out = func_call_expr;
-
-				assign_token(start_token, func_call_start);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+		return unary_plusminus(out, start_token) || unary_address(out, start_token);
 	}
 
 	bool Parser::func_call(ExpressionPtr& out, Token* start_token)
@@ -660,6 +627,67 @@ namespace Dlink
 
 namespace Dlink
 {
+	bool Parser::unary_plusminus(ExpressionPtr& out, Token* start_token)
+	{
+		Token plusminus_start;
+		if (accept(TokenType::plus, &plusminus_start) || accept(TokenType::minus, &plusminus_start))
+		{
+			TokenType op = previous_token().type;
+
+			ExpressionPtr rhs;
+			if (!func_call(rhs))
+			{
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+				return false;
+			}
+
+			out = std::make_shared<UnaryOperation>(plusminus_start, op, rhs);
+			assign_token(start_token, plusminus_start);
+
+			return true;
+		}
+		else
+		{
+			Token func_call_start;
+
+			ExpressionPtr func_call_expr;
+			if (func_call(func_call_expr, &func_call_start))
+			{
+				out = func_call_expr;
+
+				assign_token(start_token, func_call_start);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	bool Parser::unary_address(ExpressionPtr& out, Token* start_token)
+	{
+		Token address_start;
+		if (accept(TokenType::multiply, &address_start) || accept(TokenType::bit_and, &address_start))
+		{
+			TokenType op = previous_token().type;
+
+			ExpressionPtr rhs;
+			if (!func_call(rhs))
+			{
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+				return false;
+			}
+
+			out = std::make_shared<UnaryOperation>(address_start, op, rhs);
+			assign_token(start_token, address_start);
+
+			return true;
+		}
+
+		return false;
+	}
+
 	bool Parser::number(ExpressionPtr& out, Token* start_token)
 	{
 		Token number_start;

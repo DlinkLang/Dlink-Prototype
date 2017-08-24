@@ -261,7 +261,7 @@ namespace Dlink
 		{
 			if (rhs->is_lvalue())
 			{
-				if (dynamic_cast<llvm::AllocaInst*>(rhs_value.get()))
+				if (dynamic_cast<Identifier*>(rhs.get()))
 				{
 					return rhs_value;
 				}
