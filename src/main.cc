@@ -11,14 +11,10 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	int f(int a)
-	{
-		a = 10;
-		return a;
-	}
 	int main()
 	{
-		return f(0);
+		int[2][2][2] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+		return 0;
 	}
 	)");
 

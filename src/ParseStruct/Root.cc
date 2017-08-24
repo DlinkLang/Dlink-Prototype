@@ -6,7 +6,7 @@
 namespace Dlink
 {
 	extern std::string tree_prefix(std::size_t depth);
-	
+
 	/**
 	 * @brief 이 Node 인스턴스의 멤버를 초기화합니다.
 	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
@@ -93,7 +93,7 @@ namespace Dlink
 	Scope::Scope(const Token& token, const std::vector<StatementPtr>& statements, StatementPtr parent)
 		: Block(token, statements), parent(parent)
 	{}
-	
+
 	std::string Scope::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "Scope Start\n";
@@ -114,7 +114,7 @@ namespace Dlink
 		SymbolTablePtr new_symbol_table = std::make_shared<SymbolTable>();
 		new_symbol_table->parent = symbol_table;
 		symbol_table = new_symbol_table;
-		
+
 		LLVM::Value last_value;
 
 		for (StatementPtr statement : statements)

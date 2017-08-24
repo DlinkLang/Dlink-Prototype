@@ -92,6 +92,21 @@ namespace Dlink
 		/** 인수입니다. */
 		const std::vector<ExpressionPtr> argument;
 	};
+
+	/**
+	 * @brief 배열 초기화 리스트의 구조를 담는 추상 구문 트리의 노드입니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
+	 */
+	struct ArrayInitList final : public Expression
+	{
+		ArrayInitList(const Token& token, const std::vector<ExpressionPtr>& elements);
+
+		std::string tree_gen(std::size_t depth) const override;
+		LLVM::Value code_gen() override;
+
+		/** 배열 리스트의 원소들입니다. */
+		const std::vector<ExpressionPtr> elements;
+	};
 }
 
 namespace Dlink

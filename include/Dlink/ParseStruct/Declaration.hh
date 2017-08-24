@@ -13,6 +13,7 @@
 #include "llvm/IR/Value.h"
 
 #include "Root.hh"
+#include "Operation.hh"
 #include "../LLVMValue.hh"
 #include "../Token.hh"
 
@@ -27,6 +28,7 @@ namespace Dlink
 		VariableDeclaration(const Token& token, TypePtr type, const std::string& identifier, ExpressionPtr expression);
 
 		std::string tree_gen(std::size_t depth) const override;
+		void array_helper(llvm::Value* var, std::shared_ptr<ArrayInitList> array_list);
 		LLVM::Value code_gen() override;
 
 		/** 변수의 타입입니다. */

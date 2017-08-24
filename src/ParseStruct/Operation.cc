@@ -160,7 +160,7 @@ namespace Dlink
 		case TokenType::divide:
 			// TODO: 임시 방안
 			return LLVM::builder.CreateSDiv(lhs_value, rhs_value);
-		
+
 		case TokenType::assign:
 		{
 			Identifier* dest;
@@ -168,7 +168,7 @@ namespace Dlink
 			{
 				return LLVM::builder.CreateStore(rhs_value, symbol_table->find(dest->id));
 			}
-		
+
 			return LLVM::builder.CreateStore(rhs_value, lhs_value);
 		}
 
@@ -306,7 +306,7 @@ namespace Dlink
 		result += tree_prefix(depth) + "FunctionCallOperation:\n";
 		++depth;
 		result += tree_prefix(depth) + "func_expr:\n";
-		result += func_expr->tree_gen(depth+1) + '\n';
+		result += func_expr->tree_gen(depth + 1) + '\n';
 		result += tree_prefix(depth) + "argument:\n";
 		++depth;
 		for (auto arg : argument)
@@ -329,7 +329,7 @@ namespace Dlink
 		{
 			function = dynamic_cast<llvm::Function*>(func_expr->code_gen().get());
 		}
-		
+
 
 		if (function)
 		{
@@ -346,6 +346,33 @@ namespace Dlink
 		{
 			throw Error(token, "Expected callable function expression");
 		}
+	}
+
+	/**
+	 * @brief 새 ArrayInitList 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param elements 배열 리스트의 원소들입니다.
+	 */
+	ArrayInitList::ArrayInitList(const Token& token, const std::vector<ExpressionPtr>& elements)
+		: Expression(token), elements(elements)
+	{}
+	std::string ArrayInitList::tree_gen(std::size_t depth) const
+	{
+		std::string result;
+		result += tree_prefix(depth) + "ArrayInitList:\n";
+		++depth;
+		result += tree_prefix(depth) + "elements:\n";
+		++depth;
+		for (auto element : elements)
+		{
+			result += element->tree_gen(depth) + '\n';
+		}
+
+		return result;
+	}
+	LLVM::Value ArrayInitList::code_gen()
+	{
+		throw Error(token, "Expected expression");
 	}
 }
 
