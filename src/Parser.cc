@@ -743,28 +743,49 @@ namespace Dlink
 
 	bool Parser::reference_type(TypePtr& out, Token* start_token)
 	{
-		Token reference_start_token;
+		Token pointer_start_token;
 		TypePtr type;
 
-		if (simple_type(type, &reference_start_token))
+		if (pointer_type(type, &pointer_start_token))
 		{
 			if (accept(TokenType::bit_and))
 			{
-				out = std::make_shared<LValueReference>(reference_start_token, type);
+				out = std::make_shared<LValueReference>(pointer_start_token, type);
 
-				assign_token(start_token, reference_start_token);
+				assign_token(start_token, pointer_start_token);
 				return true;
 			}
 			else
 			{
 				out = type;
 
-				assign_token(start_token, reference_start_token);
+				assign_token(start_token, pointer_start_token);
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	bool Parser::pointer_type(TypePtr& out, Token* start_token)
+	{
+		Token pointer_start;
+		TypePtr pointer;
+
+		if (!simple_type(pointer, &pointer_start))
+		{
+			return false;
+		}
+
+		while (accept(TokenType::multiply))
+		{
+			pointer = std::make_shared<Pointer>(pointer_start, pointer);
+		}
+
+		out = pointer;
+		assign_token(start_token, pointer_start);
+
+		return true;
 	}
 
 	bool Parser::simple_type(TypePtr& out, Token* start_token)

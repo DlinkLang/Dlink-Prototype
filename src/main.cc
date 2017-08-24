@@ -13,8 +13,8 @@ int main(int argc, const char** argv)
 	lexer.lex(R"(
 	unsafe int main()
 	{
-		unsafe int i = 0;
-		unsafe return 0;
+		int i;
+		int* ip;
 	}
 	)");
 
