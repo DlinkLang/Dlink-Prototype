@@ -268,9 +268,7 @@ namespace Dlink
 				}
 			}
 
-			// TODO: 에러 메세지 채워주세요.
-			// lvalue가 아닌 것에 주소 참조 연산을 하려고 한 것입니다.
-			throw Error(token, "TODO");
+			throw Error(token, "Expected lvalue for operand of reference operator");
 		}
 
 		default:
