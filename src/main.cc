@@ -11,12 +11,12 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	unsafe int main()
+	int main()
 	{
 		int i;
-		int* ip = &i;
+		unsafe int* ip = &i;
 		int j = *ip;
-		int* ip2 = &i;
+		unsafe int* ip2 = &i;
 	}
 	)");
 

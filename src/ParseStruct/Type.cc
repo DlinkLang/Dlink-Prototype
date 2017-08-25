@@ -68,7 +68,7 @@ namespace Dlink
 		std::uint64_t length_real = 0;
 		Any length_any;
 		bool length_ok = length->evaluate(length_any);
-		
+
 		if (!length_ok)
 		{
 			throw Error(token, "Expected compile time integral value");
@@ -109,7 +109,7 @@ namespace Dlink
 	std::string LValueReference::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "LValueReference:\n" +
-			tree_prefix(++depth) + "type:\n" + type->tree_gen(++depth);
+			tree_prefix(depth + 1) + "type:\n" + type->tree_gen(depth + 1);
 	}
 
 	/**

@@ -1,4 +1,7 @@
+#include <iostream>
+
 #include "ParseStruct/Declaration.hh"
+#include "ParseStruct/Operation.hh"
 #include "ParseStruct/Type.hh"
 #include "CodeGen.hh"
 
@@ -42,6 +45,44 @@ namespace Dlink
 
 		return result;
 	}
+	void VariableDeclaration::array_helper(llvm::Value* var, std::shared_ptr<ArrayInitList> array_list)
+	{
+		std::size_t idx = 0;
+
+		llvm::Value* indexList[2] = { llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0),
+									 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx) };
+		llvm::Value* prev_gep = LLVM::builder.CreateInBoundsGEP(var, indexList);
+
+		std::size_t i = 0;
+		for (; i < array_list->elements.size() - 1; ++i)
+		{
+			ExpressionPtr expression = array_list->elements[i];
+
+			std::shared_ptr<ArrayInitList> sub_array_list;
+			if ((sub_array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
+			{
+				array_helper(prev_gep, sub_array_list);
+				prev_gep = LLVM::builder.CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
+			}
+			else
+			{
+				LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
+				prev_gep = LLVM::builder.CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
+			}
+		}
+
+		ExpressionPtr expression = array_list->elements[i];
+
+		std::shared_ptr<ArrayInitList> sub_array_list;
+		if ((sub_array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
+		{
+			array_helper(prev_gep, sub_array_list);
+		}
+		else
+		{
+			LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
+		}
+	}
 	LLVM::Value VariableDeclaration::code_gen()
 	{
 		if (!in_unsafe_block && !type->is_safe())
@@ -66,9 +107,17 @@ namespace Dlink
 		}
 		else if (expression) // Reference가 아닌데 expression이 있는 상황
 		{
-			LLVM::Value init_expr = expression->code_gen();
+			std::shared_ptr<ArrayInitList> array_list;
+			if ((array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
+			{
+				array_helper(var, array_list);
+			}
+			else
+			{
+				LLVM::Value init_expr = expression->code_gen();
 
-			LLVM::builder.CreateStore(init_expr, var);
+				LLVM::builder.CreateStore(init_expr, var);
+			}
 		}
 
 		symbol_table->map.insert(std::make_pair(identifier, var));

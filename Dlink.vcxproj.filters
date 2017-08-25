@@ -16,6 +16,9 @@
     <Filter Include="Source-Files\Message">
       <UniqueIdentifier>{f9dbf609-85b5-44c9-8592-c7ee5ebf8a58}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header-Files\Message">
+      <UniqueIdentifier>{e377dca4-8f02-4997-9234-f37e6308f06e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cc">
@@ -103,6 +106,15 @@
     </ClInclude>
     <ClInclude Include="include\Dlink\Any.hh">
       <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Message\Error.hh">
+      <Filter>Header-Files\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Message\Message.hh">
+      <Filter>Header-Files\Message</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Message\Warning.hh">
+      <Filter>Header-Files\Message</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

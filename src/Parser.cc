@@ -147,7 +147,6 @@ namespace Dlink
 		return true;
 	}
 
-
 	bool Parser::var_decl(StatementPtr& out, Token* start_token)
 	{
 		TypePtr type_expr;
@@ -172,22 +171,11 @@ namespace Dlink
 
 					if (expr(expression))
 					{
-						// 초기화 식이 있는 변수 선언
 						if (accept(TokenType::semicolon))
 						{
-							StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
+							out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
 
-							if (is_unsafe)
-							{
-								out = std::make_shared<UnsafeStatement>(unsafe_start, var);
-								assign_token(start_token, unsafe_start);
-							}
-							else
-							{
-								out = var;
-								assign_token(start_token, var_decl_start);
-							}
-
+							assign_token(start_token, var_decl_start);
 							return true;
 						}
 						else
@@ -202,27 +190,16 @@ namespace Dlink
 						return false;
 					}
 				}
-				// 초기화 식이 없는 변수 선언
 				else if (accept(TokenType::semicolon))
 				{
-					StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
+					out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
 
-					if (is_unsafe)
-					{
-						out = std::make_shared<UnsafeStatement>(unsafe_start, var);
-						assign_token(start_token, unsafe_start);
-					}
-					else
-					{
-						out = var;
-						assign_token(start_token, var_decl_start);
-					}
-
+					assign_token(start_token, var_decl_start);
 					return true;
 				}
 				else if (accept(TokenType::lparen))
 				{
-					return func_decl(out, var_decl_start, type_expr, name, unsafe_start, is_unsafe);
+					return func_decl(out, var_decl_start, type_expr, name);
 				}
 			}
 
@@ -252,8 +229,7 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier,
-		Token unsafe_start, bool is_unsafe, Token* start_token)
+	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token)
 	{
 		std::vector<VariableDeclaration> param_list;
 
@@ -307,19 +283,9 @@ namespace Dlink
 			return false;
 		}
 
-		StatementPtr func = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
+		out = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
 
-		if (is_unsafe)
-		{
-			out = std::make_shared<UnsafeStatement>(unsafe_start, func);
-			assign_token(start_token, unsafe_start);
-		}
-		else
-		{
-			out = func;
-			assign_token(start_token, var_decl_start_token);
-		}
-
+		assign_token(start_token, var_decl_start_token);
 		return true;
 	}
 
@@ -360,6 +326,13 @@ namespace Dlink
 
 			return false;
 		}
+	}
+
+	bool Parser::unsafe_stmt(StatementPtr& out, Token* start_token)
+	{
+		// TODO
+
+		return false;
 	}
 
 	bool Parser::expr_stmt(StatementPtr& out, Token* start_token)
@@ -599,6 +572,67 @@ namespace Dlink
 
 				return false;
 			}
+		}
+		else
+		{
+			ExpressionPtr array_list_expr;
+
+			Token list_start;
+			if (array_init_list(array_list_expr, &list_start))
+			{
+				out = array_list_expr;
+
+				assign_token(start_token, list_start);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	bool Parser::array_init_list(ExpressionPtr& out, Token* start_token)
+	{
+		Token list_start;
+		if (accept(TokenType::lbrace, &list_start))
+		{
+			if (accept(TokenType::rbrace))
+			{
+				out = std::make_shared<ArrayInitList>(list_start, std::vector<ExpressionPtr>{});
+
+				assign_token(start_token, list_start);
+				return true;
+			}
+
+			std::vector<ExpressionPtr> elements;
+
+			while (true)
+			{
+				ExpressionPtr expression;
+				expr(expression);
+				elements.push_back(expression);
+
+				if (accept(TokenType::comma))
+				{
+					continue;
+				}
+				else if (accept(TokenType::rbrace))
+				{
+					break;
+				}
+				else
+				{
+					errors_.add_error(Error(current_token(), "Expected '}' or ',', but got \"" + current_token().data + "\""));
+
+					return false;
+				}
+			}
+
+			out = std::make_shared<ArrayInitList>(list_start, elements);
+
+			assign_token(start_token, list_start);
+			return true;
 		}
 		else
 		{
