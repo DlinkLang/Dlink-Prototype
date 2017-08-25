@@ -16,6 +16,7 @@ int main(int argc, const char** argv)
 		int i;
 		int* ip = &i;
 		int j = *ip;
+		int* ip2 = &i;
 	}
 	)");
 

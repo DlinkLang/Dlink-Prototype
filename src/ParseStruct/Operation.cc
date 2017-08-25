@@ -261,9 +261,10 @@ namespace Dlink
 		{
 			if (rhs->is_lvalue())
 			{
-				if (dynamic_cast<Identifier*>(rhs.get()))
+				llvm::LoadInst* temp = nullptr;
+				if (temp = llvm::dyn_cast_or_null<llvm::LoadInst>(rhs_value.get()))
 				{
-					return rhs_value;
+					return temp->getPointerOperand();
 				}
 			}
 
