@@ -44,6 +44,13 @@ namespace Dlink
 	}
 	LLVM::Value VariableDeclaration::code_gen()
 	{
+		if (!in_unsafe_block && !type->is_safe())
+		{
+			// TODO: 오류 메세지 채워주세요.
+			// unsafe 블록이 아닌 곳에서 포인터 등 안전하지 않은 타입을 선언하려 한 것입니다.
+			throw Error(token, "TODO");
+		}
+
 		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
 		var->setAlignment(4);
 

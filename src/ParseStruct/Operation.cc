@@ -384,7 +384,11 @@ namespace Dlink
 	}
 	LLVM::Value UnsafeExpression::code_gen()
 	{
-		return expression->code_gen();
+		in_unsafe_block = true;
+		LLVM::Value result = expression->code_gen();
+		in_unsafe_block = false;
+
+		return result;
 	}
 }
 
@@ -449,6 +453,10 @@ namespace Dlink
 	}
 	LLVM::Value UnsafeStatement::code_gen()
 	{
-		return statement->code_gen();
+		in_unsafe_block = true;
+		LLVM::Value result = statement->code_gen();
+		in_unsafe_block = false;
+
+		return result;
 	}
 }
