@@ -173,9 +173,19 @@ namespace Dlink
 					{
 						if (accept(TokenType::semicolon))
 						{
-							out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
+							StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
 
-							assign_token(start_token, var_decl_start);
+							if (is_unsafe)
+							{
+								out = std::make_shared<UnsafeStatement>(unsafe_start, var);
+								assign_token(start_token, unsafe_start);
+							}
+							else
+							{
+								out = var;
+								assign_token(start_token, var_decl_start);
+							}
+
 							return true;
 						}
 						else
@@ -192,14 +202,24 @@ namespace Dlink
 				}
 				else if (accept(TokenType::semicolon))
 				{
-					out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
+					StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
 
-					assign_token(start_token, var_decl_start);
+					if (is_unsafe)
+					{
+						out = std::make_shared<UnsafeStatement>(unsafe_start, var);
+						assign_token(start_token, unsafe_start);
+					}
+					else
+					{
+						out = var;
+						assign_token(start_token, var_decl_start);
+					}
+
 					return true;
 				}
 				else if (accept(TokenType::lparen))
 				{
-					return func_decl(out, var_decl_start, type_expr, name);
+					return func_decl(out, var_decl_start, type_expr, name, unsafe_start, is_unsafe);
 				}
 			}
 
@@ -229,7 +249,7 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token)
+	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token unsafe_start, bool is_unsafe, Token* start_token)
 	{
 		std::vector<VariableDeclaration> param_list;
 
@@ -283,9 +303,19 @@ namespace Dlink
 			return false;
 		}
 
-		out = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
+		StatementPtr func = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
 
-		assign_token(start_token, var_decl_start_token);
+		if (is_unsafe)
+		{
+			out = std::make_shared<UnsafeStatement>(unsafe_start, func);
+			assign_token(start_token, unsafe_start);
+		}
+		else
+		{
+			out = func;
+			assign_token(start_token, var_decl_start_token);
+		}
+
 		return true;
 	}
 
