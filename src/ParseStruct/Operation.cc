@@ -414,6 +414,10 @@ namespace Dlink
 
 		if (in_unsafe_block)
 		{
+			// TODO: 경고 메세지 채워주세요.
+			// unsafe 안에서 unsafe를 쓴 상황입니다.
+			CompileMessage::warnings.add_warning(Warning(token, "TODO"));
+
 			result = expression->code_gen();
 		}
 		else
@@ -491,6 +495,10 @@ namespace Dlink
 
 		if (in_unsafe_block)
 		{
+			// TODO: 경고 메세지 채워주세요.
+			// unsafe 안에서 unsafe를 쓴 상황입니다.
+			CompileMessage::warnings.add_warning(Warning(token, "TODO"));
+
 			result = statement->code_gen();
 		}
 		else

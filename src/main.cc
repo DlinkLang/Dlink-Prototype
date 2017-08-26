@@ -14,7 +14,7 @@ int main(int argc, const char** argv)
 	unsafe int main()
 	{
 		int i;
-		int* ip = &i;
+		unsafe int* ip = &i;
 		int j = *ip;
 		int* ip2 = &i;
 
@@ -33,7 +33,7 @@ int main(int argc, const char** argv)
 	Dlink::StatementPtr ast;
 	if (parser.parse(ast))
 	{
-		for(auto warning : parser.get_warnings())
+		for (auto warning : parser.get_warnings())
 		{
 			Dlink::Token warning_token = warning.message_token();
 			std::cerr << "Warning at ";
@@ -51,7 +51,7 @@ int main(int argc, const char** argv)
 		{
 			ast->code_gen();
 
-			for(auto warning : Dlink::CompileMessage::warnings.get_warnings())
+			for (auto warning : Dlink::CompileMessage::warnings.get_warnings())
 			{
 				Dlink::Token warning_token = warning.message_token();
 				std::cerr << "Warning at ";
@@ -72,7 +72,7 @@ int main(int argc, const char** argv)
 			std::cerr << "Error at ";
 			std::cerr << "Line " << error_token.line;
 			std::cerr << " Col " << error_token.col;
-			
+
 			std::cerr << " " << error.what() << '\n';
 		}
 	}
