@@ -53,7 +53,8 @@ namespace Dlink
 		bool block(StatementPtr& out, Token* start_token = nullptr);
 		bool scope(StatementPtr& out, Token* start_token = nullptr);
 		bool var_decl(StatementPtr& out, Token* start_token = nullptr);
-		bool func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token = nullptr);
+		bool func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier,
+					   Token unsafe_start, bool is_unsafe, Token* start_token = nullptr);
 		bool return_stmt(StatementPtr& out, Token* start_token = nullptr);
 		bool unsafe_stmt(StatementPtr& out, Token* start_token = nullptr);
 		bool expr_stmt(StatementPtr& out, Token* start_token = nullptr);
@@ -62,18 +63,21 @@ namespace Dlink
 		bool assign(ExpressionPtr& out, Token* start_token = nullptr);
 		bool addsub(ExpressionPtr& out, Token* start_token = nullptr);
 		bool muldiv(ExpressionPtr& out, Token* start_token = nullptr);
-		bool unary_plusminus(ExpressionPtr& out, Token* start_token = nullptr);
+		bool unary(ExpressionPtr& out, Token* starrt_token = nullptr);
 		bool func_call(ExpressionPtr& out, Token* start_token = nullptr);
 		bool paren(ExpressionPtr& out, Token* start_token = nullptr);
 		bool array_init_list(ExpressionPtr& out, Token* start_token = nullptr);
 		bool atom(ExpressionPtr& out, Token* start_token = nullptr);
 
+		bool unary_plusminus(ExpressionPtr& out, Token* start_token = nullptr);
+		bool unary_address(ExpressionPtr& out, Token* start_token = nullptr);
 		bool number(ExpressionPtr& out, Token* start_token = nullptr);
 		bool identifier(ExpressionPtr& out, Token* start_token = nullptr);
 
 		bool type(TypePtr& out, Token* start_token = nullptr);
 		bool array_type(TypePtr& out, Token* start_token = nullptr);
 		bool reference_type(TypePtr& out, Token* start_token = nullptr);
+		bool pointer_type(TypePtr& out, Token* start_token = nullptr);
 		bool simple_type(TypePtr& out, Token* start_token = nullptr);
 
 	private:

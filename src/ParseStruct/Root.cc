@@ -16,6 +16,25 @@ namespace Dlink
 	{}
 
 	/**
+	 * @brief 이 노드가 Dlink 코드 내에서 안전한 코드를 담고 있는지 여부입니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @return 이 노드가 안전한지 반환합니다.
+	 */
+	bool Node::is_safe() const noexcept
+	{
+		return true;
+	}
+	/**
+	 * @brief 이 노드가 Dlink 코드 내에서 lvalue인지 여부입니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @return 이 노드가 lvalue인지 여부를 반환합니다.
+	 */
+	bool Node::is_lvalue() const noexcept
+	{
+		return false;
+	}
+
+	/**
 	 * @brief 이 식을 Dlink 코드를 컴파일 하는 중에 계산합니다.
 	 * @param out 계산된 값을 저장할 Any 인스턴스입니다.
 	 * @return 컴파일 시간에 계산을 성공했을 경우 true를, 실패했을 경우 false를 반환합니다.
@@ -48,6 +67,10 @@ namespace Dlink
 		}
 
 		return LLVM::builder.CreateLoad(result);
+	}
+	bool Identifier::is_lvalue() const noexcept
+	{
+		return true;
 	}
 
 	/**
@@ -155,4 +178,14 @@ namespace Dlink
 	Type::Type(const Token& token)
 		: token(token)
 	{}
+
+	/**
+	 * @brief 이 노드가 Dlink 코드 내에서 안전한 코드를 담고 있는지 여부입니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @return 이 노드가 안전한지 반환합니다.
+	 */
+	bool Type::is_safe() const noexcept
+	{
+		return true;
+	}
 }

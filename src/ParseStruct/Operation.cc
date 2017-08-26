@@ -252,6 +252,25 @@ namespace Dlink
 		case TokenType::minus:
 			return LLVM::builder.CreateMul(LLVM::builder.getInt32(-1), rhs_value);
 
+		case TokenType::multiply: // 값 참조 연산
+		{
+			return LLVM::builder.CreateLoad(rhs_value);
+		}
+
+		case TokenType::bit_and: // 주소 참조 연산
+		{
+			if (rhs->is_lvalue())
+			{
+				llvm::LoadInst* temp = nullptr;
+				if ((temp = llvm::dyn_cast_or_null<llvm::LoadInst>(rhs_value.get())))
+				{
+					return temp->getPointerOperand();
+				}
+			}
+
+			throw Error(token, "Expected lvalue for operand of reference operator");
+		}
+
 		default:
 			// TODO: 오류 처리
 			return LLVM::builder.getFalse();
@@ -374,6 +393,29 @@ namespace Dlink
 	{
 		throw Error(token, "Expected expression");
 	}
+
+	/**
+	 * @brief 새 UnsafeExpression 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param expression 안전하지 않은 식입니다.
+	 */
+	UnsafeExpression::UnsafeExpression(const Token& token, ExpressionPtr expression)
+		: Expression(token), expression(expression)
+	{}
+	std::string UnsafeExpression::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "UnsafeExpression:\n" +
+			tree_prefix(depth + 1) + "expression:\n" +
+			expression->tree_gen(depth + 2);
+	}
+	LLVM::Value UnsafeExpression::code_gen()
+	{
+		in_unsafe_block = true;
+		LLVM::Value result = expression->code_gen();
+		in_unsafe_block = false;
+
+		return result;
+	}
 }
 
 namespace Dlink
@@ -419,5 +461,27 @@ namespace Dlink
 			}
 			return LLVM::builder.CreateRetVoid();
 		}
+	}
+	/**
+	 * @brief 새 UnsafeStatement 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param statement 안전하지 않은 문입니다.
+	 */
+	UnsafeStatement::UnsafeStatement(const Token& token, StatementPtr statement)
+		: Statement(token), statement(statement)
+	{}
+	std::string UnsafeStatement::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "UnsafeStatement:\n" +
+			tree_prefix(depth + 1) + "statement:\n" +
+			statement->tree_gen(depth + 2);
+	}
+	LLVM::Value UnsafeStatement::code_gen()
+	{
+		in_unsafe_block = true;
+		LLVM::Value result = statement->code_gen();
+		in_unsafe_block = false;
+
+		return result;
 	}
 }

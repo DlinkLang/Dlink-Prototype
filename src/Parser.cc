@@ -151,6 +151,13 @@ namespace Dlink
 	{
 		TypePtr type_expr;
 
+		Token unsafe_start;
+		bool is_unsafe = false;
+		if (accept(TokenType::unsafe, &unsafe_start))
+		{
+			is_unsafe = true;
+		}
+
 		Token var_decl_start;
 		if (type(type_expr, &var_decl_start))
 		{
@@ -166,9 +173,19 @@ namespace Dlink
 					{
 						if (accept(TokenType::semicolon))
 						{
-							out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
+							StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name, expression);
 
-							assign_token(start_token, var_decl_start);
+							if (is_unsafe)
+							{
+								out = std::make_shared<UnsafeStatement>(unsafe_start, var);
+								assign_token(start_token, unsafe_start);
+							}
+							else
+							{
+								out = var;
+								assign_token(start_token, var_decl_start);
+							}
+
 							return true;
 						}
 						else
@@ -185,14 +202,24 @@ namespace Dlink
 				}
 				else if (accept(TokenType::semicolon))
 				{
-					out = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
+					StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
 
-					assign_token(start_token, var_decl_start);
+					if (is_unsafe)
+					{
+						out = std::make_shared<UnsafeStatement>(unsafe_start, var);
+						assign_token(start_token, unsafe_start);
+					}
+					else
+					{
+						out = var;
+						assign_token(start_token, var_decl_start);
+					}
+
 					return true;
 				}
 				else if (accept(TokenType::lparen))
 				{
-					return func_decl(out, var_decl_start, type_expr, name);
+					return func_decl(out, var_decl_start, type_expr, name, unsafe_start, is_unsafe);
 				}
 			}
 
@@ -201,6 +228,12 @@ namespace Dlink
 		}
 		else
 		{
+			if (is_unsafe)
+			{
+				errors_.add_error(Error(current_token(), "Unexpected \"unsafe\""));
+				return false;
+			}
+
 			StatementPtr statement;
 
 			Token return_start;
@@ -216,7 +249,7 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token* start_token)
+	bool Parser::func_decl(StatementPtr& out, Token var_decl_start_token, TypePtr return_type, const std::string& identifier, Token unsafe_start, bool is_unsafe, Token* start_token)
 	{
 		std::vector<VariableDeclaration> param_list;
 
@@ -270,9 +303,19 @@ namespace Dlink
 			return false;
 		}
 
-		out = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
+		StatementPtr func = std::make_shared<FunctionDeclaration>(var_decl_start_token, return_type, identifier, param_list, body);
 
-		assign_token(start_token, var_decl_start_token);
+		if (is_unsafe)
+		{
+			out = std::make_shared<UnsafeStatement>(unsafe_start, func);
+			assign_token(start_token, unsafe_start);
+		}
+		else
+		{
+			out = func;
+			assign_token(start_token, var_decl_start_token);
+		}
+
 		return true;
 	}
 
@@ -351,7 +394,24 @@ namespace Dlink
 {
 	bool Parser::expr(ExpressionPtr& out, Token* start_token)
 	{
-		return assign(out, start_token);
+		Token unsafe_start;
+		if (accept(TokenType::unsafe, &unsafe_start))
+		{
+			ExpressionPtr expr;
+			if (!assign(expr))
+			{
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+				return false;
+			}
+
+			out = std::make_shared<UnsafeExpression>(unsafe_start, expr);
+			assign_token(start_token, unsafe_start);
+			return true;
+		}
+		else
+		{
+			return assign(out, start_token);
+		}
 	}
 
 	bool Parser::assign(ExpressionPtr& out, Token* start_token)
@@ -437,7 +497,7 @@ namespace Dlink
 		ExpressionPtr lhs;
 
 		Token muldiv_start;
-		if (!unary_plusminus(lhs, &muldiv_start))
+		if (!unary(lhs, &muldiv_start))
 		{
 			return false;
 		}
@@ -449,7 +509,7 @@ namespace Dlink
 			op = previous_token().type;
 
 			ExpressionPtr rhs;
-			if (!unary_plusminus(rhs))
+			if (!unary(rhs))
 			{
 				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 				return false;
@@ -464,42 +524,9 @@ namespace Dlink
 		return true;
 	}
 
-	bool Parser::unary_plusminus(ExpressionPtr& out, Token* start_token)
+	bool Parser::unary(ExpressionPtr& out, Token* start_token)
 	{
-		Token plusminus_start;
-		if (accept(TokenType::plus, &plusminus_start) || accept(TokenType::minus, &plusminus_start))
-		{
-			TokenType op = previous_token().type;
-
-			ExpressionPtr rhs;
-			if (!func_call(rhs))
-			{
-				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
-				return false;
-			}
-
-			out = std::make_shared<UnaryOperation>(plusminus_start, op, rhs);
-			assign_token(start_token, plusminus_start);
-
-			return true;
-		}
-		else
-		{
-			Token func_call_start;
-
-			ExpressionPtr func_call_expr;
-			if (func_call(func_call_expr, &func_call_start))
-			{
-				out = func_call_expr;
-
-				assign_token(start_token, func_call_start);
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
+		return unary_plusminus(out, start_token) || unary_address(out, start_token);
 	}
 
 	bool Parser::func_call(ExpressionPtr& out, Token* start_token)
@@ -664,6 +691,67 @@ namespace Dlink
 
 namespace Dlink
 {
+	bool Parser::unary_plusminus(ExpressionPtr& out, Token* start_token)
+	{
+		Token plusminus_start;
+		if (accept(TokenType::plus, &plusminus_start) || accept(TokenType::minus, &plusminus_start))
+		{
+			TokenType op = previous_token().type;
+
+			ExpressionPtr rhs;
+			if (!func_call(rhs))
+			{
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+				return false;
+			}
+
+			out = std::make_shared<UnaryOperation>(plusminus_start, op, rhs);
+			assign_token(start_token, plusminus_start);
+
+			return true;
+		}
+		else
+		{
+			Token func_call_start;
+
+			ExpressionPtr func_call_expr;
+			if (func_call(func_call_expr, &func_call_start))
+			{
+				out = func_call_expr;
+
+				assign_token(start_token, func_call_start);
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+
+	bool Parser::unary_address(ExpressionPtr& out, Token* start_token)
+	{
+		Token address_start;
+		if (accept(TokenType::multiply, &address_start) || accept(TokenType::bit_and, &address_start))
+		{
+			TokenType op = previous_token().type;
+
+			ExpressionPtr rhs;
+			if (!func_call(rhs))
+			{
+				errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+				return false;
+			}
+
+			out = std::make_shared<UnaryOperation>(address_start, op, rhs);
+			assign_token(start_token, address_start);
+
+			return true;
+		}
+
+		return false;
+	}
+
 	bool Parser::number(ExpressionPtr& out, Token* start_token)
 	{
 		Token number_start;
@@ -729,7 +817,7 @@ namespace Dlink
 				}
 				else
 				{
-					errors_.add_error(Error(current_token(), "Expected expression"));
+					errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
 					return false;
 				}
 			}
@@ -747,28 +835,49 @@ namespace Dlink
 
 	bool Parser::reference_type(TypePtr& out, Token* start_token)
 	{
-		Token reference_start_token;
+		Token pointer_start_token;
 		TypePtr type;
 
-		if (simple_type(type, &reference_start_token))
+		if (pointer_type(type, &pointer_start_token))
 		{
 			if (accept(TokenType::bit_and))
 			{
-				out = std::make_shared<LValueReference>(reference_start_token, type);
+				out = std::make_shared<LValueReference>(pointer_start_token, type);
 
-				assign_token(start_token, reference_start_token);
+				assign_token(start_token, pointer_start_token);
 				return true;
 			}
 			else
 			{
 				out = type;
 
-				assign_token(start_token, reference_start_token);
+				assign_token(start_token, pointer_start_token);
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	bool Parser::pointer_type(TypePtr& out, Token* start_token)
+	{
+		Token pointer_start;
+		TypePtr pointer;
+
+		if (!simple_type(pointer, &pointer_start))
+		{
+			return false;
+		}
+
+		while (accept(TokenType::multiply))
+		{
+			pointer = std::make_shared<Pointer>(pointer_start, pointer);
+		}
+
+		out = pointer;
+		assign_token(start_token, pointer_start);
+
+		return true;
 	}
 
 	bool Parser::simple_type(TypePtr& out, Token* start_token)

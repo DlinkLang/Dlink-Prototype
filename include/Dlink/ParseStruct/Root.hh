@@ -38,6 +38,9 @@ namespace Dlink
 		 */
 		virtual LLVM::Value code_gen() = 0;
 
+		virtual bool is_safe() const noexcept;
+		virtual bool is_lvalue() const noexcept;
+
 		/** 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다. */
 		const Token token;
 	};
@@ -85,6 +88,7 @@ namespace Dlink
 		 * @return 만들어진 LLVM Type을 반환합니다.
 		 */
 		virtual llvm::Type* get_type() = 0;
+		virtual bool is_safe() const noexcept;
 		
 		/** 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다. */
 		const Token token;
@@ -110,6 +114,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		bool is_lvalue() const noexcept override;
 
 		/** 실질적인 식별자 값입니다. */
 		const std::string id;

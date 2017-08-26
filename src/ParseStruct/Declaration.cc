@@ -85,6 +85,11 @@ namespace Dlink
 	}
 	LLVM::Value VariableDeclaration::code_gen()
 	{
+		if (!in_unsafe_block && !type->is_safe())
+		{
+			throw Error(token, "Unsafe declaration outside of unsafe statement");
+		}
+
 		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
 		var->setAlignment(4);
 
@@ -92,7 +97,7 @@ namespace Dlink
 		{
 			if (!expression)
 			{
-				throw Error(token, "Expected initialization value in declaration of reference variable");
+				throw Error(token, "Expected initialization value in declaration of reference varaible");
 			}
 			else
 			{
@@ -243,24 +248,5 @@ namespace Dlink
 		current_func = nullptr;
 
 		return func_;
-	}
-
-	/**
-	 * @brief 새 UnsafeDeclaration 인스턴스를 만듭니다.
-	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
-	 * @param body unsafe 문의 몸체입니다.
-	 */
-	UnsafeDeclaration::UnsafeDeclaration(const Token& token, StatementPtr body)
-		: Statement(token), body(body)
-	{}
-	std::string UnsafeDeclaration::tree_gen(std::size_t depth) const
-	{
-		return tree_prefix(depth) + "UnsafeDeclaration:\n" +
-			tree_prefix(depth + 1) + "body:\n" +
-			body->tree_gen(depth + 1);
-	}
-	LLVM::Value UnsafeDeclaration::code_gen()
-	{
-		return body->code_gen();
 	}
 }

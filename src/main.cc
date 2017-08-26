@@ -11,9 +11,13 @@ int main(int argc, const char** argv)
 
 	Dlink::Lexer lexer;
 	lexer.lex(R"(
-	int main()
+	unsafe int main()
 	{
-		int[2][2][2] a = {{{1, 2}, {3, 4}}, {{5, 6}, {7, 8}}};
+		int i;
+		int* ip = &i;
+		int j = *ip;
+		int* ip2 = &i;
+
 		return 0;
 	}
 	)");

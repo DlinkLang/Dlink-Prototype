@@ -97,4 +97,6 @@ namespace Dlink
 
 	/** 현재 code_gen 중인 함수입니다. */
 	std::shared_ptr<FunctionDeclaration> current_func = nullptr;
+	/** 지금 안전하지 않은 블록 안에 있는지 여부입니다. */
+	bool in_unsafe_block = false;
 }

@@ -107,6 +107,21 @@ namespace Dlink
 		/** 배열 리스트의 원소들입니다. */
 		const std::vector<ExpressionPtr> elements;
 	};
+
+	/**
+	 * @brief 안전하지 않은 식을 담는 추상 구문 트리의 노드입니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
+	 */
+	struct UnsafeExpression final : public Expression
+	{
+		UnsafeExpression(const Token& token, ExpressionPtr expression);
+
+		std::string tree_gen(std::size_t depth) const override;
+		LLVM::Value code_gen() override;
+
+		/** 안전하지 않은 식입니다. */
+		ExpressionPtr expression;
+	};
 }
 
 namespace Dlink
@@ -124,5 +139,20 @@ namespace Dlink
 
 		/** 반환할 식입니다. */
 		ExpressionPtr return_expr;
+	};
+
+	/**
+	* @brief 안전하지 않은 문을 담는 추상 구문 트리의 노드입니다.
+	* @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
+	*/
+	struct UnsafeStatement final : public Statement
+	{
+		UnsafeStatement(const Token& token, StatementPtr statement);
+
+		std::string tree_gen(std::size_t depth) const override;
+		LLVM::Value code_gen() override;
+
+		/** 안전하지 않은 문입니다. */
+		StatementPtr statement;
 	};
 }
