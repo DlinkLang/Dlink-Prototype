@@ -18,9 +18,13 @@ namespace Dlink
 	 * @return 파싱에 성공하면 true, 실패하면 false를 반환합니다.
 	 * @see Dlink::Parser::Parser(const TokenSeq&)
 	 */
-	bool Parser::parse(StatementPtr& output)
+	bool Parser::parse(AST& output)
 	{
-		return block(output);
+		StatementPtr statement;
+		bool ret = block(statement);
+
+		output.node_ = statement;
+		return ret;
 	}
 	/**
 	 * @brief 파싱을 하는 도중 발생한 에러 집합을 가져옵니다.

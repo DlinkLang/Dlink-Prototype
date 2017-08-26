@@ -30,7 +30,7 @@ int main(int argc, const char** argv)
 
 	Dlink::Parser parser(token_seq);
 
-	Dlink::StatementPtr ast;
+	Dlink::AST ast;
 	if (parser.parse(ast))
 	{
 		for (auto warning : parser.get_warnings())
@@ -44,8 +44,8 @@ int main(int argc, const char** argv)
 		}
 
 		std::cout << "Parsing Succeed\n";
-		std::string temp = ast->tree_gen(0);
-		std::cout << ast->tree_gen(0) << "\n\n";
+		std::string temp = ast.tree_gen();
+		std::cout << ast.tree_gen() << "\n\n";
 
 		try
 		{

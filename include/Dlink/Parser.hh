@@ -37,7 +37,7 @@ namespace Dlink
 		bool operator!=(const Parser& parser) const noexcept = delete;
 
 	public:
-		bool parse(StatementPtr& output);
+		bool parse(AST& output);
 		const std::vector<Error>& get_errors() const noexcept;
 		const std::vector<Warning>& get_warnings() const noexcept;
 
