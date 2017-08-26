@@ -2,7 +2,6 @@
 
 /**
  * @file LLVMValue.hh
- * @date 2017.08.09
  * @author kmc7468
  * @brief llvm::Value*의 래퍼를 정의합니다.
  */

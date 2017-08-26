@@ -2,7 +2,6 @@
 
 /**
  * @file Lexer.hh
- * @date 2017.08.02
  * @author dev_kr
  * @brief Lexer 클래스를 정의합니다.
  */

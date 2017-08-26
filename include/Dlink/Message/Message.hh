@@ -2,7 +2,6 @@
 
 /**
  * @file Message.hh
- * @date 2017.08.12
  * @author dev_kr, kmc7468
  * @brief Dlink 컴파일 메세지의 베이스 클래스인 Message를 정의합니다.
  */

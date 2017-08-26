@@ -2,7 +2,6 @@
 
 /**
  * @file Error.hh
- * @date 2017.08.12
  * @author dev_kr
  * @brief Dlink 컴파일 에러와 관련된 클래스의 집합입니다.
  */

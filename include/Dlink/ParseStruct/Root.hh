@@ -2,7 +2,6 @@
 
 /**
  * @file Root.hh
- * @date 2017.08.01
  * @author dev_kr, kmc7468
  * @brief Dlink 코드 파서의 결과가 생성하는 추상 구문 트리의 노드들 중 기반이 되는 노드들을 정의합니다.
  */

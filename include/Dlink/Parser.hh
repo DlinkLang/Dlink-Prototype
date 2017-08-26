@@ -2,7 +2,6 @@
 
 /**
  * @file Parser.hh
- * @date 2017.08.11
  * @author dev_kr, kmc7468
  * @brief Parser 클래스를 정의합니다.
  */

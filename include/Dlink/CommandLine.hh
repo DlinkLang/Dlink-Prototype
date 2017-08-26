@@ -2,7 +2,6 @@
 
 /**
  * @file CommandLine.hh
- * @date 2017.07.24
  * @author kmc7468
  * @brief 명령줄 파싱과 관련된 기능들의 집합입니다.
  */

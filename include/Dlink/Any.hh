@@ -2,7 +2,6 @@
 
 /** 
  * @file Any.hh
- * @date 2017.08.12
  * @author kmc7468
  * @brief Any 클래스를 정의합니다.
  */
