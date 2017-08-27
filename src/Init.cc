@@ -1,5 +1,7 @@
 #include "Init.hh"
 
+#include "llvm/Transforms/Scalar/GVN.h"
+
 namespace Dlink
 {
 	/**
