@@ -1,0 +1,9 @@
+unsafe int main()
+{
+	int i = 1;
+	unsafe int* ip = &i;
+	int j = *ip;
+	int* ip2 = &i;
+
+	return i;
+}

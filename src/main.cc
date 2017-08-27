@@ -1,26 +1,51 @@
 #include <iostream>
 
+#include "Init.hh"
+#include "CommandLine.hh"
 #include "Lexer.hh"
 #include "Parser.hh"
 #include "CodeGen.hh"
 
-int main(int argc, const char** argv)
+int main(int argc, char** argv)
 {
-	Dlink::LLVM::function_pm = std::make_unique<llvm::legacy::FunctionPassManager>(Dlink::LLVM::module.get());
-	Dlink::LLVM::function_pm->doInitialization();
+	std::string code;
+
+	try
+	{
+		code = Dlink::ProcessCommandLine(argc, argv);
+	} 
+	catch(Dlink::ParsedCommandLine::Error e) 
+	{
+		switch (e)
+		{
+			case Dlink::ParsedCommandLine::Error::Invalid_Value:
+				std::cerr << "fatal: invalid value\n";
+				break;
+			case Dlink::ParsedCommandLine::Error::CouldntFind_Input:
+				std::cerr << "fatal: couldn't find input file\n";
+				break;
+			case Dlink::ParsedCommandLine::Error::Multi_Optimize:
+				std::cerr << "fatal: unexpected multiple optimization options\n";
+				break;
+			case Dlink::ParsedCommandLine::Error::Multi_IR:
+				std::cerr << "fatal: unexpected multiple ir output options\n";
+				break;
+			case Dlink::ParsedCommandLine::Error::No_Input:
+				std::cerr << "fatal: no input\n";
+				break;
+			case Dlink::ParsedCommandLine::Error::Unknown:
+				std::cerr << "fatal: unknown option\n";
+				break;
+			default:
+				std::cerr << "fatal: unhandled error caught\n";
+				break;
+		}
+
+		return -1;
+	}
 
 	Dlink::Lexer lexer;
-	lexer.lex(R"(
-	unsafe int main()
-	{
-		int i;
-		unsafe int* ip = &i;
-		int j = *ip;
-		int* ip2 = &i;
-
-		return 0;
-	}
-	)");
+	lexer.lex(code);
 
 	std::cout << "Lexing Succeed\n";
 	lexer.dump();
