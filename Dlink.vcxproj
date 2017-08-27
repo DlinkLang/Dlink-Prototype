@@ -22,6 +22,7 @@
     <ClCompile Include="src\Any.cc" />
     <ClCompile Include="src\CodeGen.cc" />
     <ClCompile Include="src\CommandLine.cc" />
+    <ClCompile Include="src\Init.cc" />
     <ClCompile Include="src\Lexer.cc" />
     <ClCompile Include="src\LLVMValue.cc" />
     <ClCompile Include="src\main.cc" />
@@ -40,6 +41,7 @@
     <ClInclude Include="include\Dlink\Any.hh" />
     <ClInclude Include="include\Dlink\CodeGen.hh" />
     <ClInclude Include="include\Dlink\CommandLine.hh" />
+    <ClInclude Include="include\Dlink\Init.hh" />
     <ClInclude Include="include\Dlink\Lexer.hh" />
     <ClInclude Include="include\Dlink\LLVMValue.hh" />
     <ClInclude Include="include\Dlink\Message\Error.hh" />
@@ -133,6 +135,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\lib\*.lib %(AdditionalOptions)</AdditionalOptions>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -144,6 +147,7 @@
     </ClCompile>
     <Link>
       <AdditionalOptions>$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\lib\*.lib %(AdditionalOptions)</AdditionalOptions>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -159,6 +163,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalOptions>$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\lib\*.lib %(AdditionalOptions)</AdditionalOptions>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -174,6 +179,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalOptions>$(LLVM_DIRECTORY)\$(Configuration)\$(PlatformShortName)\lib\*.lib %(AdditionalOptions)</AdditionalOptions>
+      <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
