@@ -72,6 +72,8 @@ namespace Dlink
 		bool unary_address(ExpressionPtr& out, Token* start_token = nullptr);
 		bool number(ExpressionPtr& out, Token* start_token = nullptr);
 		bool identifier(ExpressionPtr& out, Token* start_token = nullptr);
+		bool string(ExpressionPtr& out, Token* start_token = nullptr);
+		bool character(ExpressionPtr& out, Token* start_token = nullptr);
 
 		bool type(TypePtr& out, Token* start_token = nullptr);
 		bool array_type(TypePtr& out, Token* start_token = nullptr);
