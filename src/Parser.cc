@@ -685,7 +685,8 @@ namespace Dlink
 
 	bool Parser::atom(ExpressionPtr& out, Token* start_token)
 	{
-		return number(out, start_token) || identifier(out, start_token);
+		return number(out, start_token) 
+			|| identifier(out, start_token);
 	}
 }
 
