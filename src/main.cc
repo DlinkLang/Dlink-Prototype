@@ -50,19 +50,15 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	Dlink::Lexer lexer;
-	lexer.lex(code);
+	Dlink::Lexer lexer(code);
+	lexer.lex();
 
 	std::cout << "Lexing Succeed\n";
 	lexer.dump();
 	std::cout << "\n";
 
-	Dlink::TokenSeq token_seq = lexer.get_token_seq();
-
-	Dlink::Parser parser(token_seq);
-
-	Dlink::AST ast;
-	if (parser.parse(ast))
+	Dlink::Parser parser(lexer.get_token_seq());
+	if (parser.parse())
 	{
 		for (auto warning : parser.get_warnings())
 		{
@@ -75,8 +71,8 @@ int main(int argc, char** argv)
 		}
 
 		std::cout << "Parsing Succeed\n";
-		std::string temp = ast.tree_gen();
-		std::cout << ast.tree_gen() << "\n\n";
+		parser.get_ast().dump();
+		std::cout << "\n";
 
 		try
 		{

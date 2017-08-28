@@ -1,6 +1,8 @@
 #include "ParseStruct.hh"
 
+#include <iostream>
 #include <utility>
+
 namespace Dlink
 {
 	std::string tree_prefix(std::size_t depth)
@@ -18,8 +20,12 @@ namespace Dlink
 		return *this;
 	}
 
-	std::string AST::tree_gen() const
+	void AST::dump() const
 	{
-		return node_->tree_gen(0);
+		dump(std::cout);
+	}
+	void AST::dump(std::ostream& stream) const
+	{
+		std::cout << node_->tree_gen(0) << '\n';
 	}
 }

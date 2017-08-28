@@ -11,6 +11,8 @@
 #include "ParseStruct/Type.hh"
 #include "ParseStruct/Declaration.hh"
 
+#include <ostream>
+
 namespace Dlink
 {
 	class Parser;
@@ -36,7 +38,8 @@ namespace Dlink
 		bool operator!=(const AST& ast) const noexcept = delete;
 
 	public:
-		std::string tree_gen() const;
+		void dump() const;
+		void dump(std::ostream& stream) const;
 		
 	private:
 		std::shared_ptr<Node> node_ = nullptr;
