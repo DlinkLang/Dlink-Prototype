@@ -40,8 +40,8 @@ namespace Dlink
 		bool parse();
 		AST& get_ast() noexcept;
 		const AST& get_ast() const noexcept;
-		const std::vector<Error>& get_errors() const noexcept;
-		const std::vector<Warning>& get_warnings() const noexcept;
+		const Errors& get_errors() const noexcept;
+		const Warnings& get_warnings() const noexcept;
 
 	private:
 		void assign_token(Token* dest, Token source);
