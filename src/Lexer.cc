@@ -187,7 +187,7 @@ namespace Dlink
 					std::string temp = "";
 					i++;
 
-					do
+					while (cur_line[i] != '\"')
 					{
 						if (cur_line[i] == '\\')
 						{
@@ -201,9 +201,32 @@ namespace Dlink
 
 						temp += cur_line[i];
 						i++;
-					} while (cur_line[i] != '\"');
+					}
 
 					token_seq_.push_back(Token(temp, TokenType::string, line, i - 1));
+				}
+				else if (ch == '\'')
+				{
+					std::string temp = "";
+					i++;
+
+					while (cur_line[i] != '\'')
+					{
+						if (cur_line[i] == '\\')
+						{
+							if (i < cur_line.length() - 2 && cur_line[i + 1] == '\'')
+							{
+								temp += '\'';
+								i += 2;
+								continue;
+							}
+						}
+
+						temp += cur_line[i];
+						i++;
+					}
+
+					token_seq_.push_back(Token(temp, TokenType::character, line, i - 1));
 				}
 				else
 				{
