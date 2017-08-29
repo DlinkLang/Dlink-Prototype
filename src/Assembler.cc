@@ -9,7 +9,26 @@ namespace Dlink
 
 	Assembler::Assembler(AST& ast)
 		: ast_(ast)
-	{}
+	{
+		assemblers[std::this_thread::get_id()] = this;
+	}
+	Assembler::~Assembler()
+	{
+		std::vector<std::map<std::thread::id, Assembler*>::iterator> iters;
+
+		for (auto iter = assemblers.begin(); iter != assemblers.end(); ++iter)
+		{
+			if (iter->second == this)
+			{
+				iters.push_back(iter);
+			}
+		}
+
+		for (auto iter = iters.cbegin(); iter < iters.cend(); ++iter)
+		{
+			assemblers.erase(*iter);
+		}
+	}
 
 	Assembler::LLVMBuilder& Assembler::get_llvm_builder() noexcept
 	{
@@ -27,4 +46,6 @@ namespace Dlink
 	{
 		return warnings_;
 	}
+
+	std::map<std::thread::id, Assembler*> Assembler::assemblers = {};
 }

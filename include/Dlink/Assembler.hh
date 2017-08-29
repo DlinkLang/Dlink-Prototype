@@ -16,7 +16,9 @@
 #include "llvm/IR/Module.h"
 #include "llvm/Transforms/Scalar.h"
 
+#include <map>
 #include <memory>
+#include <thread>
 
 namespace Dlink
 {
@@ -45,7 +47,7 @@ namespace Dlink
 		Assembler(AST& ast);
 		Assembler(const Assembler& assembler) = delete;
 		Assembler(Assembler&& assembler) noexcept = delete;
-		~Assembler() = default;
+		~Assembler();
 
 	public:
 		Assembler& operator=(const Assembler& assembler) = delete;
@@ -58,6 +60,9 @@ namespace Dlink
 		const LLVMBuilder& get_llvm_builder() const noexcept;
 		const Errors& get_errors() const;
 		const Warnings& get_warnings() const;
+
+	public:
+		static std::map<std::thread::id, Assembler*> assemblers;
 
 	private:
 		AST& ast_;
