@@ -16,6 +16,12 @@ namespace Dlink
 	{}
 
 	/**
+	 * @brief Assembler가 본격적인 어셈블 작업을 하기 전 미리 수행해야 할 필요가 있는 명령어들의 집합입니다.
+	 */
+	void Node::preprocess()
+	{}
+
+	/**
 	 * @brief 이 노드가 Dlink 코드 내에서 안전한 코드를 담고 있는지 여부입니다.
 	 * @details 이 함수는 예외를 발생시키지 않습니다.
 	 * @return 이 노드가 안전한지 반환합니다.
@@ -106,6 +112,13 @@ namespace Dlink
 
 		return last_value;
 	}
+	void Block::preprocess()
+	{
+		for (StatementPtr statement : statements)
+		{
+			statement->preprocess();
+		}
+	}
 
 	/**
 	 * @brief 새 Scope 인스턴스를 만듭니다.
@@ -166,6 +179,10 @@ namespace Dlink
 	LLVM::Value ExpressionStatement::code_gen()
 	{
 		return expression->code_gen();
+	}
+	void ExpressionStatement::preprocess()
+	{
+		expression->preprocess();
 	}
 }
 

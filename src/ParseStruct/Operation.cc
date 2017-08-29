@@ -127,7 +127,6 @@ namespace Dlink
 	BinaryOperation::BinaryOperation(const Token& token, TokenType op, ExpressionPtr lhs, ExpressionPtr rhs)
 		: Expression(token), op(op), lhs(lhs), rhs(rhs)
 	{}
-
 	std::string BinaryOperation::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "BinaryOperation:\n";
@@ -175,6 +174,11 @@ namespace Dlink
 		default:
 			return nullptr;
 		}
+	}
+	void BinaryOperation::preprocess()
+	{
+		lhs->preprocess();
+		rhs->preprocess();
 	}
 	bool BinaryOperation::evaluate(Any& out)
 	{
@@ -228,7 +232,6 @@ namespace Dlink
 	UnaryOperation::UnaryOperation(const Token& token, TokenType op, ExpressionPtr rhs)
 		: Expression(token), op(op), rhs(rhs)
 	{}
-
 	std::string UnaryOperation::tree_gen(std::size_t depth) const
 	{
 		std::string tree = tree_prefix(depth) + "UnaryOperation:\n";
@@ -275,6 +278,10 @@ namespace Dlink
 			// TODO: 오류 처리
 			return LLVM::builder().getFalse();
 		}
+	}
+	void UnaryOperation::preprocess()
+	{
+		rhs->preprocess();
 	}
 	bool UnaryOperation::evaluate(Any& out)
 	{
@@ -342,11 +349,11 @@ namespace Dlink
 		Identifier* dest;
 		if ((dest = dynamic_cast<Identifier*>(func_expr.get())))
 		{
-			function = dynamic_cast<llvm::Function*>(symbol_table->find(dest->id).get());
+			function = llvm::dyn_cast<llvm::Function>(symbol_table->find(dest->id).get());
 		}
 		else
 		{
-			function = dynamic_cast<llvm::Function*>(func_expr->code_gen().get());
+			function = llvm::dyn_cast<llvm::Function>(func_expr->code_gen().get());
 		}
 
 
@@ -364,6 +371,15 @@ namespace Dlink
 		else
 		{
 			throw Error(token, "Expected callable function expression");
+		}
+	}
+	void FunctionCallOperation::preprocess()
+	{
+		func_expr->preprocess();
+
+		for (ExpressionPtr arg : argument)
+		{
+			arg->preprocess();
 		}
 	}
 
@@ -392,6 +408,13 @@ namespace Dlink
 	LLVM::Value ArrayInitList::code_gen()
 	{
 		throw Error(token, "Expected expression");
+	}
+	void ArrayInitList::preprocess()
+	{
+		for (ExpressionPtr expr : elements)
+		{
+			expr->preprocess();
+		}
 	}
 
 	/**
@@ -426,6 +449,10 @@ namespace Dlink
 		}
 
 		return result;
+	}
+	void UnsafeExpression::preprocess()
+	{
+		expression->preprocess();
 	}
 }
 
@@ -473,6 +500,11 @@ namespace Dlink
 			return LLVM::builder().CreateRetVoid();
 		}
 	}
+	void ReturnStatement::preprocess()
+	{
+		return_expr->preprocess();
+	}
+
 	/**
 	 * @brief 새 UnsafeStatement 인스턴스를 만듭니다.
 	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
@@ -505,5 +537,9 @@ namespace Dlink
 		}
 
 		return result;
+	}
+	void UnsafeStatement::preprocess()
+	{
+		statement->preprocess();
 	}
 }

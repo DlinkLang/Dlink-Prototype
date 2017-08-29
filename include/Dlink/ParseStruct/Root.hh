@@ -36,6 +36,7 @@ namespace Dlink
 		 * @return 파싱 노드에서 생성한 LLVM::Value를 반환합니다. 생성한 값이 없을 경우 nullptr을 반환합니다.
 		 */
 		virtual LLVM::Value code_gen() = 0;
+		virtual void preprocess();
 
 		virtual bool is_safe() const noexcept;
 		virtual bool is_lvalue() const noexcept;
@@ -128,6 +129,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** Statemenet들의 집합입니다. */
 		std::vector<StatementPtr> statements;
@@ -162,6 +164,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** 식입니다. */
 		ExpressionPtr expression;

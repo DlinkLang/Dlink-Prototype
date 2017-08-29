@@ -1,11 +1,26 @@
 #include "Assembler.hh"
+#include "Init.hh"
+
+#include "llvm/Transforms/Scalar/GVN.h"
 
 namespace Dlink
 {
 	Assembler::LLVMBuilder::LLVMBuilder()
 		: context(), module(std::make_shared<llvm::Module>("top", context)),
-		builder(context), function_pm()
-	{}
+		builder(context), function_pm(nullptr)
+	{
+		function_pm = std::make_unique<llvm::legacy::FunctionPassManager>(module.get());
+
+		if (opt_level > 0)
+		{
+			function_pm->add(llvm::createInstructionCombiningPass());
+			function_pm->add(llvm::createReassociatePass());
+			function_pm->add(llvm::createGVNPass());
+			function_pm->add(llvm::createCFGSimplificationPass());
+		}
+
+		function_pm->doInitialization();
+	}
 
 	Assembler::Assembler(AST& ast)
 		: ast_(ast)
@@ -34,7 +49,9 @@ namespace Dlink
 	{
 		try
 		{
+			ast_.node_->preprocess();
 			ast_.node_->code_gen();
+
 			return true;
 		}
 		catch (Error& error)

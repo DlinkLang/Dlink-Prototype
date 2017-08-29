@@ -22,4 +22,6 @@ namespace Dlink
 	using ProcessedType = std::string;
 
 	ProcessedType ProcessCommandLine(int argc, char** argv);
+
+	extern long long opt_level;
 }
