@@ -33,11 +33,11 @@ namespace Dlink
 	{
 		if (identifier == "int")
 		{
-			return LLVM::builder.getInt32Ty();
+			return LLVM::builder().getInt32Ty();
 		}
 		else if (identifier == "void")
 		{
-			return LLVM::builder.getVoidTy();
+			return LLVM::builder().getVoidTy();
 		}
 
 		return nullptr;

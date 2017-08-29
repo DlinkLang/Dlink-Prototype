@@ -29,6 +29,7 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) const override;
 		void array_helper(llvm::Value* var, std::shared_ptr<ArrayInitList> array_list);
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** 변수의 타입입니다. */
 		TypePtr type;
@@ -45,11 +46,10 @@ namespace Dlink
 	{
 		FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
 			const std::vector<VariableDeclaration>& parameter, StatementPtr body);
-		FunctionDeclaration(const Token& token, TypePtr return_type, const std::string& identifier,
-			const std::vector<VariableDeclaration>& parameter, StatementPtr body, bool);
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** 함수의 반환 값 타입입니다. */
 		TypePtr return_type;
@@ -63,20 +63,5 @@ namespace Dlink
 	private:
 		llvm::Function* func_;
 		llvm::FunctionType* func_type_;
-	};
-
-	/**
-	 * @brief unsafe 문의 구조를 담는 추상 구문 트리의 노드입니다.
-	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
-	 */
-	struct UnsafeDeclaration final : public Statement
-	{
-		UnsafeDeclaration(const Token& token, StatementPtr body);
-
-		std::string tree_gen(std::size_t depth) const override;
-		LLVM::Value code_gen() override;
-
-		/** unsafe 문의 몸체입니다. */
-		StatementPtr body;
 	};
 }

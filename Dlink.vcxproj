@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Any.cc" />
+    <ClCompile Include="src\Assembler.cc" />
     <ClCompile Include="src\CodeGen.cc" />
     <ClCompile Include="src\CommandLine.cc" />
     <ClCompile Include="src\Init.cc" />
@@ -39,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Dlink\Any.hh" />
+    <ClInclude Include="include\Dlink\Assembler.hh" />
     <ClInclude Include="include\Dlink\CodeGen.hh" />
     <ClInclude Include="include\Dlink\CommandLine.hh" />
     <ClInclude Include="include\Dlink\Init.hh" />

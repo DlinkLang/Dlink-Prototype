@@ -16,26 +16,24 @@
 #include "llvm/IR/Module.h"
 #include "llvm/Transforms/Scalar.h"
 
+#include "Assembler.hh"
 #include "LLVMValue.hh"
-#include "ParseStruct/Root.hh"
-#include "ParseStruct/Declaration.hh"
 #include "Message/Error.hh"
 #include "Message/Warning.hh"
+#include "ParseStruct/Root.hh"
+#include "ParseStruct/Declaration.hh"
 
 namespace Dlink
 {
 	namespace LLVM
 	{
-		extern llvm::LLVMContext context;
-		extern std::shared_ptr<llvm::Module> module;
-		extern llvm::IRBuilder<> builder;
-		extern std::unique_ptr<llvm::legacy::FunctionPassManager> function_pm;
+		llvm::LLVMContext& context();
+		std::shared_ptr<llvm::Module>& module();
+		llvm::IRBuilder<>& builder();
+		std::unique_ptr<llvm::legacy::FunctionPassManager>& function_pm();
 	}
 
-	namespace CompileMessage
-	{
-		extern Warnings warnings;
-	}
+	Assembler& get_current_assembler();
 
 	/**
 	 * @brief 변수 및 상수, 함수 심볼 테이블입니다.

@@ -37,9 +37,11 @@ namespace Dlink
 		bool operator!=(const Parser& parser) const noexcept = delete;
 
 	public:
-		bool parse(StatementPtr& output);
-		const std::vector<Error>& get_errors() const noexcept;
-		const std::vector<Warning>& get_warnings() const noexcept;
+		bool parse();
+		AST& get_ast() noexcept;
+		const AST& get_ast() const noexcept;
+		const Errors& get_errors() const noexcept;
+		const Warnings& get_warnings() const noexcept;
 
 	private:
 		void assign_token(Token* dest, Token source);
@@ -82,9 +84,9 @@ namespace Dlink
 		bool simple_type(TypePtr& out, Token* start_token = nullptr);
 
 	private:
-		TokenSeq input_;
+		TokenSeq token_seq_;
 		TokenSeq::const_iterator token_iter_;
-		ExpressionPtr output_;
+		AST ast_;
 
 		Errors errors_;
 		Warnings warnings_;

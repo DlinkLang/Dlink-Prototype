@@ -72,6 +72,9 @@
     <ClCompile Include="src\Init.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Assembler.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Dlink\CodeGen.hh">
@@ -120,6 +123,9 @@
       <Filter>Header-Files\Message</Filter>
     </ClInclude>
     <ClInclude Include="include\Dlink\Init.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\Assembler.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
   </ItemGroup>

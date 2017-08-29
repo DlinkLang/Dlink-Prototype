@@ -1,4 +1,9 @@
-unsafe int main()
+void main()
 {
-	'\n';
+	int i = foo(5);
+}
+
+int foo(int i)
+{
+	return i;
 }

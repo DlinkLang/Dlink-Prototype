@@ -77,6 +77,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 		bool evaluate(Any& out) override;
 
 		/** 연산자 타입입니다. */
@@ -97,6 +98,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 		bool evaluate(Any& out) override;
 
 		/** 연산자 타입입니다. */
@@ -115,11 +117,12 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** 호출할 함수의 식입니다. */
-		const ExpressionPtr func_expr;
+		ExpressionPtr func_expr;
 		/** 인수입니다. */
-		const std::vector<ExpressionPtr> argument;
+		std::vector<ExpressionPtr> argument;
 	};
 
 	/**
@@ -132,9 +135,10 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** 배열 리스트의 원소들입니다. */
-		const std::vector<ExpressionPtr> elements;
+		std::vector<ExpressionPtr> elements;
 	};
 
 	/**
@@ -147,6 +151,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** 안전하지 않은 식입니다. */
 		ExpressionPtr expression;
@@ -165,6 +170,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** 반환할 식입니다. */
 		ExpressionPtr return_expr;
@@ -180,6 +186,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Value code_gen() override;
+		void preprocess() override;
 
 		/** 안전하지 않은 문입니다. */
 		StatementPtr statement;

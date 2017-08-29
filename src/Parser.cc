@@ -8,37 +8,58 @@ namespace Dlink
 	 * @param input 렉서를 통해 만들어진 토큰 목록입니다.
 	 */
 	Parser::Parser(const TokenSeq& input)
-		: input_(input), token_iter_(input_.cbegin())
+		: token_seq_(input), token_iter_(token_seq_.cbegin())
 	{}
 
 	/**
 	 * @brief 토큰 목록을 이용해 파싱한 후 추상 구문 트리를 만듭니다.
 	 * @details 생성자를 통해 입력받은 토큰 목록을 사용합니다.
-	 * @param output 만들어진 추상 구문 트리를 저장할 변수입니다.
 	 * @return 파싱에 성공하면 true, 실패하면 false를 반환합니다.
 	 * @see Dlink::Parser::Parser(const TokenSeq&)
 	 */
-	bool Parser::parse(StatementPtr& output)
+	bool Parser::parse()
 	{
-		return block(output);
+		StatementPtr statement;
+		bool ret = block(statement);
+
+		ast_.node_ = statement;
+		return ret;
+	}
+	/**
+	 * @brief 파싱 작업을 통해 만들어진 추상 구문 트리를 가져옵니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @return 추상 구문 트리를 반환합니다.
+	 */
+	AST& Parser::get_ast() noexcept
+	{
+		return ast_;
+	}
+	/**
+	* @brief 파싱 작업을 통해 만들어진 추상 구문 트리를 가져옵니다.
+	* @details 이 함수는 예외를 발생시키지 않습니다.
+	* @return 추상 구문 트리를 반환합니다.
+	*/
+	const AST& Parser::get_ast() const noexcept
+	{
+		return ast_;
 	}
 	/**
 	 * @brief 파싱을 하는 도중 발생한 에러 집합을 가져옵니다.
 	 * @details 이 함수는 예외를 발생시키지 않습니다.
 	 * @return 에러 집합을 반환합니다.
 	 */
-	const std::vector<Error>& Parser::get_errors() const noexcept
+	const Errors& Parser::get_errors() const noexcept
 	{
-		return errors_.get_errors();
+		return errors_;
 	}
 	/**
 	 * @brief 파싱을 하는 도중 발생한 경고 집합을 가져옵니다.
 	 * @details 이 함수는 예외를 발생시키지 않습니다.
 	 * @return 경고 집합을 반환합니다.
 	 */
-	const std::vector<Warning>& Parser::get_warnings() const noexcept
+	const Warnings& Parser::get_warnings() const noexcept
 	{
-		return warnings_.get_warnings();
+		return warnings_;
 	}
 
 	void Parser::assign_token(Token* dest, Token source)

@@ -6,8 +6,10 @@ namespace Dlink
 {
 	/**
 	 * @brief 새 Lexer 인스턴스를 만듭니다.
+	 * @param code Dlink 코드입니다.
 	 */
-	Lexer::Lexer()
+	Lexer::Lexer(const std::string& code)
+		: code_(code)
 	{
 		keyword_map_["unsafe"] = TokenType::unsafe;
 		keyword_map_["if"] = TokenType::_if;
@@ -34,13 +36,14 @@ namespace Dlink
 
 	/**
 	 * @brief Dlink 코드에 대해 렉싱 작업을 수행합니다.
-	 * @param code 렉싱 작업을 수행할 Dlink 코드입니다.
+	 * @details 생성자를 통해 입력받은 Dlink 코드를 사용합니다.
+	 * @see Dlink::Lexer::Lexer(const std::string&)
 	 */
-	void Lexer::lex(const std::string& code)
+	void Lexer::lex()
 	{
 		std::size_t line = 1, i = 0;
 
-		std::stringstream input_stream(code);
+		std::stringstream input_stream(code_);
 		std::string cur_line;
 
 		while (std::getline(input_stream, cur_line, '\n'))

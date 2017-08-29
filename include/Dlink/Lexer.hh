@@ -23,7 +23,7 @@ namespace Dlink
 	class Lexer final
 	{
 	public:
-		Lexer();
+		Lexer(const std::string& code);
 		Lexer(const Lexer& lexer) = delete;
 		Lexer(Lexer&& lexer) noexcept = delete;
 		~Lexer() = default;
@@ -35,13 +35,15 @@ namespace Dlink
 		bool operator!=(const Lexer& lexer) const noexcept = delete;
 
 	public:
-		void lex(const std::string& code);
+		void lex();
 		const TokenSeq& get_token_seq() const noexcept;
 		void dump() const;
 		void dump(std::ostream& out) const;
 
 	private:
+		std::string code_;
 		TokenSeq token_seq_;
+
 		std::map<std::string, TokenType> keyword_map_;
 	};
 }

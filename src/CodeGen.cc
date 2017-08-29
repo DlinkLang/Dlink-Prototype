@@ -9,15 +9,27 @@ namespace Dlink
 {
 	namespace LLVM
 	{
-		llvm::LLVMContext context;
-		std::shared_ptr<llvm::Module> module = std::make_shared<llvm::Module>("top", context);
-		llvm::IRBuilder<> builder(context);
-		std::unique_ptr<llvm::legacy::FunctionPassManager> function_pm;
+		llvm::LLVMContext& context()
+		{
+			return get_current_assembler().get_llvm_builder().context;
+		}
+		std::shared_ptr<llvm::Module>& module()
+		{
+			return get_current_assembler().get_llvm_builder().module;
+		}
+		llvm::IRBuilder<>& builder()
+		{
+			return get_current_assembler().get_llvm_builder().builder;
+		}
+		std::unique_ptr<llvm::legacy::FunctionPassManager>& function_pm()
+		{
+			return get_current_assembler().get_llvm_builder().function_pm;
+		}
 	}
 
-	namespace CompileMessage
+	Assembler& get_current_assembler()
 	{
-		Warnings warnings;
+		return *Assembler::assemblers[std::this_thread::get_id()];
 	}
 
 	/**
