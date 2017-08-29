@@ -1,9 +1,12 @@
 void main()
 {
-	int i = foo(5);
-}
+	int n = 0;
 
-int foo(int i)
-{
-	return i;
+	{
+		int i = n;
+
+		{
+			int j = 0;
+		}
+	}
 }

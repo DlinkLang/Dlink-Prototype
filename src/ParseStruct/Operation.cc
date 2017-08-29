@@ -130,7 +130,7 @@ namespace Dlink
 	}
 	LLVM::Value String::code_gen()
 	{
-		return LLVM::builder.CreateGlobalStringPtr(data.c_str());
+		return LLVM::builder().CreateGlobalStringPtr(data.c_str());
 	}
 
 	/**
@@ -149,7 +149,7 @@ namespace Dlink
 	}
 	LLVM::Value Character::code_gen()
 	{
-		return LLVM::builder.getInt8(data);
+		return LLVM::builder().getInt8(data);
 	}
 }
 
