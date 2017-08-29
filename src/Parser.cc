@@ -706,7 +706,10 @@ namespace Dlink
 
 	bool Parser::atom(ExpressionPtr& out, Token* start_token)
 	{
-		return number(out, start_token) || identifier(out, start_token);
+		return number(out, start_token) 
+			|| identifier(out, start_token)
+			|| string(out, start_token)
+			|| character(out, start_token);
 	}
 }
 
@@ -795,6 +798,69 @@ namespace Dlink
 			out = std::make_shared<Identifier>(identifier_start, previous_token().data);
 
 			assign_token(start_token, identifier_start);
+			return true;
+		}
+
+		return false;
+	}
+
+	std::string unescape(const std::string& s)
+	{
+		std::string res;
+		std::string::const_iterator it = s.cbegin();
+
+		while (it != s.cend())
+		{
+			char c = *it;
+			it++;
+
+			if (c == '\\' && it != s.end())
+			{
+				switch (*it) 
+				{
+					case '\\': 
+						c = '\\'; 
+						break;
+					case 'n': 
+						c = '\n'; 
+						break;
+					case 't': 
+						c = '\t'; 
+						break;
+					default: 
+						continue;
+				}
+
+				it++;
+
+			}
+			res += c;
+		}
+
+		return res;
+	}
+	bool Parser::string(ExpressionPtr& out, Token* start_token)
+	{
+		Token string_start;
+		if (accept(TokenType::string, &string_start))
+		{
+			out = std::make_shared<String>(string_start, unescape(previous_token().data));
+
+			assign_token(start_token, string_start);
+			return true;
+		}
+
+		return false;
+	}
+
+	bool Parser::character(ExpressionPtr& out, Token* start_token)
+	{
+		Token char_start;
+		if (accept(TokenType::character, &char_start))
+		{
+			out = std::make_shared<Character>(char_start, unescape(previous_token().data)[0]);
+
+			assign_token(start_token, char_start);
 			return true;
 		}
 

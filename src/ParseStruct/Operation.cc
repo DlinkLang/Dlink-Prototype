@@ -113,6 +113,44 @@ namespace Dlink
 		out = static_cast<std::int64_t>(data);
 		return true;
 	}
+
+	/**
+	 * @brief 새 String 인스턴스를 만듭니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param data 문자열입니다.
+	 */
+	String::String(const Token& token, const std::string& data) noexcept
+		: Expression(token), data(data)
+	{}
+
+	std::string String::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "String(" + data + ')';
+	}
+	LLVM::Value String::code_gen()
+	{
+		return LLVM::builder.CreateGlobalStringPtr(data.c_str());
+	}
+
+	/**
+	 * @brief 새 Character 인스턴스를 만듭니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param data 문자입니다.
+	 */
+	Character::Character(const Token& token, char data) noexcept
+		: Expression(token), data(data)
+	{}
+
+	std::string Character::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "Character(" + data + ')';
+	}
+	LLVM::Value Character::code_gen()
+	{
+		return LLVM::builder.getInt8(data);
+	}
 }
 
 namespace Dlink
