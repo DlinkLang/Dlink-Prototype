@@ -1,5 +1,7 @@
 #include "Init.hh"
 
+#include "llvm/Transforms/Scalar/GVN.h"
+
 namespace Dlink
 {
 	/**
@@ -33,17 +35,17 @@ namespace Dlink
 			}
 		}
 
-		Dlink::LLVM::function_pm = std::make_unique<llvm::legacy::FunctionPassManager>(Dlink::LLVM::module.get());
+		Dlink::LLVM::function_pm() = std::make_unique<llvm::legacy::FunctionPassManager>(Dlink::LLVM::module().get());
 
 		if (opt_level > 0)
 		{
-			Dlink::LLVM::function_pm->add(llvm::createInstructionCombiningPass());
-			Dlink::LLVM::function_pm->add(llvm::createReassociatePass());
-			Dlink::LLVM::function_pm->add(llvm::createGVNPass());
-			Dlink::LLVM::function_pm->add(llvm::createCFGSimplificationPass());
+			Dlink::LLVM::function_pm()->add(llvm::createInstructionCombiningPass());
+			Dlink::LLVM::function_pm()->add(llvm::createReassociatePass());
+			Dlink::LLVM::function_pm()->add(llvm::createGVNPass());
+			Dlink::LLVM::function_pm()->add(llvm::createCFGSimplificationPass());
 		}
 
-		Dlink::LLVM::function_pm->doInitialization();
+		Dlink::LLVM::function_pm()->doInitialization();
 
 		std::ifstream code_file(code_filename);
 		std::string code((std::istreambuf_iterator<char>(code_file)), std::istreambuf_iterator<char>());

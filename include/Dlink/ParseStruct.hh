@@ -15,6 +15,7 @@
 
 namespace Dlink
 {
+	class Assembler;
 	class Parser;
 
 	/**
@@ -23,6 +24,7 @@ namespace Dlink
 	 */
 	class AST final
 	{
+		friend class Assembler;
 		friend class Parser;
 
 	public:

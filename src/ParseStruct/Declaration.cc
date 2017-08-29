@@ -49,9 +49,9 @@ namespace Dlink
 	{
 		std::size_t idx = 0;
 
-		llvm::Value* indexList[2] = { llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 0),
-									 llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), idx) };
-		llvm::Value* prev_gep = LLVM::builder.CreateInBoundsGEP(var, indexList);
+		llvm::Value* indexList[2] = { llvm::ConstantInt::get(LLVM::builder().getInt64Ty(), 0),
+									 llvm::ConstantInt::get(LLVM::builder().getInt64Ty(), idx) };
+		llvm::Value* prev_gep = LLVM::builder().CreateInBoundsGEP(var, indexList);
 
 		std::size_t i = 0;
 		for (; i < array_list->elements.size() - 1; ++i)
@@ -62,12 +62,12 @@ namespace Dlink
 			if ((sub_array_list = std::dynamic_pointer_cast<ArrayInitList>(expression)))
 			{
 				array_helper(prev_gep, sub_array_list);
-				prev_gep = LLVM::builder.CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
+				prev_gep = LLVM::builder().CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder().getInt64Ty(), 1));
 			}
 			else
 			{
-				LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
-				prev_gep = LLVM::builder.CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder.getInt64Ty(), 1));
+				LLVM::builder().CreateStore(expression->code_gen(), prev_gep);
+				prev_gep = LLVM::builder().CreateInBoundsGEP(prev_gep, llvm::ConstantInt::get(LLVM::builder().getInt64Ty(), 1));
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace Dlink
 		}
 		else
 		{
-			LLVM::builder.CreateStore(expression->code_gen(), prev_gep);
+			LLVM::builder().CreateStore(expression->code_gen(), prev_gep);
 		}
 	}
 	LLVM::Value VariableDeclaration::code_gen()
@@ -90,7 +90,7 @@ namespace Dlink
 			throw Error(token, "Unsafe declaration outside of unsafe statement");
 		}
 
-		llvm::AllocaInst* var = LLVM::builder.CreateAlloca(type->get_type(), nullptr, identifier);
+		llvm::AllocaInst* var = LLVM::builder().CreateAlloca(type->get_type(), nullptr, identifier);
 		var->setAlignment(4);
 
 		if (dynamic_cast<LValueReference*>(type.get()))
@@ -116,7 +116,7 @@ namespace Dlink
 			{
 				LLVM::Value init_expr = expression->code_gen();
 
-				LLVM::builder.CreateStore(init_expr, var);
+				LLVM::builder().CreateStore(init_expr, var);
 			}
 		}
 
@@ -147,7 +147,7 @@ namespace Dlink
 			llvm::FunctionType::get(return_type->get_type(), param_type, false) :
 			llvm::FunctionType::get(return_type->get_type(), false);
 		func_ =
-			llvm::Function::Create(func_type_, llvm::GlobalValue::ExternalLinkage, identifier, LLVM::module.get());
+			llvm::Function::Create(func_type_, llvm::GlobalValue::ExternalLinkage, identifier, LLVM::module().get());
 
 		std::size_t i = 0;
 		for (auto& param : func_->args())
@@ -203,13 +203,13 @@ namespace Dlink
 	{
 		current_func = std::make_shared<FunctionDeclaration>(token, return_type, identifier, parameter, body, true);
 
-		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context, "entry", func_, nullptr);
-		LLVM::builder.SetInsertPoint(func_block);
+		llvm::BasicBlock* func_block = llvm::BasicBlock::Create(LLVM::context(), "entry", func_, nullptr);
+		LLVM::builder().SetInsertPoint(func_block);
 
 		for (auto& param : func_->args())
 		{
-			llvm::AllocaInst* param_alloca = LLVM::builder.CreateAlloca(param.getType(), nullptr, param.getName());
-			LLVM::builder.CreateStore(&param, param_alloca);
+			llvm::AllocaInst* param_alloca = LLVM::builder().CreateAlloca(param.getType(), nullptr, param.getName());
+			LLVM::builder().CreateStore(&param, param_alloca);
 
 			symbol_table->map.insert(std::make_pair(param.getName(), param_alloca));
 		}
@@ -224,21 +224,21 @@ namespace Dlink
 
 		if (!ret)
 		{
-			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
+			if (LLVM::builder().getCurrentFunctionReturnType() != LLVM::builder().getVoidTy())
 			{
-				LLVM::builder.CreateRet(llvm::Constant::getNullValue(LLVM::builder.getCurrentFunctionReturnType()));
+				LLVM::builder().CreateRet(llvm::Constant::getNullValue(LLVM::builder().getCurrentFunctionReturnType()));
 
-				CompileMessage::warnings.add_warning(Warning(token, "Expected return statement at the end of non-void returning function declaration; null value will be returned"));
+				get_current_assembler().get_warnings().add_warning(Warning(token, "Expected return statement at the end of non-void returning function declaration; null value will be returned"));
 				// throw Error(token, "Expected return statement at the end of non-void returning function declaration");
 			}
 			else
 			{
 				// 함수의 반환 값 타입이 void라면 void를 리턴합니다.
-				LLVM::builder.CreateRetVoid();
+				LLVM::builder().CreateRetVoid();
 			}
 		}
 
-		LLVM::function_pm->run(*func_);
+		LLVM::function_pm()->run(*func_);
 
 		for (auto& param : func_->args())
 		{

@@ -106,7 +106,7 @@ namespace Dlink
 	}
 	LLVM::Value Integer32::code_gen()
 	{
-		return LLVM::builder.getInt32(data);
+		return LLVM::builder().getInt32(data);
 	}
 	bool Integer32::evaluate(Any& out)
 	{
@@ -149,27 +149,27 @@ namespace Dlink
 		switch (op)
 		{
 		case TokenType::plus:
-			return LLVM::builder.CreateAdd(lhs_value, rhs_value);
+			return LLVM::builder().CreateAdd(lhs_value, rhs_value);
 
 		case TokenType::minus:
-			return LLVM::builder.CreateSub(lhs_value, rhs_value);
+			return LLVM::builder().CreateSub(lhs_value, rhs_value);
 
 		case TokenType::multiply:
-			return LLVM::builder.CreateMul(lhs_value, rhs_value);
+			return LLVM::builder().CreateMul(lhs_value, rhs_value);
 
 		case TokenType::divide:
 			// TODO: 임시 방안
-			return LLVM::builder.CreateSDiv(lhs_value, rhs_value);
+			return LLVM::builder().CreateSDiv(lhs_value, rhs_value);
 
 		case TokenType::assign:
 		{
 			Identifier* dest;
 			if ((dest = dynamic_cast<Identifier*>(lhs.get())))
 			{
-				return LLVM::builder.CreateStore(rhs_value, symbol_table->find(dest->id));
+				return LLVM::builder().CreateStore(rhs_value, symbol_table->find(dest->id));
 			}
 
-			return LLVM::builder.CreateStore(rhs_value, lhs_value);
+			return LLVM::builder().CreateStore(rhs_value, lhs_value);
 		}
 
 		default:
@@ -247,14 +247,14 @@ namespace Dlink
 		switch (op)
 		{
 		case TokenType::plus:
-			return LLVM::builder.CreateMul(LLVM::builder.getInt32(1), rhs_value);
+			return LLVM::builder().CreateMul(LLVM::builder().getInt32(1), rhs_value);
 
 		case TokenType::minus:
-			return LLVM::builder.CreateMul(LLVM::builder.getInt32(-1), rhs_value);
+			return LLVM::builder().CreateMul(LLVM::builder().getInt32(-1), rhs_value);
 
 		case TokenType::multiply: // 값 참조 연산
 		{
-			return LLVM::builder.CreateLoad(rhs_value);
+			return LLVM::builder().CreateLoad(rhs_value);
 		}
 
 		case TokenType::bit_and: // 주소 참조 연산
@@ -273,7 +273,7 @@ namespace Dlink
 
 		default:
 			// TODO: 오류 처리
-			return LLVM::builder.getFalse();
+			return LLVM::builder().getFalse();
 		}
 	}
 	bool UnaryOperation::evaluate(Any& out)
@@ -359,7 +359,7 @@ namespace Dlink
 				arg_real.push_back(arg->code_gen());
 			}
 
-			return LLVM::builder.CreateCall(function, arg_real);
+			return LLVM::builder().CreateCall(function, arg_real);
 		}
 		else
 		{
@@ -414,7 +414,7 @@ namespace Dlink
 
 		if (in_unsafe_block)
 		{
-			CompileMessage::warnings.add_warning(Warning(token, "Unnecessary unsafe expression"));
+			get_current_assembler().get_warnings().add_warning(Warning(token, "Unnecessary unsafe expression"));
 
 			result = expression->code_gen();
 		}
@@ -458,19 +458,19 @@ namespace Dlink
 	{
 		if (return_expr)
 		{
-			if (LLVM::builder.getCurrentFunctionReturnType() == LLVM::builder.getVoidTy())
+			if (LLVM::builder().getCurrentFunctionReturnType() == LLVM::builder().getVoidTy())
 			{
 				throw Error(token, "Unexpected value return statement in void function");
 			}
-			return LLVM::builder.CreateRet(return_expr->code_gen());
+			return LLVM::builder().CreateRet(return_expr->code_gen());
 		}
 		else
 		{
-			if (LLVM::builder.getCurrentFunctionReturnType() != LLVM::builder.getVoidTy())
+			if (LLVM::builder().getCurrentFunctionReturnType() != LLVM::builder().getVoidTy())
 			{
 				throw Error(token, "Expected value return statement in non-void returning function");
 			}
-			return LLVM::builder.CreateRetVoid();
+			return LLVM::builder().CreateRetVoid();
 		}
 	}
 	/**
@@ -493,7 +493,7 @@ namespace Dlink
 
 		if (in_unsafe_block)
 		{
-			CompileMessage::warnings.add_warning(Warning(token, "Unnecessary unsafe statement"));
+			get_current_assembler().get_warnings().add_warning(Warning(token, "Unnecessary unsafe statement"));
 
 			result = statement->code_gen();
 		}

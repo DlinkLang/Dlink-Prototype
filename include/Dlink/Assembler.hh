@@ -56,10 +56,12 @@ namespace Dlink
 		bool operator!=(const Assembler& assembler) const noexcept = delete;
 
 	public:
+		bool to_llvm_ir();
 		LLVMBuilder& get_llvm_builder() noexcept;
 		const LLVMBuilder& get_llvm_builder() const noexcept;
-		const Errors& get_errors() const;
-		const Warnings& get_warnings() const;
+		const Errors& get_errors() const noexcept;
+		Warnings& get_warnings() noexcept;
+		const Warnings& get_warnings() const noexcept;
 
 	public:
 		static std::map<std::thread::id, Assembler*> assemblers;

@@ -30,6 +30,19 @@ namespace Dlink
 		}
 	}
 
+	bool Assembler::to_llvm_ir()
+	{
+		try
+		{
+			ast_.node_->code_gen();
+			return true;
+		}
+		catch (Error& error)
+		{
+			errors_.add_error(error);
+			return false;
+		}
+	}
 	Assembler::LLVMBuilder& Assembler::get_llvm_builder() noexcept
 	{
 		return builder_;
@@ -38,11 +51,15 @@ namespace Dlink
 	{
 		return builder_;
 	}
-	const Errors& Assembler::get_errors() const
+	const Errors& Assembler::get_errors() const noexcept
 	{
 		return errors_;
 	}
-	const Warnings& Assembler::get_warnings() const
+	Warnings& Assembler::get_warnings() noexcept
+	{
+		return warnings_;
+	}
+	const Warnings& Assembler::get_warnings() const noexcept
 	{
 		return warnings_;
 	}
