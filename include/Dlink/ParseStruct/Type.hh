@@ -11,7 +11,7 @@
 #include "llvm/IR/Type.h"
 
 #include "Root.hh"
-#include "../LLVMValue.hh"
+#include "../LLVMType.hh"
 
 namespace Dlink
 {
@@ -25,7 +25,7 @@ namespace Dlink
 		SimpleType(const Token& token, const std::string& identifier, bool is_unsigned);
 
 		std::string tree_gen(std::size_t depth) const override;
-		llvm::Type* get_type() override;
+		LLVM::Type get_type() override;
 
 		/** 타입의 식별자입니다. */
 		const std::string identifier;
@@ -45,7 +45,7 @@ namespace Dlink
 		StaticArray(const Token& token, TypePtr type, ExpressionPtr length);
 
 		std::string tree_gen(std::size_t depth) const override;
-		llvm::Type* get_type() override;
+		LLVM::Type get_type() override;
 
 		/** 배열 아이템의 타입입니다. */
 		TypePtr type;
@@ -60,7 +60,7 @@ namespace Dlink
 	{
 		Reference(const Token& token, TypePtr type);
 
-		llvm::Type* get_type() override;
+		LLVM::Type get_type() override;
 
 		/** 참조하고 있는 값의 타입입니다. */
 		TypePtr type;
@@ -86,7 +86,7 @@ namespace Dlink
 		Pointer(const Token& token, TypePtr type);
 
 		std::string tree_gen(std::size_t depth) const override;
-		llvm::Type* get_type() override;
+		LLVM::Type get_type() override;
 		bool is_safe() const noexcept override;
 
 		/** 포인터의 원본 타입입니다. */

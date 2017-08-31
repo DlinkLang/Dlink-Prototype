@@ -13,6 +13,7 @@
 #include "llvm/IR/Value.h"
 
 #include "../Any.hh"
+#include "../LLVMType.hh"
 #include "../LLVMValue.hh"
 #include "../Token.hh"
 
@@ -87,7 +88,7 @@ namespace Dlink
 		 * @brief 현재 타입 노드를 LLVM Type으로 만듭니다.
 		 * @return 만들어진 LLVM Type을 반환합니다.
 		 */
-		virtual llvm::Type* get_type() = 0;
+		virtual LLVM::Type get_type() = 0;
 		virtual bool is_safe() const noexcept;
 		
 		/** 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다. */

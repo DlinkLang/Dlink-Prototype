@@ -75,6 +75,9 @@
     <ClCompile Include="src\Assembler.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\LLVMType.cc">
+      <Filter>Source-Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Dlink\CodeGen.hh">
@@ -126,6 +129,9 @@
       <Filter>Header-Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Dlink\Assembler.hh">
+      <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\LLVMType.hh">
       <Filter>Header-Files</Filter>
     </ClInclude>
   </ItemGroup>

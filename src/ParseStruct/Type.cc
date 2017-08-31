@@ -29,7 +29,7 @@ namespace Dlink
 		return tree_prefix(depth) + "SimpleType(" + identifier + ")\n"
 			+ tree_prefix(depth + 1) + "is_unsigned: " + (is_unsigned ? "true" : "false");
 	}
-	llvm::Type* SimpleType::get_type()
+	LLVM::Type SimpleType::get_type()
 	{
 		if (identifier == "int")
 		{
@@ -62,9 +62,9 @@ namespace Dlink
 
 		return result;
 	}
-	llvm::Type* StaticArray::get_type()
+	LLVM::Type StaticArray::get_type()
 	{
-		llvm::Type* type_llvm = type->get_type();
+		LLVM::Type type_llvm = type->get_type();
 		std::uint64_t length_real = 0;
 		Any length_any;
 		bool length_ok = length->evaluate(length_any);
@@ -101,7 +101,7 @@ namespace Dlink
 	Reference::Reference(const Token& token, TypePtr type)
 		: Type(token), type(type)
 	{}
-	llvm::Type* Reference::get_type()
+	LLVM::Type Reference::get_type()
 	{
 		return type->get_type()->getPointerTo();
 	}
@@ -125,7 +125,7 @@ namespace Dlink
 		return tree_prefix(depth) + "PointerType:\n" +
 			type->tree_gen(depth + 1);
 	}
-	llvm::Type* Pointer::get_type()
+	LLVM::Type Pointer::get_type()
 	{
 		return type->get_type()->getPointerTo();
 	}
