@@ -46,6 +46,8 @@ namespace Dlink
 		std::stringstream input_stream(code_);
 		std::string cur_line;
 
+		bool in_comment = false;
+
 		while (std::getline(input_stream, cur_line, '\n'))
 		{
 			for (i = 0; i < cur_line.length(); i++)
@@ -281,6 +283,13 @@ namespace Dlink
 							i++;
 							token_seq_.push_back(Token("/=", TokenType::divide_assign, line, i + 1));
 						}
+						else if(cur_line[i + 1] == '/')
+						{
+							i++;
+							in_comment = true;
+
+							break;
+						}
 						else
 						{
 							token_seq_.push_back(Token("/", TokenType::divide, line, i + 1));
@@ -451,6 +460,11 @@ namespace Dlink
 						break;
 					case '?':
 						token_seq_.push_back(Token("?", TokenType::question, line, i + 1));
+						break;
+					}
+
+					if (in_comment)
+					{
 						break;
 					}
 				}

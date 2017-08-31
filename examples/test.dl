@@ -1,12 +1,4 @@
 void main()
 {
-	int n = 0;
-
-	{
-		int i = n;
-
-		{
-			int j = 0;
-		}
-	}
+	int n = 0; //i+i;
 }
