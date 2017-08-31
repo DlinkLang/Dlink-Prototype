@@ -141,7 +141,7 @@ namespace Dlink
 	 * @brief 배열 초기화 리스트의 구조를 담는 추상 구문 트리의 노드입니다.
 	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */
-	struct ArrayInitList final : public Expression
+	struct ArrayInitList final : public Constant
 	{
 		ArrayInitList(const Token& token, const std::vector<ExpressionPtr>& elements);
 
