@@ -19,10 +19,22 @@
 namespace Dlink
 {
 	/**
+	 * @brief Dlink 코드에서의 상수의 구조를 저장하는 추상 구문 트리의 노드입니다.
+	 */
+	struct Constant : public Expression
+	{};
+
+	/**
+	 * @brief Dlink 코드에서의 리터럴의 구조를 저장하는 추상 구문 트리의 노드입니다.
+	 */
+	struct Literal : public Constant
+	{};
+
+	/**
 	 * @brief 32비트 부호 있는 정수 상수를 저장하는 추상 구문 트리의 노드입니다.
 	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */
-	struct Integer32 final : public Expression
+	struct Integer32 final : public Constant
 	{
 		Integer32(const Token& token, std::int32_t data) noexcept;
 
@@ -38,7 +50,7 @@ namespace Dlink
 	 * @brief 문자열을 저장하는 추상 구문 트리의 노드입니다.
 	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */
-	struct String final : public Expression
+	struct String final : public Literal
 	{
 		String(const Token& token, const std::string& data) noexcept;
 
@@ -53,7 +65,7 @@ namespace Dlink
 	 * @brief 문자를 저장하는 추상 구문 트리의 노드입니다.
 	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */
-	struct Character final : public Expression
+	struct Character final : public Constant
 	{
 		Character(const Token& token, char data) noexcept;
 
