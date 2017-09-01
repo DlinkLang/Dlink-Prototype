@@ -97,7 +97,7 @@ namespace Dlink
 	 * @param data 32비트 부호 있는 정수 상수입니다.
 	 */
 	Integer32::Integer32(const Token& token, std::int32_t data) noexcept
-		: Expression(token), data(data)
+		: Constant(token), data(data)
 	{}
 
 	std::string Integer32::tree_gen(std::size_t depth) const
@@ -121,7 +121,7 @@ namespace Dlink
 	 * @param data 문자열입니다.
 	 */
 	String::String(const Token& token, const std::string& data) noexcept
-		: Expression(token), data(data)
+		: Literal(token), data(data)
 	{}
 
 	std::string String::tree_gen(std::size_t depth) const
@@ -140,7 +140,7 @@ namespace Dlink
 	 * @param data 문자입니다.
 	 */
 	Character::Character(const Token& token, char data) noexcept
-		: Expression(token), data(data)
+		: Constant(token), data(data)
 	{}
 
 	std::string Character::tree_gen(std::size_t depth) const
@@ -427,7 +427,7 @@ namespace Dlink
 	 * @param elements 배열 리스트의 원소들입니다.
 	 */
 	ArrayInitList::ArrayInitList(const Token& token, const std::vector<ExpressionPtr>& elements)
-		: Expression(token), elements(elements)
+		: Constant(token), elements(elements)
 	{}
 	std::string ArrayInitList::tree_gen(std::size_t depth) const
 	{

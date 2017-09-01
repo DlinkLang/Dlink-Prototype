@@ -951,7 +951,7 @@ namespace Dlink
 		Token pointer_start;
 		TypePtr pointer;
 
-		if (!simple_type(pointer, &pointer_start))
+		if (!spec_type(pointer, &pointer_start))
 		{
 			return false;
 		}
@@ -965,6 +965,11 @@ namespace Dlink
 		assign_token(start_token, pointer_start);
 
 		return true;
+	}
+
+	bool Parser::spec_type(TypePtr& out, Token* start_token)
+	{
+		return false; // TODO
 	}
 
 	bool Parser::simple_type(TypePtr& out, Token* start_token)

@@ -22,13 +22,17 @@ namespace Dlink
 	 * @brief Dlink 코드에서의 상수의 구조를 저장하는 추상 구문 트리의 노드입니다.
 	 */
 	struct Constant : public Expression
-	{};
+	{
+		using Expression::Expression;
+	};
 
 	/**
 	 * @brief Dlink 코드에서의 리터럴의 구조를 저장하는 추상 구문 트리의 노드입니다.
 	 */
 	struct Literal : public Constant
-	{};
+	{
+		using Constant::Constant;
+	};
 
 	/**
 	 * @brief 32비트 부호 있는 정수 상수를 저장하는 추상 구문 트리의 노드입니다.
