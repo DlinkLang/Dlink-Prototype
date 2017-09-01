@@ -283,13 +283,6 @@ namespace Dlink
 							i++;
 							token_seq_.push_back(Token("/=", TokenType::divide_assign, line, i + 1));
 						}
-						else if(cur_line[i + 1] == '/')
-						{
-							i++;
-							in_comment = true;
-
-							break;
-						}
 						else
 						{
 							token_seq_.push_back(Token("/", TokenType::divide, line, i + 1));
@@ -460,6 +453,11 @@ namespace Dlink
 						break;
 					case '?':
 						token_seq_.push_back(Token("?", TokenType::question, line, i + 1));
+						break;
+					case '#':
+						i++;
+						in_comment = true;
+
 						break;
 					}
 
