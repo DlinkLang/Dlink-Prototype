@@ -90,7 +90,7 @@ namespace Dlink
 		 */
 		virtual LLVM::Type get_type() = 0;
 		virtual bool is_safe() const noexcept;
-		
+
 		/** 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다. */
 		const Token token;
 	};

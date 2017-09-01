@@ -23,7 +23,6 @@ namespace Dlink
 	SimpleType::SimpleType(const Token& token, const std::string& identifier, bool is_unsigned)
 		: Type(token), identifier(identifier), is_unsigned(is_unsigned)
 	{}
-
 	std::string SimpleType::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "SimpleType(" + identifier + ")\n"
@@ -41,6 +40,25 @@ namespace Dlink
 		}
 
 		return nullptr;
+	}
+
+	/** 
+	 * @brief 새 ConstType 인스턴스를 만듭니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param type const 지정자가 없을 경우의 타입입니다.
+	 */
+	ConstType::ConstType(const Token& token, TypePtr type)
+		: Type(token), type(type)
+	{}
+	std::string ConstType::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "ConstType:\n" +
+			tree_prefix(depth + 1) + "type:\n" +
+			type->tree_gen(depth + 2);
+	}
+	LLVM::Type ConstType::get_type()
+	{
+		return { type->get_type(), true };
 	}
 
 	/**

@@ -21,6 +21,7 @@ namespace Dlink
 		public:
 			Type() noexcept;
 			Type(llvm::Type* type) noexcept;
+			Type(llvm::Type* type, bool is_const) noexcept;
 			Type(const Type& type) noexcept;
 			~Type() = default;
 
@@ -37,9 +38,11 @@ namespace Dlink
 		public:
 			bool empty() const noexcept;
 			llvm::Type* get() const noexcept;
+			bool is_const() const noexcept;
 
 		private:
 			llvm::Type* type_;
+			bool is_const_ = false;
 		};
 	}
 }

@@ -37,6 +37,20 @@ namespace Dlink
 	};
 
 	/**
+	 * @brief const 지정자가 있는 타입입니다.
+	 */
+	struct ConstType final : public Type
+	{
+		ConstType(const Token& token, TypePtr type);
+
+		std::string tree_gen(std::size_t depth) const override;
+		LLVM::Type get_type() override;
+
+		/** const 지정자가 없을 경우의 타입입니다. */
+		TypePtr type;
+	};
+
+	/**
 	 * @brief 정적 배열 타입입니다.
 	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
 	 */

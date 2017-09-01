@@ -20,6 +20,15 @@ namespace Dlink
 			: type_(type)
 		{}
 		/**
+		 * @brief 새 Type 인스턴스를 만듭니다.
+		 * @details 이 함수는 예외를 발생시키지 않습니다.
+		 * @param type 저장할 LLVM Type입니다.
+		 * @param is_const const 지정자가 붙어 있는지 여부입니다.
+		 */
+		Type::Type(llvm::Type* type, bool is_const) noexcept
+			: type_(type), is_const_(is_const)
+		{}
+		/**
 		 * @brief 기존 인스턴스를 복사해 새 Type 인스턴스를 만듭니다.
 		 * @details 이 함수는 예외를 발생시키지 않습니다.
 		 * @param type 복사할 기존 인스턴스입니다.
@@ -114,6 +123,15 @@ namespace Dlink
 		llvm::Type* Type::get() const noexcept
 		{
 			return type_;
+		}
+		/**
+		 * @brief const 지정자가 붙어 있는지 여부를 가져옵니다.
+		 * @details 이 함수는 예외를 발생시키지 않습니다.
+		 * @return const 지정자가 붙어 있는지 여부를 반환합니다.
+		 */
+		bool Type::is_const() const noexcept
+		{
+			return is_const_;
 		}
 	}
 }
