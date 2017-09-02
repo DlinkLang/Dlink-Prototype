@@ -119,8 +119,8 @@ namespace Dlink
 			}
 		}
 
-		symbol_table->map.insert(std::make_pair(identifier, var));
-		return var;
+		symbol_table->map.insert(std::make_pair(identifier, LLVM::Value(var, type->get_type())));
+		return { var, type->get_type() };
 	}
 	void VariableDeclaration::preprocess()
 	{
@@ -216,7 +216,7 @@ namespace Dlink
 
 		current_func = nullptr;
 
-		return func_;
+		return { func_, return_type->get_type() };
 	}
 	void FunctionDeclaration::preprocess()
 	{

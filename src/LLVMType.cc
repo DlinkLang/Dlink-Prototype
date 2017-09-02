@@ -34,7 +34,7 @@ namespace Dlink
 		 * @param type 복사할 기존 인스턴스입니다.
 		 */
 		Type::Type(const Type& type) noexcept
-			: type_(type.type_)
+			: type_(type.type_), is_const_(type.is_const_)
 		{}
 
 		/**
@@ -46,10 +46,12 @@ namespace Dlink
 		Type& Type::operator=(const Type& type) noexcept
 		{
 			type_ = type.type_;
+			is_const_ = type.is_const_;
 			return *this;
 		}
 		/**
 		 * @brief 현재 인스턴스에 저장된 LLVM Type 값과 다른 LLVM Type 값이 같은지 확인합니다.
+		 * @details 현재 인스턴스에 저장된 추가 데이터는 무시됩니다.
 		 * @details 이 함수는 예외를 발생시키지 않습니다.
 		 * @param type 비교할 다른 인스턴스입니다.
 		 * @return 두 값이 같으면 true, 다르면 false를 반환합니다.
@@ -66,10 +68,11 @@ namespace Dlink
 		 */
 		bool Type::operator==(const Type& type) const noexcept
 		{
-			return type_ == type.type_;
+			return type_ == type.type_ && is_const_ == type.is_const_;
 		}
 		/**
 		 * @brief 현재 인스턴스에 저장된 LLVM Type 값과 다른 LLVM Type 값이 다른지 확인합니다.
+		 * @details 현재 인스턴스에 저장된 추가 데이터는 무시됩니다.
 		 * @details 이 함수는 예외를 발생시키지 않습니다.
 		 * @param type 비교할 다른 인스턴스입니다.
 		 * @return 두 값이 다르면 true, 같으면 false를 반환합니다.
@@ -86,7 +89,7 @@ namespace Dlink
 		 */
 		bool Type::operator!=(const Type& type) const noexcept
 		{
-			return type_ != type.type_;
+			return type_ != type.type_ || is_const_ != type.is_const_;
 		}
 		const llvm::Type* Type::operator->() const noexcept
 		{
@@ -113,7 +116,7 @@ namespace Dlink
 		 */
 		bool Type::empty() const noexcept
 		{
-			return type_ == nullptr;
+			return type_ == nullptr && is_const_ == false;
 		}
 		/**
 		 * @brief 현재 인스턴스에 저장된 LLVM Type 값을 가져옵니다.

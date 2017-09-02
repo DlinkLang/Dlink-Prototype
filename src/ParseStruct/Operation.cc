@@ -200,6 +200,12 @@ namespace Dlink
 
 		case TokenType::assign:
 		{
+			if (lhs_value.type().is_const())
+			{
+				// TODO: 에러메세지 채워주세요.
+				throw Error(token, "TODO");
+			}
+
 			Identifier* dest;
 			if ((dest = dynamic_cast<Identifier*>(lhs.get())))
 			{

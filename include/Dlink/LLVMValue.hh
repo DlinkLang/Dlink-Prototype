@@ -6,6 +6,8 @@
  * @brief llvm::Value*의 래퍼를 정의합니다.
  */
 
+#include "LLVMType.hh"
+
 #include "llvm/IR/Instructions.h"
 
 namespace Dlink
@@ -21,6 +23,7 @@ namespace Dlink
 		public:
 			Value() noexcept;
 			Value(llvm::Value* value) noexcept;
+			Value(llvm::Value* value, Type type) noexcept;
 			Value(const Value& value) noexcept;
 			~Value() = default;
 
@@ -35,9 +38,11 @@ namespace Dlink
 		public:
 			bool empty() const noexcept;
 			llvm::Value* get() const noexcept;
+			Type type() const noexcept;
 
 		private:
 			llvm::Value* value_;
+			Type type_;
 		};
 	}
 }

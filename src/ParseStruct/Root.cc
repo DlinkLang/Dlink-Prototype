@@ -72,7 +72,7 @@ namespace Dlink
 			throw Error(token, "Unbound symbol \"" + id + "\"");
 		}
 
-		return LLVM::builder().CreateLoad(result);
+		return { LLVM::builder().CreateLoad(result), result.type() };
 	}
 	bool Identifier::is_lvalue() const noexcept
 	{
