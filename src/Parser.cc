@@ -922,23 +922,23 @@ namespace Dlink
 
 	bool Parser::reference_type(TypePtr& out, Token* start_token)
 	{
-		Token pointer_start_token;
+		Token spec_type_start;
 		TypePtr type;
 
-		if (pointer_type(type, &pointer_start_token))
+		if (pointer_type(type, &spec_type_start))
 		{
 			if (accept(TokenType::bit_and))
 			{
-				out = std::make_shared<LValueReference>(pointer_start_token, type);
+				out = std::make_shared<LValueReference>(spec_type_start, type);
 
-				assign_token(start_token, pointer_start_token);
+				assign_token(start_token, spec_type_start);
 				return true;
 			}
 			else
 			{
 				out = type;
 
-				assign_token(start_token, pointer_start_token);
+				assign_token(start_token, spec_type_start);
 				return true;
 			}
 		}
@@ -951,14 +951,38 @@ namespace Dlink
 		Token pointer_start;
 		TypePtr pointer;
 
-		if (!spec_type_forward(pointer, &pointer_start))
+		if (!spec_type(pointer, &pointer_start))
 		{
 			return false;
 		}
 
+		bool is_const = false;
+
 		while (accept(TokenType::multiply))
 		{
+			is_const = false;
+			if (!spec_type_back(is_const))
+			{
+				return false;
+			}
+
 			pointer = std::make_shared<Pointer>(pointer_start, pointer);
+
+			if (is_const)
+			{
+				pointer = std::make_shared<ConstType>(pointer_start, pointer);
+			}
+		}
+
+		is_const = false;
+		if (!spec_type_back(is_const))
+		{
+			return false;
+		}
+
+		if (is_const)
+		{
+			pointer = std::make_shared<ConstType>(pointer_start, pointer);
 		}
 
 		out = pointer;
@@ -967,7 +991,7 @@ namespace Dlink
 		return true;
 	}
 
-	bool Parser::spec_type_forward(TypePtr& out, Token* start_token)
+	bool Parser::spec_type(TypePtr& out, Token* start_token)
 	{
 		Token spec_type_start;
 
@@ -1009,6 +1033,11 @@ namespace Dlink
 				// TODO: 에러 메세지 추가해주세요.
 				errors_.add_error(Error(current_token(), "TODO"));
 			}
+			return false;
+		}
+
+		if (!spec_type_back(is_const))
+		{
 			return false;
 		}
 
@@ -1128,5 +1157,32 @@ namespace Dlink
 		}
 
 		return false;
+	}
+
+	bool Parser::spec_type_back(bool& is_const)
+	{
+		while (accept(TokenType::_const))
+		{
+			switch (previous_token().type)
+			{
+			case TokenType::_const:
+			{
+				if (is_const)
+				{
+					// TODO: 에러 메세지 추가해주세요.
+					errors_.add_error(Error(previous_token(), "TODO"));
+					return false;
+				}
+
+				is_const = true;
+				break;
+			}
+
+			default:
+				break;
+			}
+		}
+
+		return true;
 	}
 }

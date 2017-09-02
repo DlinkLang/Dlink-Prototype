@@ -80,10 +80,11 @@ namespace Dlink
 		bool type(TypePtr& out, Token* start_token = nullptr);
 		bool array_type(TypePtr& out, Token* start_token = nullptr);
 		bool reference_type(TypePtr& out, Token* start_token = nullptr);
-		bool spec_type_backward(TypePtr& out, Token* start_token = nullptr);
 		bool pointer_type(TypePtr& out, Token* start_token = nullptr);
-		bool spec_type_forward(TypePtr& out, Token* start_token = nullptr);
+		bool spec_type(TypePtr& out, Token* start_token = nullptr);
 		bool simple_type(TypePtr& out, Token* start_token = nullptr);
+
+		bool spec_type_back(bool& is_const);
 
 	private:
 		TokenSeq token_seq_;
