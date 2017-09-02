@@ -223,6 +223,13 @@ namespace Dlink
 				}
 				else if (accept(TokenType::semicolon))
 				{
+					if (dynamic_cast<ConstType*>(type_expr.get()))
+					{
+						// TODO: 에러메세지 채워주세요.
+						errors_.add_error(Error(previous_token(), "TODO"));
+						return false;
+					}
+
 					StatementPtr var = std::make_shared<VariableDeclaration>(var_decl_start, type_expr, name);
 
 					if (is_unsafe)

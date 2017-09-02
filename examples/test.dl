@@ -1,4 +1,4 @@
 void main()
 {
-	unsafe int const* const* const i;
+	const int i = 0;
 }
