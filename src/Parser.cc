@@ -951,7 +951,7 @@ namespace Dlink
 		Token pointer_start;
 		TypePtr pointer;
 
-		if (!spec_type(pointer, &pointer_start))
+		if (!spec_type_forward(pointer, &pointer_start))
 		{
 			return false;
 		}
@@ -967,9 +967,60 @@ namespace Dlink
 		return true;
 	}
 
-	bool Parser::spec_type(TypePtr& out, Token* start_token)
+	bool Parser::spec_type_forward(TypePtr& out, Token* start_token)
 	{
-		return false; // TODO
+		Token spec_type_start;
+
+		bool is_const = false;
+
+		if (accept(TokenType::_const, &spec_type_start))
+		{
+			is_const = true;
+		}
+
+		while (accept(TokenType::_const))
+		{
+			switch (previous_token().type)
+			{
+			case TokenType::_const:
+			{
+				if (is_const)
+				{
+					// TODO: 에러 메세지 추가해주세요.
+					errors_.add_error(Error(previous_token(), "TODO"));
+					return false;
+				}
+
+				is_const = true;
+				break;
+			}
+
+			default:
+				break;
+			}
+		}
+
+		TypePtr cur_type;
+
+		if (!simple_type(cur_type))
+		{
+			if (is_const)
+			{
+				// TODO: 에러 메세지 추가해주세요.
+				errors_.add_error(Error(current_token(), "TODO"));
+			}
+			return false;
+		}
+
+		if (is_const)
+		{
+			cur_type = std::make_shared<ConstType>(spec_type_start, cur_type);
+		}
+
+		out = cur_type;
+
+		assign_token(start_token, spec_type_start);
+		return true;
 	}
 
 	bool Parser::simple_type(TypePtr& out, Token* start_token)
