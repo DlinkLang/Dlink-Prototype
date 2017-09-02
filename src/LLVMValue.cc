@@ -17,7 +17,7 @@ namespace Dlink
 		 * @param value 저장할 LLVM Value입니다.
 		 */
 		Value::Value(llvm::Value* value) noexcept
-			: value_(value), type_(value->getType())
+			: value_(value), type_(value ? value->getType() : nullptr)
 		{}
 		/**
 		 * @brief 새 Value 인스턴스를 만듭니다.

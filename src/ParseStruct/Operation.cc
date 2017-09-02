@@ -1,4 +1,5 @@
 #include "ParseStruct/Operation.hh"
+#include "ParseStruct/Type.hh"
 #include "CodeGen.hh"
 
 #include <iostream>
