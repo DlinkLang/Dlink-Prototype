@@ -379,13 +379,6 @@ namespace Dlink
 		}
 	}
 
-	bool Parser::unsafe_stmt(StatementPtr& out, Token* start_token)
-	{
-		// TODO
-
-		return false;
-	}
-
 	bool Parser::expr_stmt(StatementPtr& out, Token* start_token)
 	{
 		ExpressionPtr expression;
