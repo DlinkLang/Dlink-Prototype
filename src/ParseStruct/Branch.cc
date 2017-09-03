@@ -12,7 +12,7 @@ namespace Dlink
 	 * @param body 조건식이 참일때 실행할 문입니다.
 	 * @param else_body 조건식이 거짓일때 실행할 문입니다.
 	 */
-	IfBranch::IfBranch(const Token& token, ExpressionPtr cond, StatementPtr body, std::vector<StatementPtr> else_body)
+	IfBranch::IfBranch(const Token& token, ExpressionPtr cond, StatementPtr body, StatementPtr else_body) 
 		: Statement(token), cond(cond), body(body), else_body(else_body)
 	{}
 	std::string IfBranch::tree_gen(std::size_t depth) const
@@ -26,10 +26,7 @@ namespace Dlink
 		result += tree_prefix(depth) + "else_body:\n";
 
 		++depth;
-		for (const auto& eb : else_body)
-		{
-			result += eb->tree_gen(depth) + '\n';
-		}
+		result += else_body->tree_gen(depth) + '\n';
 		--depth;
 
 		result.erase(result.end() - 1);
@@ -37,45 +34,53 @@ namespace Dlink
 	}
 	LLVM::Value IfBranch::code_gen()
 	{
-		llvm::Function* parent = LLVM::builder().GetInsertBlock()->getParent();
+		llvm::Function* parent_func = LLVM::builder().GetInsertBlock()->getParent();
 
 		llvm::BasicBlock* if_block;
 		llvm::BasicBlock* then_block;
 		llvm::BasicBlock* else_block;
-		llvm::BasicBlock* end_block;
+		llvm::BasicBlock* endif_block;
 
-		if_block = llvm::BasicBlock::Create(LLVM::context(), "if_cmp", parent);
-		then_block = llvm::BasicBlock::Create(LLVM::context(), "if_then", parent);
-
-		if (else_body.size() != 0)
+		if (else_body)
 		{
-			// TODO
+			if_block = llvm::BasicBlock::Create(LLVM::context(), "if", parent_func);
+			then_block = llvm::BasicBlock::Create(LLVM::context(), "then", parent_func);
+			else_block = llvm::BasicBlock::Create(LLVM::context(), "else", parent_func);
+			endif_block = llvm::BasicBlock::Create(LLVM::context(), "endif", parent_func);
 		}
-
-		end_block = llvm::BasicBlock::Create(LLVM::context(), "if_end", parent);
+		else
+		{
+			if_block = llvm::BasicBlock::Create(LLVM::context(), "if", parent_func);
+			then_block = llvm::BasicBlock::Create(LLVM::context(), "then", parent_func);
+			endif_block = llvm::BasicBlock::Create(LLVM::context(), "endif", parent_func);
+		}
 
 		LLVM::builder().CreateBr(if_block);
 		LLVM::builder().SetInsertPoint(if_block);
 
-		LLVM::Value cond_value = cond->code_gen();
-		llvm::Value* cond_cmp = LLVM::builder().CreateICmpNE(cond_value,
-			llvm::ConstantInt::get(cond_value.get()->getType(), 0, true));
+		llvm::Value* cond_value = cond->code_gen();
+		llvm::Value* cond_cmp = LLVM::builder().CreateICmpNE(cond_value, llvm::ConstantInt::get(cond_value->getType(), 0, true), "branch");
 
-		if (else_body.size() != 0)
+		if (else_body)
 		{
-			// TODO
+			LLVM::builder().CreateCondBr(cond_cmp, then_block, else_block);
+			LLVM::builder().SetInsertPoint(then_block);
+			body->code_gen();
+			LLVM::builder().CreateBr(endif_block);
+			LLVM::builder().SetInsertPoint(else_block);
+			else_body->code_gen();
+			LLVM::builder().CreateBr(endif_block);
+			LLVM::builder().SetInsertPoint(endif_block);
 		}
 		else
 		{
-			LLVM::builder().CreateCondBr(cond_cmp, then_block, end_block);
-
+			LLVM::builder().CreateCondBr(cond_cmp, then_block, endif_block);
 			LLVM::builder().SetInsertPoint(then_block);
-			LLVM::Value ret = body->code_gen();
-			LLVM::builder().CreateBr(end_block);
-
-			LLVM::builder().SetInsertPoint(end_block);
-
-			return ret;
+			body->code_gen();
+			LLVM::builder().CreateBr(endif_block);
+			LLVM::builder().SetInsertPoint(endif_block);
 		}
+
+		return cond_cmp;
 	}
 }

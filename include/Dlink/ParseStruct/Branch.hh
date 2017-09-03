@@ -18,7 +18,7 @@ namespace Dlink
 	 */
 	struct IfBranch final : public Statement
 	{
-		IfBranch(const Token& token, ExpressionPtr cond, StatementPtr body, std::vector<StatementPtr> else_body);
+		IfBranch(const Token& token, ExpressionPtr cond, StatementPtr body, StatementPtr else_body);
 
 		std::string tree_gen(std::size_t depth) const;
 		LLVM::Value code_gen();
@@ -28,6 +28,6 @@ namespace Dlink
 		/** 조건식이 참일때 실행할 문입니다. */
 		StatementPtr body;
 		/** 조건식이 거짓일때 실행할 문입니다. */
-		std::vector<StatementPtr> else_body;
+		StatementPtr else_body;
 	};
 }
