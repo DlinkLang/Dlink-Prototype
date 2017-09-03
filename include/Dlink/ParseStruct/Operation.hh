@@ -63,6 +63,21 @@ namespace Dlink
 		/** 문자입니다. */
 		char data;
 	};
+
+	/**
+	 * @brief 논리 값을 저장하는 추상 구문 트리의 노드입니다.
+	 * @details 이 구조체는 다른 곳에서 상속받을 수 없습니다.
+	 */
+	struct Boolean final : public Expression
+	{
+		Boolean(const Token& token, bool data) noexcept;
+
+		std::string tree_gen(std::size_t depth) const override;
+		LLVM::Value code_gen() override;
+
+		/** 논리 값입니다. */
+		bool data;
+	};
 }
 
 namespace Dlink

@@ -99,7 +99,6 @@ namespace Dlink
 	Integer32::Integer32(const Token& token, std::int32_t data) noexcept
 		: Expression(token), data(data)
 	{}
-
 	std::string Integer32::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "Integer32(" + std::to_string(data) + ')';
@@ -123,7 +122,6 @@ namespace Dlink
 	String::String(const Token& token, const std::string& data) noexcept
 		: Expression(token), data(data)
 	{}
-
 	std::string String::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "String(" + data + ')';
@@ -142,7 +140,6 @@ namespace Dlink
 	Character::Character(const Token& token, char data) noexcept
 		: Expression(token), data(data)
 	{}
-
 	std::string Character::tree_gen(std::size_t depth) const
 	{
 		return tree_prefix(depth) + "Character(" + data + ')';
@@ -150,6 +147,31 @@ namespace Dlink
 	LLVM::Value Character::code_gen()
 	{
 		return LLVM::builder().getInt8(data);
+	}
+
+	/**
+	 * @brief 새 Boolean 인스턴스를 만듭니다.
+	 * @details 이 함수는 예외를 발생시키지 않습니다.
+	 * @param token 이 노드를 만드는데 사용된 가장 첫번째 토큰입니다.
+	 * @param data 논리 값입니다.
+	 */
+	Boolean::Boolean(const Token& token, bool data) noexcept
+		: Expression(token), data(data)
+	{}
+	std::string Boolean::tree_gen(std::size_t depth) const
+	{
+		return tree_prefix(depth) + "Boolean(" + (data ? "true" : "false") + ')';
+	}
+	LLVM::Value Boolean::code_gen()
+	{
+		if (data)
+		{
+			return LLVM::builder().getInt8(1);
+		}
+		else
+		{
+			return LLVM::builder().getInt8(0);
+		}
 	}
 }
 

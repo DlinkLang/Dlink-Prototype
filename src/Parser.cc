@@ -800,6 +800,20 @@ namespace Dlink
 			assign_token(start_token, identifier_start);
 			return true;
 		}
+		else if (accept(TokenType::_true, &identifier_start))
+		{
+			out = std::make_shared<Boolean>(identifier_start, true);
+
+			assign_token(start_token, identifier_start);
+			return true;
+		}
+		else if (accept(TokenType::_false, &identifier_start))
+		{
+			out = std::make_shared<Boolean>(identifier_start, false);
+
+			assign_token(start_token, identifier_start);
+			return true;
+		}
 
 		return false;
 	}
