@@ -1,6 +1,4 @@
-unsafe void main()
+void main()
 {
-	int i;
-	int* ip = &i;
-	*ip = 5;
+	bool b;
 }

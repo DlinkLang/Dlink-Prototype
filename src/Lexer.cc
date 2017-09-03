@@ -24,13 +24,16 @@ namespace Dlink
 		keyword_map_["return"] = TokenType::_return;
 		keyword_map_["null"] = TokenType::_null;
 		keyword_map_["const"] = TokenType::_const;
-		
+		keyword_map_["true"] = TokenType::_true;
+		keyword_map_["false"] = TokenType::_false;
+
 		keyword_map_["unsigned"] = TokenType::_unsigned;
 		keyword_map_["signed"] = TokenType::_signed;
 		keyword_map_["char"] = TokenType::_char;
 		keyword_map_["short"] = TokenType::_short;
 		keyword_map_["int"] = TokenType::_int;
 		keyword_map_["long"] = TokenType::_long;
+		keyword_map_["bool"] = TokenType::_bool;
 		keyword_map_["void"] = TokenType::_void;
 	}
 

@@ -1039,12 +1039,12 @@ namespace Dlink
 			}
 		}
 
-		else if (accept(TokenType::_char))
+		else if (accept(TokenType::_char, &simple_type_start))
 		{
 			// char
 			return false; // TODO: 아직 구현되지 않음
 		}
-		else if (accept(TokenType::_short))
+		else if (accept(TokenType::_short, &simple_type_start))
 		{
 			// short
 			return false; // TODO: 아직 구현되지 않음
@@ -1057,10 +1057,18 @@ namespace Dlink
 			assign_token(start_token, simple_type_start);
 			return true;
 		}
-		else if (accept(TokenType::_long))
+		else if (accept(TokenType::_long, &simple_type_start))
 		{
 			// long
 			return false; // TODO: 아직 구현되지 않음
+		}
+		else if (accept(TokenType::_bool, &simple_type_start))
+		{
+			// bool
+			out = std::make_shared<SimpleType>(simple_type_start, "bool");
+
+			assign_token(start_token, simple_type_start);
+			return true;
 		}
 		else if (accept(TokenType::_void, &simple_type_start))
 		{
