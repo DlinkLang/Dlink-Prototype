@@ -46,7 +46,7 @@ namespace Dlink
 		std::stringstream input_stream(code_);
 		std::string cur_line;
 
-		bool in_comment = false;
+		bool inline_comment = false;
 
 		while (std::getline(input_stream, cur_line, '\n'))
 		{
@@ -286,7 +286,7 @@ namespace Dlink
 						else if (cur_line[i + 1] == '/')
 						{
 							i++;
-							in_comment = true;
+							inline_comment = true;
 						}
 						else
 						{
@@ -461,8 +461,9 @@ namespace Dlink
 						break;
 					}
 
-					if (in_comment)
+					if (inline_comment)
 					{
+						inline_comment = false;
 						break;
 					}
 				}
