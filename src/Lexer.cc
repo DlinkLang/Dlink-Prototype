@@ -47,6 +47,7 @@ namespace Dlink
 		std::string cur_line;
 
 		bool inline_comment = false;
+		bool multi_line_comment = false;
 
 		while (std::getline(input_stream, cur_line, '\n'))
 		{
@@ -70,12 +71,12 @@ namespace Dlink
 					if (is_keyword)
 					{
 						Token keyword_token(temp, keyword_map_[temp], line, i + 1);
-						token_seq_.push_back(keyword_token);
+						if (!multi_line_comment) token_seq_.push_back(keyword_token);
 					}
 					else
 					{
 						Token identifier_token(temp, TokenType::identifier, line, i + 1);
-						token_seq_.push_back(identifier_token);
+						if (!multi_line_comment) token_seq_.push_back(identifier_token);
 					}
 				}
 				else if (std::isdigit(ch))
@@ -100,7 +101,7 @@ namespace Dlink
 							} while (cur_line[i] == '0' || cur_line[i] == '1');
 							i--;
 
-							token_seq_.push_back(Token(temp, TokenType::bin_integer, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token(temp, TokenType::bin_integer, line, i + 1));
 							break;
 
 						case '0':
@@ -121,7 +122,7 @@ namespace Dlink
 							} while (('0' <= cur_line[i]) && (cur_line[i] <= '7'));
 							i--;
 
-							token_seq_.push_back(Token(temp, TokenType::oct_integer, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token(temp, TokenType::oct_integer, line, i + 1));
 							break;
 
 						case 'x':
@@ -139,11 +140,11 @@ namespace Dlink
 								(('A' <= cur_line[i]) && (cur_line[i] <= 'F'))));
 							i--;
 
-							token_seq_.push_back(Token(temp, TokenType::hex_integer, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token(temp, TokenType::hex_integer, line, i + 1));
 							break;
 
 						default:
-							token_seq_.push_back(Token("0", TokenType::dec_integer, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("0", TokenType::dec_integer, line, i + 1));
 							break;
 						}
 					}
@@ -175,11 +176,11 @@ namespace Dlink
 								} while (i < cur_line.length() && std::isdigit(cur_line[i]));
 							}
 
-							token_seq_.push_back(Token(temp, TokenType::floating, line, i));
+							if (!multi_line_comment) token_seq_.push_back(Token(temp, TokenType::floating, line, i));
 						}
 						else
 						{
-							token_seq_.push_back(Token(temp, TokenType::dec_integer, line, i));
+							if (!multi_line_comment) token_seq_.push_back(Token(temp, TokenType::dec_integer, line, i));
 						}
 						i--;
 					}
@@ -205,7 +206,7 @@ namespace Dlink
 						i++;
 					}
 
-					token_seq_.push_back(Token(temp, TokenType::string, line, i - 1));
+					if (!multi_line_comment) token_seq_.push_back(Token(temp, TokenType::string, line, i - 1));
 				}
 				else if (ch == '\'')
 				{
@@ -228,7 +229,7 @@ namespace Dlink
 						i++;
 					}
 
-					token_seq_.push_back(Token(temp, TokenType::character, line, i - 1));
+					if (!multi_line_comment) token_seq_.push_back(Token(temp, TokenType::character, line, i - 1));
 				}
 				else
 				{
@@ -238,88 +239,98 @@ namespace Dlink
 						if (cur_line[i + 1] == '+')
 						{
 							i++;
-							token_seq_.push_back(Token("++", TokenType::increment, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("++", TokenType::increment, line, i + 1));
 						}
 						else if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("+=", TokenType::plus_assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("+=", TokenType::plus_assign, line, i + 1));
 						}
 						else
 						{
-							token_seq_.push_back(Token("+", TokenType::plus, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("+", TokenType::plus, line, i + 1));
 						}
 						break;
 					case '-':
 						if (cur_line[i + 1] == '-')
 						{
 							i++;
-							token_seq_.push_back(Token("--", TokenType::decrement, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("--", TokenType::decrement, line, i + 1));
 						}
 						else if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("-=", TokenType::minus_assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("-=", TokenType::minus_assign, line, i + 1));
 						}
 						else
 						{
-							token_seq_.push_back(Token("-", TokenType::minus, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("-", TokenType::minus, line, i + 1));
 						}
 						break;
 					case '*':
 						if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("*=", TokenType::multiply_assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("*=", TokenType::multiply_assign, line, i + 1));
+						}
+						else if (cur_line[i + 1] == '/')
+						{
+							i++;
+							multi_line_comment = false;
 						}
 						else
 						{
-							token_seq_.push_back(Token("*", TokenType::multiply, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("*", TokenType::multiply, line, i + 1));
 						}
 						break;
 					case '/':
 						if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("/=", TokenType::divide_assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("/=", TokenType::divide_assign, line, i + 1));
 						}
 						else if (cur_line[i + 1] == '/')
 						{
 							i++;
 							inline_comment = true;
 						}
+						else if (cur_line[i + 1] == '*')
+						{
+							i++;
+							multi_line_comment = true;
+						}
 						else
 						{
-							token_seq_.push_back(Token("/", TokenType::divide, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("/", TokenType::divide, line, i + 1));
 						}
 						break;
 					case '%':
 						if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("%=", TokenType::modulo_assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("%=", TokenType::modulo_assign, line, i + 1));
 						}
 						else
 						{
-							token_seq_.push_back(Token("%", TokenType::modulo, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("%", TokenType::modulo, line, i + 1));
 						}
 						break;
 					case '=':
 						if (cur_line[i + 1] != '=')
 						{
-							token_seq_.push_back(Token("=", TokenType::assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("=", TokenType::assign, line, i + 1));
 						}
 						else
 						{
 							i++;
-							token_seq_.push_back(Token("==", TokenType::equal, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("==", TokenType::equal, line, i + 1));
 						}
 						break;
 					case '>':
 						if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token(">=", TokenType::eqless, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token(">=", TokenType::eqless, line, i + 1));
 						}
 						else if (cur_line[i + 1] == '>')
 						{
@@ -327,23 +338,23 @@ namespace Dlink
 							if (cur_line[i + 2] == '=')
 							{
 								i++;
-								token_seq_.push_back(Token(">>=", TokenType::bit_lshift_assign, line, i + 1));
+								if (!multi_line_comment) token_seq_.push_back(Token(">>=", TokenType::bit_lshift_assign, line, i + 1));
 							}
 							else
 							{
-								token_seq_.push_back(Token(">>", TokenType::bit_lshift, line, i + 1));
+								if (!multi_line_comment) token_seq_.push_back(Token(">>", TokenType::bit_lshift, line, i + 1));
 							}
 						}
 						else
 						{
-							token_seq_.push_back(Token(">", TokenType::less, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token(">", TokenType::less, line, i + 1));
 						}
 						break;
 					case '<':
 						if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("<=", TokenType::eqless, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("<=", TokenType::eqless, line, i + 1));
 						}
 						else if (cur_line[i + 1] == '<')
 						{
@@ -351,113 +362,113 @@ namespace Dlink
 							if (cur_line[i + 2] == '=')
 							{
 								i++;
-								token_seq_.push_back(Token("<<=", TokenType::bit_rshift_assign, line, i + 1));
+								if (!multi_line_comment) token_seq_.push_back(Token("<<=", TokenType::bit_rshift_assign, line, i + 1));
 							}
 							else
 							{
-								token_seq_.push_back(Token("<<", TokenType::bit_rshift, line, i + 1));
+								if (!multi_line_comment) token_seq_.push_back(Token("<<", TokenType::bit_rshift, line, i + 1));
 							}
 						}
 						else
 						{
-							token_seq_.push_back(Token("<", TokenType::less, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("<", TokenType::less, line, i + 1));
 						}
 						break;
 					case '&':
 						if (cur_line[i + 1] == '&')
 						{
 							i++;
-							token_seq_.push_back(Token("&&", TokenType::logic_and, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("&&", TokenType::logic_and, line, i + 1));
 						}
 						else if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("&=", TokenType::bit_and_assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("&=", TokenType::bit_and_assign, line, i + 1));
 						}
 						else
 						{
-							token_seq_.push_back(Token("&", TokenType::bit_and, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("&", TokenType::bit_and, line, i + 1));
 						}
 						break;
 					case '|':
 						if (cur_line[i + 1] == '|')
 						{
 							i++;
-							token_seq_.push_back(Token("||", TokenType::logic_or, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("||", TokenType::logic_or, line, i + 1));
 						}
 						else if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("|=", TokenType::bit_or_assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("|=", TokenType::bit_or_assign, line, i + 1));
 						}
 						else
 						{
-							token_seq_.push_back(Token("|", TokenType::bit_or, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("|", TokenType::bit_or, line, i + 1));
 						}
 						break;
 					case '~':
-						token_seq_.push_back(Token("~", TokenType::bit_not, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token("~", TokenType::bit_not, line, i + 1));
 						break;
 					case '^':
 						if (cur_line[i + 1] == '=')
 						{
 							i++;
-							token_seq_.push_back(Token("^=", TokenType::bit_xor_assign, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("^=", TokenType::bit_xor_assign, line, i + 1));
 						}
 						else
 						{
-							token_seq_.push_back(Token("^", TokenType::bit_xor, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("^", TokenType::bit_xor, line, i + 1));
 						}
 						break;
 					case '{':
-						token_seq_.push_back(Token("{", TokenType::lbrace, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token("{", TokenType::lbrace, line, i + 1));
 						break;
 					case '}':
-						token_seq_.push_back(Token("}", TokenType::rbrace, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token("}", TokenType::rbrace, line, i + 1));
 						break;
 					case '(':
-						token_seq_.push_back(Token("(", TokenType::lparen, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token("(", TokenType::lparen, line, i + 1));
 						break;
 					case ')':
-						token_seq_.push_back(Token(")", TokenType::rparen, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token(")", TokenType::rparen, line, i + 1));
 						break;
 					case '[':
-						token_seq_.push_back(Token("[", TokenType::lbparen, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token("[", TokenType::lbparen, line, i + 1));
 						break;
 					case ']':
-						token_seq_.push_back(Token("]", TokenType::rbparen, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token("]", TokenType::rbparen, line, i + 1));
 						break;
 					case '.':
-						token_seq_.push_back(Token(".", TokenType::dot, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token(".", TokenType::dot, line, i + 1));
 						break;
 					case ',':
-						token_seq_.push_back(Token(",", TokenType::comma, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token(",", TokenType::comma, line, i + 1));
 						break;
 					case '\'':
-						token_seq_.push_back(Token("\'", TokenType::apostrophe, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token("\'", TokenType::apostrophe, line, i + 1));
 						break;
 					case ';':
-						token_seq_.push_back(Token(";", TokenType::semicolon, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token(";", TokenType::semicolon, line, i + 1));
 						break;
 					case ':':
 						if (cur_line[i + 1] != ':')
 						{
-							token_seq_.push_back(Token(":", TokenType::colon, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token(":", TokenType::colon, line, i + 1));
 						}
 						break;
 					case '!':
 						if (cur_line[i + 1] != '=')
 						{
-							token_seq_.push_back(Token("!", TokenType::exclamation, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("!", TokenType::exclamation, line, i + 1));
 						}
 						else
 						{
 							i++;
-							token_seq_.push_back(Token("!=", TokenType::noteq, line, i + 1));
+							if (!multi_line_comment) token_seq_.push_back(Token("!=", TokenType::noteq, line, i + 1));
 						}
 						break;
 					case '?':
-						token_seq_.push_back(Token("?", TokenType::question, line, i + 1));
+						if (!multi_line_comment) token_seq_.push_back(Token("?", TokenType::question, line, i + 1));
 						break;
 					}
 
@@ -472,7 +483,7 @@ namespace Dlink
 			line++;
 		}
 
-		token_seq_.push_back(Token("", TokenType::eof, line, i));
+		if (!multi_line_comment) token_seq_.push_back(Token("", TokenType::eof, line, i));
 	}
 	/**
 	 * @brief 렉싱 작업을 수행한 결과를 가져옵니다.

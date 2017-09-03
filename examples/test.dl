@@ -1,5 +1,6 @@
 void main()
 {
-	int n = 0; //i+i;//asdf
-	int j = 0;
+	int n = 0; /*
+	int j = 0;*/
+	int x = 0;
 }
