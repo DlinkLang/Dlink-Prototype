@@ -22,7 +22,7 @@ namespace Dlink
 		result += tree_prefix(depth) + "IfBranch:\n";
 		++depth;
 		result += tree_prefix(depth) + "cond:\n" + cond->tree_gen(depth + 1) + '\n';
-		result += tree_prefix(depth) + "body:\n" + cond->tree_gen(depth + 1) + '\n';
+		result += tree_prefix(depth) + "body:\n" + body->tree_gen(depth + 1) + '\n';
 		result += tree_prefix(depth) + "else_body:\n";
 
 		++depth;
