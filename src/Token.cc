@@ -116,4 +116,7 @@ namespace Dlink
 	Token::Token(const std::string& data, TokenType type, const std::size_t line, const std::size_t end_col)
 		:data(data), type(type), line(line), end_col(end_col), col(end_col - data.length() + 1)
 	{}
+
+	/** 빈 토큰입니다. */
+	const Token Token::empty("", TokenType::none, 0, 0);
 }

@@ -46,12 +46,15 @@ namespace Dlink
 		const Token token;
 	};
 
+	struct Type;
+
 	/**
 	 * @brief Dlink 코드에서의 식입니다.
 	 */
 	struct Expression : public Node
 	{
 		using Node::Node;
+		Expression(const Token& token, std::shared_ptr<Type> type);
 
 		virtual bool evaluate(Any& out);
 
@@ -60,6 +63,10 @@ namespace Dlink
 		bool any_sub(const Any& lhs, const Any& rhs, Any& out);
 		bool any_mul(const Any& lhs, const Any& rhs, Any& out);
 		bool any_div(const Any& lhs, const Any& rhs, Any& out);
+
+	public:
+		/** 이 식이 수행되고 난 후 만들어질 결과물의 타입입니다. */
+		std::shared_ptr<Type> type;
 	};
 
 	/**

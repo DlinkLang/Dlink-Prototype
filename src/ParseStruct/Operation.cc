@@ -98,7 +98,7 @@ namespace Dlink
 	 * @param data 32비트 부호 있는 정수 상수입니다.
 	 */
 	Integer32::Integer32(const Token& token, std::int32_t data) noexcept
-		: Constant(token), data(data)
+		: Constant(token, SimpleType::_int), data(data)
 	{}
 
 	std::string Integer32::tree_gen(std::size_t depth) const
@@ -107,7 +107,7 @@ namespace Dlink
 	}
 	LLVM::Value Integer32::code_gen()
 	{
-		return LLVM::builder().getInt32(data);
+		return { LLVM::builder().getInt32(data), type };
 	}
 	bool Integer32::evaluate(Any& out)
 	{
@@ -141,7 +141,7 @@ namespace Dlink
 	 * @param data 문자입니다.
 	 */
 	Character::Character(const Token& token, char data) noexcept
-		: Constant(token), data(data)
+		: Constant(token, SimpleType::_char), data(data)
 	{}
 
 	std::string Character::tree_gen(std::size_t depth) const
@@ -150,7 +150,7 @@ namespace Dlink
 	}
 	LLVM::Value Character::code_gen()
 	{
-		return LLVM::builder().getInt8(data);
+		return { LLVM::builder().getInt8(data), type };
 	}
 }
 

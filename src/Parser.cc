@@ -1057,12 +1057,7 @@ namespace Dlink
 		Token simple_type_start;
 		if (accept(TokenType::_unsigned, &simple_type_start))
 		{
-			if (accept(TokenType::_char))
-			{
-				// unsigned char
-				return false; // TODO: 아직 구현되지 않음
-			}
-			else if (accept(TokenType::_short))
+			if (accept(TokenType::_short))
 			{
 				// unsigned short
 				return false; // TODO: 아직 구현되지 않음
@@ -1091,12 +1086,7 @@ namespace Dlink
 		}
 		else if (accept(TokenType::_signed, &simple_type_start))
 		{
-			if (accept(TokenType::_char))
-			{
-				// signed char
-				return false; // TODO: 아직 구현되지 않음
-			}
-			else if (accept(TokenType::_short))
+			if (accept(TokenType::_short))
 			{
 				// signed short
 				return false; // TODO: 아직 구현되지 않음
@@ -1124,12 +1114,15 @@ namespace Dlink
 			}
 		}
 
-		else if (accept(TokenType::_char))
+		else if (accept(TokenType::_char, &simple_type_start))
 		{
 			// char
-			return false; // TODO: 아직 구현되지 않음
+			out = std::make_shared<SimpleType>(simple_type_start, "char");
+
+			assign_token(start_token, simple_type_start);
+			return true;
 		}
-		else if (accept(TokenType::_short))
+		else if (accept(TokenType::_short, &simple_type_start))
 		{
 			// short
 			return false; // TODO: 아직 구현되지 않음
@@ -1142,7 +1135,7 @@ namespace Dlink
 			assign_token(start_token, simple_type_start);
 			return true;
 		}
-		else if (accept(TokenType::_long))
+		else if (accept(TokenType::_long, &simple_type_start))
 		{
 			// long
 			return false; // TODO: 아직 구현되지 않음

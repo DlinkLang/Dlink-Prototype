@@ -27,6 +27,12 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Type get_type() override;
 
+		static const TypePtr _void;
+		static const TypePtr _char;
+		static const TypePtr _int;
+
+		static const TypePtr _unsigned_int;
+
 		/** 타입의 식별자입니다. */
 		const std::string identifier;
 		/**

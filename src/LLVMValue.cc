@@ -1,5 +1,7 @@
 #include "LLVMValue.hh"
 
+#include "ParseStruct/Root.hh"
+
 namespace Dlink
 {
 	namespace LLVM
@@ -12,12 +14,11 @@ namespace Dlink
 			: value_(nullptr), type_(nullptr)
 		{}
 		/**
-		 * @brief 새 Value 인스턴스를 만듭니다.
+		 * @brief 빈 Value 인스턴스를 만듭니다.
 		 * @details 이 함수는 예외를 발생시키지 않습니다.
-		 * @param value 저장할 LLVM Value입니다.
 		 */
-		Value::Value(llvm::Value* value) noexcept
-			: value_(value), type_(value ? value->getType() : nullptr)
+		Value::Value(std::nullptr_t) noexcept
+			: value_(nullptr), type_(nullptr)
 		{}
 		/**
 		 * @brief 새 Value 인스턴스를 만듭니다.
@@ -25,7 +26,7 @@ namespace Dlink
 		 * @param value 저장할 LLVM Value입니다.
 		 * @param type 저장할 LLVM Value의 타입입니다.
 		 */
-		Value::Value(llvm::Value* value, Type type) noexcept
+		Value::Value(llvm::Value* value, TypePtr type) noexcept
 			: value_(value), type_(type)
 		{}
 		/**
@@ -124,7 +125,7 @@ namespace Dlink
 		 * @details 이 함수는 예외를 발생시키지 않습니다.
 		 * @return 현재 인스턴스에 저장된 LLVM Value 값의 타입을 반환합니다.
 		 */
-		Type Value::type() const noexcept
+		TypePtr Value::type() const noexcept
 		{
 			return type_;
 		}

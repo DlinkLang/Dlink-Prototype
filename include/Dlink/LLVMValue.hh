@@ -6,12 +6,14 @@
  * @brief llvm::Value*의 래퍼를 정의합니다.
  */
 
-#include "LLVMType.hh"
+#include <memory>
 
 #include "llvm/IR/Instructions.h"
 
 namespace Dlink
 {
+	struct Type;
+
 	namespace LLVM
 	{
 		/**
@@ -22,8 +24,8 @@ namespace Dlink
 		{
 		public:
 			Value() noexcept;
-			Value(llvm::Value* value) noexcept;
-			Value(llvm::Value* value, Type type) noexcept;
+			Value(std::nullptr_t) noexcept;
+			Value(llvm::Value* value, std::shared_ptr<Dlink::Type> type) noexcept;
 			Value(const Value& value) noexcept;
 			~Value() = default;
 
@@ -38,11 +40,11 @@ namespace Dlink
 		public:
 			bool empty() const noexcept;
 			llvm::Value* get() const noexcept;
-			Type type() const noexcept;
+			std::shared_ptr<Dlink::Type> type() const noexcept;
 
 		private:
 			llvm::Value* value_;
-			Type type_;
+			std::shared_ptr<Dlink::Type> type_;
 		};
 	}
 }

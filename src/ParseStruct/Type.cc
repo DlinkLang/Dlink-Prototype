@@ -30,17 +30,31 @@ namespace Dlink
 	}
 	LLVM::Type SimpleType::get_type()
 	{
-		if (identifier == "int")
-		{
-			return LLVM::builder().getInt32Ty();
-		}
-		else if (identifier == "void")
+		if (identifier == "void")
 		{
 			return LLVM::builder().getVoidTy();
+		}
+		else if (identifier == "char")
+		{
+			return LLVM::builder().getInt8Ty();
+		}
+		else if (identifier == "int")
+		{
+			return LLVM::builder().getInt32Ty();
 		}
 
 		return nullptr;
 	}
+
+	/** 시작 토큰 값이 없는 미리 만들어진 void 타입입니다. */
+	const TypePtr SimpleType::_void = std::make_shared<SimpleType>(Token::empty, "void");
+	/** 시작 토큰 값이 없는 미리 만들어진 char 타입입니다. */
+	const TypePtr SimpleType::_char = std::make_shared<SimpleType>(Token::empty, "char");
+	/** 시작 토큰 값이 없는 미리 만들어진 int 타입입니다. */
+	const TypePtr SimpleType::_int = std::make_shared<SimpleType>(Token::empty, "int");
+
+	/** 시작 토큰 값이 없는 미리 만들어진 unsigned int 타입입니다. */
+	const TypePtr SimpleType::_unsigned_int = std::make_shared<SimpleType>(Token::empty, "int", true);
 
 	/** 
 	 * @brief 새 ConstType 인스턴스를 만듭니다.

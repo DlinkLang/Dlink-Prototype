@@ -123,6 +123,8 @@ namespace Dlink
 		Token() = default;
 		Token(const std::string& data_, TokenType type_, const std::size_t line_, const std::size_t end_col_);
     
+		static const Token empty;
+
 		/** 토큰의 원본 문장입니다. */
 		std::string data;
 		/** TokenType 형식의 토큰의 타입입니다. */
