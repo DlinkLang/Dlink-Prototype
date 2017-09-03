@@ -1,12 +1,6 @@
-void main()
+unsafe void main()
 {
-	int n = 0;
-
-	{
-		int i = n;
-
-		{
-			int j = 0;
-		}
-	}
+	int i;
+	int* ip = &i;
+	*ip = 5;
 }
