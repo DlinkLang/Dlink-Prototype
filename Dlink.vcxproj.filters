@@ -75,6 +75,9 @@
     <ClCompile Include="src\Assembler.cc">
       <Filter>Source-Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ParseStruct\Branch.cc">
+      <Filter>Source-Files\ParseStruct</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Dlink\CodeGen.hh">
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="include\Dlink\Assembler.hh">
       <Filter>Header-Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Dlink\ParseStruct\Branch.hh">
+      <Filter>Header-Files\ParseStruct</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

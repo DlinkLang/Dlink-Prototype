@@ -6,6 +6,7 @@
  * @brief Dlink 코드 파서의 결과가 생성하는 AST의 노드들을 정의합니다.
  */
 
+#include "ParseStruct/Branch.hh"
 #include "ParseStruct/Root.hh"
 #include "ParseStruct/Operation.hh"
 #include "ParseStruct/Type.hh"

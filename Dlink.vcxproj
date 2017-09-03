@@ -32,6 +32,7 @@
     <ClCompile Include="src\Message\Warning.cc" />
     <ClCompile Include="src\Parser.cc" />
     <ClCompile Include="src\ParseStruct.cc" />
+    <ClCompile Include="src\ParseStruct\Branch.cc" />
     <ClCompile Include="src\ParseStruct\Declaration.cc" />
     <ClCompile Include="src\ParseStruct\Operation.cc" />
     <ClCompile Include="src\ParseStruct\Root.cc" />
@@ -51,6 +52,7 @@
     <ClInclude Include="include\Dlink\Message\Warning.hh" />
     <ClInclude Include="include\Dlink\Parser.hh" />
     <ClInclude Include="include\Dlink\ParseStruct.hh" />
+    <ClInclude Include="include\Dlink\ParseStruct\Branch.hh" />
     <ClInclude Include="include\Dlink\ParseStruct\Declaration.hh" />
     <ClInclude Include="include\Dlink\ParseStruct\Operation.hh" />
     <ClInclude Include="include\Dlink\ParseStruct\Root.hh" />
