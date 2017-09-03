@@ -18,7 +18,7 @@ namespace Dlink
 	 */
 	struct IfBranch final : public Statement
 	{
-		IfBranch(const Token& token, ExpressionPtr cond, StatementPtr body, StatementPtr else_body);
+		IfBranch(const Token& token, ExpressionPtr cond, StatementPtr body, StatementPtr else_body = nullptr);
 
 		std::string tree_gen(std::size_t depth) const;
 		LLVM::Value code_gen();

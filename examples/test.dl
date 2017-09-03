@@ -1,5 +1,11 @@
-void main()
+int main()
 {
-	bool b = true;
-	bool b2 = false;
+	if(true)
+	{
+		return 0;
+	}
+	else
+	{
+		return 1;
+	}
 }

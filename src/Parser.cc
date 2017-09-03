@@ -366,12 +366,12 @@ namespace Dlink
 		{
 			StatementPtr statement;
 
-			Token expr_stmt_start;
-			if (expr_stmt(statement, &expr_stmt_start))
+			Token ifelse_start;
+			if (ifelse_stmt(statement, &ifelse_start))
 			{
 				out = statement;
 
-				assign_token(start_token, expr_stmt_start);
+				assign_token(start_token, ifelse_start);
 				return true;
 			}
 
@@ -384,6 +384,79 @@ namespace Dlink
 		// TODO
 
 		return false;
+	}
+
+	bool Parser::ifelse_stmt(StatementPtr& out, Token* start_token)
+	{
+		Token ifelse_start;
+		if (accept(TokenType::_if, &ifelse_start))
+		{
+			if (accept(TokenType::lparen))
+			{
+				ExpressionPtr cond_expr;
+				
+				if (!expr(cond_expr))
+				{
+					errors_.add_error(Error(current_token(), "Expected expression, but got \"" + current_token().data + "\""));
+					return false;
+				}
+
+				if (!accept(TokenType::rparen))
+				{
+					errors_.add_error(Error(current_token(), "Expected ')', but got \"" + current_token().data + "\""));
+					return false;
+				}
+
+				StatementPtr true_body;
+				if (!scope(true_body))
+				{
+					errors_.add_error(Error(current_token(), "Expected statement, but got \"" + current_token().data + "\""));
+					return false;
+				}
+
+				if (!accept(TokenType::_else))
+				{
+					out = std::make_shared<IfBranch>(ifelse_start, cond_expr, true_body);	
+
+					assign_token(start_token, ifelse_start);
+					return true;
+				}
+				else
+				{
+					StatementPtr else_body;
+					if (!scope(else_body))
+					{
+						errors_.add_error(Error(current_token(), "Expected statement, but got \"" + current_token().data + "\""));
+						return false;
+					}
+
+					out = std::make_shared<IfBranch>(ifelse_start, cond_expr, true_body, else_body);	
+
+					assign_token(start_token, ifelse_start);
+					return true;
+				}
+			}
+			else
+			{
+				errors_.add_error(Error(current_token(), "Expected '(', but got \"" + current_token().data + "\""));
+				return false;
+			}
+		}
+		else
+		{
+			StatementPtr statement;
+
+			Token expr_stmt_start;
+			if (expr_stmt(statement, &expr_stmt_start))
+			{
+				out = statement;
+
+				assign_token(start_token, expr_stmt_start);
+				return true;
+			}
+
+			return false;
+		}
 	}
 
 	bool Parser::expr_stmt(StatementPtr& out, Token* start_token)
