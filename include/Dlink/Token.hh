@@ -102,6 +102,7 @@ namespace Dlink
         _return,            /**< 키워드 'return' 입니다. */
         _null,              /**< 키워드 'null' 입니다. */
         _const,             /**< 키워드 'const' 입니다. */
+		literal,			/**< 키워드 'literal' 입니다. */
 		_true,				/**< 키워드 'true' 입니다. */
 		_false,				/**< 키워드 'false' 입니다. */
 
