@@ -94,6 +94,8 @@ namespace Dlink
 		MAP_TOKEN(_null),
 		MAP_TOKEN(_const),
 		MAP_TOKEN(literal),
+		MAP_TOKEN(_true),
+		MAP_TOKEN(_false),
 
 		MAP_TOKEN(_unsigned),
 		MAP_TOKEN(_signed),

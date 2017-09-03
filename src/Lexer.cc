@@ -24,6 +24,7 @@ namespace Dlink
 		keyword_map_["return"] = TokenType::_return;
 		keyword_map_["null"] = TokenType::_null;
 		keyword_map_["const"] = TokenType::_const;
+		keyword_map_["literal"] = TokenType::literal;
 		keyword_map_["true"] = TokenType::_true;
 		keyword_map_["false"] = TokenType::_false;
 
