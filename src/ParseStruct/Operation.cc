@@ -207,12 +207,11 @@ namespace Dlink
 				throw Error(token, "TODO");
 			}
 
-			Identifier* dest;
-			if ((dest = dynamic_cast<Identifier*>(lhs.get())))
+			llvm::LoadInst* load_inst = llvm::dyn_cast_or_null<llvm::LoadInst>(lhs_value.get());
+			if (load_inst)
 			{
-				return LLVM::builder().CreateStore(rhs_value, symbol_table->find(dest->id));
+				return LLVM::builder().CreateStore(rhs_value, load_inst->getPointerOperand());
 			}
-
 			return LLVM::builder().CreateStore(rhs_value, lhs_value);
 		}
 
