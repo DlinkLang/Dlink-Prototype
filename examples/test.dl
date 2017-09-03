@@ -1,9 +1,4 @@
-unsafe void main()
+void main()
 {
-	int v = 0;
-	int* i = &v;
-
-	const int* const j = i;
-
-	*j = 5;
+	byte b = 0;
 }

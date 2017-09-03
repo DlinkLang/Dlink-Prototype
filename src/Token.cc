@@ -98,6 +98,7 @@ namespace Dlink
 		MAP_TOKEN(_unsigned),
 		MAP_TOKEN(_signed),
 		MAP_TOKEN(_char),
+		MAP_TOKEN(byte),
 		MAP_TOKEN(_short),
 		MAP_TOKEN(_int),
 		MAP_TOKEN(_long),

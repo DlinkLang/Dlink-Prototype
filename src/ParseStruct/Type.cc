@@ -38,9 +38,21 @@ namespace Dlink
 		{
 			return LLVM::builder().getInt8Ty();
 		}
+		else if (identifier == "byte")
+		{
+			return { LLVM::builder().getInt8Ty(), is_unsigned };
+		}
+		else if (identifier == "short")
+		{
+			return { LLVM::builder().getInt16Ty(), is_unsigned };
+		}
 		else if (identifier == "int")
 		{
-			return LLVM::builder().getInt32Ty();
+			return { LLVM::builder().getInt32Ty(), is_unsigned };
+		}
+		else if (identifier == "long")
+		{
+			return { LLVM::builder().getInt64Ty(), is_unsigned };
 		}
 
 		return nullptr;

@@ -29,12 +29,22 @@ namespace Dlink
 			: type_(type), is_const_(is_const)
 		{}
 		/**
+		 * @brief 새 Type 인스턴스를 만듭니다.
+		 * @details 이 함수는 예외를 발생시키지 않습니다.
+		 * @param type 저장할 LLVM Type입니다.
+		 * @param is_const const 지정자가 붙어 있는지 여부입니다.
+		 * @param is_unsigned 타입이 unsigned인지 여부입니다.
+		 */
+		Type::Type(llvm::Type* type, bool is_const, bool is_unsigned) noexcept
+			: type_(type), is_const_(is_const), is_unsigned_(is_unsigned)
+		{}
+		/**
 		 * @brief 기존 인스턴스를 복사해 새 Type 인스턴스를 만듭니다.
 		 * @details 이 함수는 예외를 발생시키지 않습니다.
 		 * @param type 복사할 기존 인스턴스입니다.
 		 */
 		Type::Type(const Type& type) noexcept
-			: type_(type.type_), is_const_(type.is_const_)
+			: type_(type.type_), is_const_(type.is_const_), is_unsigned_(type.is_unsigned_)
 		{}
 
 		/**
@@ -47,6 +57,7 @@ namespace Dlink
 		{
 			type_ = type.type_;
 			is_const_ = type.is_const_;
+			is_unsigned_ = type.is_unsigned_;
 			return *this;
 		}
 		/**
@@ -68,7 +79,7 @@ namespace Dlink
 		 */
 		bool Type::operator==(const Type& type) const noexcept
 		{
-			return type_ == type.type_ && is_const_ == type.is_const_;
+			return type_ == type.type_ && is_const_ == type.is_const_ && is_unsigned_ == type.is_unsigned_;
 		}
 		/**
 		 * @brief 현재 인스턴스에 저장된 LLVM Type 값과 다른 LLVM Type 값이 다른지 확인합니다.
@@ -89,7 +100,7 @@ namespace Dlink
 		 */
 		bool Type::operator!=(const Type& type) const noexcept
 		{
-			return type_ != type.type_ || is_const_ != type.is_const_;
+			return type_ != type.type_ || is_const_ != type.is_const_ || is_unsigned_ != type.is_unsigned_;
 		}
 		const llvm::Type* Type::operator->() const noexcept
 		{
@@ -116,7 +127,7 @@ namespace Dlink
 		 */
 		bool Type::empty() const noexcept
 		{
-			return type_ == nullptr && is_const_ == false;
+			return type_ == nullptr && is_const_ == false && is_unsigned_ == false;
 		}
 		/**
 		 * @brief 현재 인스턴스에 저장된 LLVM Type 값을 가져옵니다.
@@ -135,6 +146,15 @@ namespace Dlink
 		bool Type::is_const() const noexcept
 		{
 			return is_const_;
+		}
+		/**
+		 * @brief 타입이 unsigned인지 여부를 가져옵니다.
+		 * @details 이 함수는 예외를 발생시키지 않습니다.
+		 * @return 타입이 unsigned인지 여부를 반환합니다.
+		 */
+		bool Type::is_unsigned() const noexcept
+		{
+			return is_unsigned_;
 		}
 	}
 }
