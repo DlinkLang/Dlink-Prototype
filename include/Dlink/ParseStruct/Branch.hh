@@ -3,7 +3,7 @@
 /**
  * @file Branch.hh
  * @author kmc7468
- * @brief Dlink ÄÚµå ÆÄ¼­ÀÇ °á°ú°¡ »ý¼ºÇÏ´Â Ãß»ó ±¸¹® Æ®¸®ÀÇ ³ëµåµé Áß ºÐ±â¿Í °ü·ÃµÈ ³ëµåµéÀ» Á¤ÀÇÇÕ´Ï´Ù.
+ * @brief Dlink ì½”ë“œ íŒŒì„œì˜ ê²°ê³¼ê°€ ìƒì„±í•˜ëŠ” ì¶”ìƒ êµ¬ë¬¸ íŠ¸ë¦¬ì˜ ë…¸ë“œë“¤ ì¤‘ ë¶„ê¸°ì™€ ê´€ë ¨ëœ ë…¸ë“œë“¤ì„ ì •ì˜í•©ë‹ˆë‹¤.
  */
 
 #include "Root.hh"
@@ -13,8 +13,8 @@
 namespace Dlink
 {
 	/**
-	 * @brief if Á¶°Ç¹®ÀÇ ±¸Á¶¸¦ ´ã´Â Ãß»ó ±¸¹® Æ®¸®ÀÇ ³ëµåÀÔ´Ï´Ù.
-	 * @details ÀÌ ±¸Á¶Ã¼´Â ´Ù¸¥ °÷¿¡¼­ »ó¼Ó¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
+	 * @brief if ì¡°ê±´ë¬¸ì˜ êµ¬ì¡°ë¥¼ ë‹´ëŠ” ì¶”ìƒ êµ¬ë¬¸ íŠ¸ë¦¬ì˜ ë…¸ë“œìž…ë‹ˆë‹¤.
+	 * @details ì´ êµ¬ì¡°ì²´ëŠ” ë‹¤ë¥¸ ê³³ì—ì„œ ìƒì†ë°›ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
 	 */
 	struct IfBranch final : public Statement
 	{
@@ -23,11 +23,11 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) const;
 		LLVM::Value code_gen();
 
-		/** Á¶°Ç½ÄÀÔ´Ï´Ù. */
+		/** ì¡°ê±´ì‹ìž…ë‹ˆë‹¤. */
 		ExpressionPtr cond;
-		/** Á¶°Ç½ÄÀÌ ÂüÀÏ¶§ ½ÇÇàÇÒ ¹®ÀÔ´Ï´Ù. */
+		/** ì¡°ê±´ì‹ì´ ì°¸ì¼ë•Œ ì‹¤í–‰í•  ë¬¸ìž…ë‹ˆë‹¤. */
 		StatementPtr body;
-		/** Á¶°Ç½ÄÀÌ °ÅÁþÀÏ¶§ ½ÇÇàÇÒ ¹®ÀÔ´Ï´Ù. */
+		/** ì¡°ê±´ì‹ì´ ê±°ì§“ì¼ë•Œ ì‹¤í–‰í•  ë¬¸ìž…ë‹ˆë‹¤. */
 		StatementPtr else_body;
 	};
 }

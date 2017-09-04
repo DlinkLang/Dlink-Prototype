@@ -6,11 +6,11 @@ namespace Dlink
 	extern std::string tree_prefix(std::size_t depth);
 
 	/**
-	 * @brief »õ IfBranch ÀÎ½ºÅÏ½º¸¦ ¸¸µì´Ï´Ù.
-	 * @param token ÀÌ ³ëµå¸¦ ¸¸µå´Âµ¥ »ç¿ëµÈ °¡Àå Ã¹¹øÂ° ÅäÅ«ÀÔ´Ï´Ù.
-	 * @param cond Á¶°Ç½ÄÀÔ´Ï´Ù.
-	 * @param body Á¶°Ç½ÄÀÌ ÂüÀÏ¶§ ½ÇÇàÇÒ ¹®ÀÔ´Ï´Ù.
-	 * @param else_body Á¶°Ç½ÄÀÌ °ÅÁşÀÏ¶§ ½ÇÇàÇÒ ¹®ÀÔ´Ï´Ù.
+	 * @brief ìƒˆ IfBranch ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë§Œë“­ë‹ˆë‹¤.
+	 * @param token ì´ ë…¸ë“œë¥¼ ë§Œë“œëŠ”ë° ì‚¬ìš©ëœ ê°€ì¥ ì²«ë²ˆì§¸ í† í°ì…ë‹ˆë‹¤.
+	 * @param cond ì¡°ê±´ì‹ì…ë‹ˆë‹¤.
+	 * @param body ì¡°ê±´ì‹ì´ ì°¸ì¼ë•Œ ì‹¤í–‰í•  ë¬¸ì…ë‹ˆë‹¤.
+	 * @param else_body ì¡°ê±´ì‹ì´ ê±°ì§“ì¼ë•Œ ì‹¤í–‰í•  ë¬¸ì…ë‹ˆë‹¤.
 	 */
 	IfBranch::IfBranch(const Token& token, ExpressionPtr cond, StatementPtr body, StatementPtr else_body) 
 		: Statement(token), cond(cond), body(body), else_body(else_body)
