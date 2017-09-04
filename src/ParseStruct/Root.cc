@@ -213,4 +213,12 @@ namespace Dlink
 	{
 		return true;
 	}
+	/**
+	 * @brief 이 노드가 저장중인 Dlink 타입이 literal 지정자와 함께 선언될 수 있는지 여부입니다.
+	 * @return literal 지정자와 함께 선언될 수 있는지 반환합니다.
+	 */
+	bool Type::can_literal() const
+	{
+		return false;
+	}
 }

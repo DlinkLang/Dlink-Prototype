@@ -26,6 +26,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Type get_type() override;
+		bool can_literal() const override;
 
 		static const TypePtr _void;
 		static const TypePtr _char;
@@ -51,6 +52,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Type get_type() override;
+		bool can_literal() const override;
 
 		/** const 지정자가 없을 경우의 타입입니다. */
 		TypePtr type;
@@ -66,6 +68,7 @@ namespace Dlink
 
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Type get_type() override;
+		bool can_literal() const override;
 
 		/** 배열 아이템의 타입입니다. */
 		TypePtr type;
@@ -81,6 +84,7 @@ namespace Dlink
 		Reference(const Token& token, TypePtr type);
 
 		LLVM::Type get_type() override;
+		bool can_literal() const override;
 
 		/** 참조하고 있는 값의 타입입니다. */
 		TypePtr type;
@@ -108,6 +112,7 @@ namespace Dlink
 		std::string tree_gen(std::size_t depth) const override;
 		LLVM::Type get_type() override;
 		bool is_safe() const noexcept override;
+		bool can_literal() const override;
 
 		/** 포인터의 원본 타입입니다. */
 		TypePtr type;
