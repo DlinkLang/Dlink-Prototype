@@ -70,6 +70,10 @@ namespace Dlink
 
 		return nullptr;
 	}
+	bool SimpleType::can_literal() const
+	{
+		return true;
+	}
 
 	/** 시작 토큰 값이 없는 미리 만들어진 void 타입입니다. */
 	const TypePtr SimpleType::_void = std::make_shared<SimpleType>(Token::empty, "void");
@@ -117,6 +121,10 @@ namespace Dlink
 	LLVM::Type ConstType::get_type()
 	{
 		return { type->get_type(), true };
+	}
+	bool ConstType::can_literal() const
+	{
+		return type->can_literal();
 	}
 
 	/**
@@ -168,6 +176,10 @@ namespace Dlink
 
 		return llvm::ArrayType::get(type_llvm, length_real);
 	}
+	bool StaticArray::can_literal() const
+	{
+		return type->can_literal();
+	}
 
 	/**
 	 * @brief 이 Reference 인스턴스의 멤버를 초기화합니다.
@@ -180,6 +192,10 @@ namespace Dlink
 	LLVM::Type Reference::get_type()
 	{
 		return type->get_type()->getPointerTo();
+	}
+	bool Reference::can_literal() const
+	{
+		return type->can_literal();
 	}
 
 	std::string LValueReference::tree_gen(std::size_t depth) const
@@ -208,5 +224,9 @@ namespace Dlink
 	bool Pointer::is_safe() const noexcept
 	{
 		return false;
+	}
+	bool Pointer::can_literal() const
+	{
+		return true;
 	}
 }
