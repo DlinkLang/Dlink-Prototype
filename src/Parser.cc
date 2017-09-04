@@ -1191,6 +1191,31 @@ namespace Dlink
 			return true;
 		}
 
+		else if (accept(TokenType::half, &simple_type_start))
+		{
+			// __half
+			out = std::make_shared<SimpleType>(simple_type_start, "half");
+
+			assign_token(start_token, simple_type_start);
+			return true;
+		}
+		else if (accept(TokenType::single, &simple_type_start))
+		{
+			// single
+			out = std::make_shared<SimpleType>(simple_type_start, "single");
+
+			assign_token(start_token, simple_type_start);
+			return true;
+		}
+		else if (accept(TokenType::_double, &simple_type_start))
+		{
+			// double
+			out = std::make_shared<SimpleType>(simple_type_start, "double");
+
+			assign_token(start_token, simple_type_start);
+			return true;
+		}
+
 		return false;
 	}
 

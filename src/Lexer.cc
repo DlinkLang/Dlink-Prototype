@@ -32,6 +32,9 @@ namespace Dlink
 		keyword_map_["int"] = TokenType::_int;
 		keyword_map_["long"] = TokenType::_long;
 		keyword_map_["void"] = TokenType::_void;
+		keyword_map_["__half"] = TokenType::half;
+		keyword_map_["single"] = TokenType::single;
+		keyword_map_["double"] = TokenType::_double;
 	}
 
 	/**

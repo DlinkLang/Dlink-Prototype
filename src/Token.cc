@@ -103,6 +103,9 @@ namespace Dlink
 		MAP_TOKEN(_int),
 		MAP_TOKEN(_long),
 		MAP_TOKEN(_void),
+		MAP_TOKEN(half),
+		MAP_TOKEN(single),
+		MAP_TOKEN(_double),
 	};
 
 #undef MAP_TOKEN

@@ -55,6 +55,19 @@ namespace Dlink
 			return { LLVM::builder().getInt64Ty(), is_unsigned };
 		}
 
+		else if (identifier == "half")
+		{
+			return LLVM::builder().getHalfTy();
+		}
+		else if (identifier == "single")
+		{
+			return LLVM::builder().getFloatTy();
+		}
+		else if (identifier == "double")
+		{
+			return LLVM::builder().getDoubleTy();
+		}
+
 		return nullptr;
 	}
 
@@ -62,11 +75,30 @@ namespace Dlink
 	const TypePtr SimpleType::_void = std::make_shared<SimpleType>(Token::empty, "void");
 	/** 시작 토큰 값이 없는 미리 만들어진 char 타입입니다. */
 	const TypePtr SimpleType::_char = std::make_shared<SimpleType>(Token::empty, "char");
+	/** 시작 토큰 값이 없는 미리 만들어진 byte 타입입니다. */
+	const TypePtr SimpleType::byte = std::make_shared<SimpleType>(Token::empty, "byte", true);
+	/** 시작 토큰 값이 없는 미리 만들어진 short 타입입니다. */
+	const TypePtr SimpleType::_short = std::make_shared<SimpleType>(Token::empty, "short");
 	/** 시작 토큰 값이 없는 미리 만들어진 int 타입입니다. */
 	const TypePtr SimpleType::_int = std::make_shared<SimpleType>(Token::empty, "int");
+	/** 시작 토큰 값이 없는 미리 만들어진 long 타입입니다. */
+	const TypePtr SimpleType::_long = std::make_shared<SimpleType>(Token::empty, "long");
 
+	/** 시작 토큰 값이 없는 미리 만들어진 signed byte 타입입니다. */
+	const TypePtr SimpleType::signed_byte = std::make_shared<SimpleType>(Token::empty, "byte");
+	/** 시작 토큰 값이 없는 미리 만들어진 unsigned short 타입입니다. */
+	const TypePtr SimpleType::_unsigned_short = std::make_shared<SimpleType>(Token::empty, "short", true);
 	/** 시작 토큰 값이 없는 미리 만들어진 unsigned int 타입입니다. */
 	const TypePtr SimpleType::_unsigned_int = std::make_shared<SimpleType>(Token::empty, "int", true);
+	/** 시작 토큰 값이 없는 미리 만들어진 unsigned long 타입입니다. */
+	const TypePtr SimpleType::_unsigned_long = std::make_shared<SimpleType>(Token::empty, "long", true);
+
+	/** 시작 토큰 값이 없는 미리 만들어진 half 타입입니다. */
+	const TypePtr SimpleType::half = std::make_shared<SimpleType>(Token::empty, "half");
+	/** 시작 토큰 값이 없는 미리 만들어진 single 타입입니다. */
+	const TypePtr SimpleType::single = std::make_shared<SimpleType>(Token::empty, "single");
+	/** 시작 토큰 값이 없는 미리 만들어진 double 타입입니다. */
+	const TypePtr SimpleType::_double = std::make_shared<SimpleType>(Token::empty, "double");
 
 	/** 
 	 * @brief 새 ConstType 인스턴스를 만듭니다.

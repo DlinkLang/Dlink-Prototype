@@ -29,9 +29,19 @@ namespace Dlink
 
 		static const TypePtr _void;
 		static const TypePtr _char;
+		static const TypePtr byte;
+		static const TypePtr _short;
 		static const TypePtr _int;
+		static const TypePtr _long;
 
+		static const TypePtr signed_byte;
+		static const TypePtr _unsigned_short;
 		static const TypePtr _unsigned_int;
+		static const TypePtr _unsigned_long;
+
+		static const TypePtr half;
+		static const TypePtr single;
+		static const TypePtr _double;
 
 		/** 타입의 식별자입니다. */
 		const std::string identifier;
