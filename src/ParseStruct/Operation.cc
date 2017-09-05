@@ -216,7 +216,8 @@ namespace Dlink
 		}
 
 		default:
-			return nullptr;
+			// TODO: 에러 메세지 채워주세요.
+			throw Error(token, "TODO");
 		}
 	}
 	void BinaryOperation::preprocess()
@@ -319,8 +320,8 @@ namespace Dlink
 		}
 
 		default:
-			// TODO: 오류 처리
-			return LLVM::builder().getFalse();
+			// TODO: 에러 메세지 채워주세요.
+			throw Error(token, "TODO");
 		}
 	}
 	void UnaryOperation::preprocess()
