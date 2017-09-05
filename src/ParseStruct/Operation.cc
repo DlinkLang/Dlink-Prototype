@@ -201,7 +201,7 @@ namespace Dlink
 
 		case TokenType::assign:
 		{
-			if (lhs_value.type().is_const())
+			if (lhs_value.type()->get_type().is_const())
 			{
 				// TODO: 에러메세지 채워주세요.
 				throw Error(token, "TODO");
@@ -210,9 +210,9 @@ namespace Dlink
 			llvm::LoadInst* load_inst = llvm::dyn_cast_or_null<llvm::LoadInst>(lhs_value.get());
 			if (load_inst)
 			{
-				return LLVM::builder().CreateStore(rhs_value, load_inst->getPointerOperand());
+				return { LLVM::builder().CreateStore(rhs_value, load_inst->getPointerOperand()), lhs->type };
 			}
-			return LLVM::builder().CreateStore(rhs_value, lhs_value);
+			return { LLVM::builder().CreateStore(rhs_value, lhs_value), lhs->type };
 		}
 
 		default:
@@ -295,10 +295,10 @@ namespace Dlink
 		switch (op)
 		{
 		case TokenType::plus:
-			return LLVM::builder().CreateMul(LLVM::builder().getInt32(1), rhs_value);
+			return { LLVM::builder().CreateMul(LLVM::builder().getInt32(1), rhs_value), rhs->type };
 
 		case TokenType::minus:
-			return LLVM::builder().CreateMul(LLVM::builder().getInt32(-1), rhs_value);
+			return { LLVM::builder().CreateMul(LLVM::builder().getInt32(-1), rhs_value), rhs->type };
 
 		case TokenType::multiply: // 값 참조 연산
 		{
@@ -312,7 +312,8 @@ namespace Dlink
 				llvm::LoadInst* temp = nullptr;
 				if ((temp = llvm::dyn_cast_or_null<llvm::LoadInst>(rhs_value.get())))
 				{
-					return temp->getPointerOperand();
+					return { temp->getPointerOperand(),
+						std::make_shared<Pointer>(Token::empty, rhs->type) };
 				}
 			}
 
@@ -534,7 +535,7 @@ namespace Dlink
 			{
 				throw Error(token, "Unexpected value return statement in void function");
 			}
-			return LLVM::builder().CreateRet(return_expr->code_gen());
+			return { LLVM::builder().CreateRet(return_expr->code_gen()), nullptr };
 		}
 		else
 		{
@@ -542,7 +543,7 @@ namespace Dlink
 			{
 				throw Error(token, "Expected value return statement in non-void returning function");
 			}
-			return LLVM::builder().CreateRetVoid();
+			return { LLVM::builder().CreateRetVoid(), nullptr };
 		}
 	}
 	void ReturnStatement::preprocess()
