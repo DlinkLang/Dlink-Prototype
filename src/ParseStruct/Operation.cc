@@ -356,21 +356,53 @@ namespace Dlink
 				{ "unsigned int", SimpleType::_double },
 			} },
 		};
+		
+		static auto simpletype2string = [](TypePtr type) -> std::string
+		{
+			if (dynamic_cast<SimpleType*>(type.get()))
+			{
+				std::shared_ptr<SimpleType> simple_type = std::dynamic_pointer_cast<SimpleType>(type);
+
+				std::string result = simple_type->identifier;
+
+				if (simple_type->is_unsigned)
+				{
+					result = "unsigned " + result;
+				}
+
+				return result;
+			}
+
+			return "";
+		};
+
+		static auto type_inf = [](LLVM::Value& lhs, LLVM::Value& rhs) -> TypePtr
+		{
+			if (std::find(aithmetic_type.begin(), aithmetic_type.end(), simpletype2string(lhs.type())) != aithmetic_type.end())
+			{
+				if (std::find(aithmetic_type.begin(), aithmetic_type.end(), simpletype2string(rhs.type())) != aithmetic_type.end())
+				{
+					return aithmetic_type.at(simpletype2string(lhs.type())).at(simpletype2string(rhs.type()));
+				}
+			}
+
+			return nullptr;
+		};
 
 		switch (op)
 		{
 		case TokenType::plus:
-			return LLVM::builder().CreateAdd(lhs_value, rhs_value);
+			return { LLVM::builder().CreateAdd(lhs_value, rhs_value), type_inf(lhs_value, rhs_value) };
 
 		case TokenType::minus:
-			return LLVM::builder().CreateSub(lhs_value, rhs_value);
+			return { LLVM::builder().CreateSub(lhs_value, rhs_value), type_inf(lhs_value, rhs_value) };
 
 		case TokenType::multiply:
-			return LLVM::builder().CreateMul(lhs_value, rhs_value);
+			return { LLVM::builder().CreateMul(lhs_value, rhs_value), type_inf(lhs_value, rhs_value) };
 
 		case TokenType::divide:
 			// TODO: 임시 방안
-			return LLVM::builder().CreateSDiv(lhs_value, rhs_value);
+			return { LLVM::builder().CreateSDiv(lhs_value, rhs_value), type_inf(lhs_value, rhs_value) };
 
 		case TokenType::assign:
 		{
