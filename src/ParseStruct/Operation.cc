@@ -184,6 +184,179 @@ namespace Dlink
 		LLVM::Value lhs_value = lhs->code_gen();
 		LLVM::Value rhs_value = rhs->code_gen();
 
+		static const std::map<std::string, std::map<std::string, TypePtr>> aithmetic_type =
+		{
+			// char
+			{ "char", {
+					{ "char", SimpleType::_char },
+					{ "byte", SimpleType::byte },
+					{ "short", SimpleType::_short },
+					{ "int", SimpleType::_int },
+					{ "long", SimpleType::_long },
+
+					{ "signed byte", SimpleType::signed_byte },
+					{ "unsigned short", SimpleType::_unsigned_short },
+					{ "unsigned int", SimpleType::_unsigned_int },
+					{ "unsigned long", SimpleType::_unsigned_long },
+
+					{ "half", SimpleType::half },
+					{ "single", SimpleType::single },
+					{ "double", SimpleType::_double },
+			} },
+
+			// byte
+			{ "byte", {
+				{ "char", SimpleType::byte },
+				{ "byte", SimpleType::byte },
+				{ "short", SimpleType::_short },
+				{ "int", SimpleType::_int },
+				{ "long", SimpleType::_long },
+
+				{ "signed byte", SimpleType::byte },
+				{ "unsigned short", SimpleType::_unsigned_short },
+				{ "unsigned int", SimpleType::_unsigned_int },
+				{ "unsigned long", SimpleType::_unsigned_long },
+
+				{ "half", SimpleType::half },
+				{ "single", SimpleType::single },
+				{ "double", SimpleType::_double },
+			} },
+			{ "signed byte", {
+				{ "char", SimpleType::signed_byte },
+				{ "byte", SimpleType::byte },
+				{ "short", SimpleType::_short },
+				{ "int", SimpleType::_int },
+				{ "long", SimpleType::_long },
+
+				{ "signed byte", SimpleType::signed_byte },
+				{ "unsigned short", SimpleType::_unsigned_short },
+				{ "unsigned int", SimpleType::_unsigned_int },
+				{ "unsigned long", SimpleType::_unsigned_long },
+
+				{ "half", SimpleType::half },
+				{ "single", SimpleType::single },
+				{ "double", SimpleType::_double },
+			} },
+
+			// short
+			{ "short", {
+				{ "char", SimpleType::_short },
+				{ "byte", SimpleType::_short },
+				{ "short", SimpleType::_short },
+				{ "int", SimpleType::_int },
+				{ "long", SimpleType::_long },
+
+				{ "signed byte", SimpleType::_short },
+				{ "unsigned short", SimpleType::_unsigned_short },
+				{ "unsigned int", SimpleType::_unsigned_int },
+				{ "unsigned long", SimpleType::_unsigned_long },
+
+				{ "single", SimpleType::single },
+				{ "double", SimpleType::_double },
+			} },
+			{ "unsigned short", {
+				{ "char", SimpleType::_unsigned_short },
+				{ "byte", SimpleType::_unsigned_short },
+				{ "short", SimpleType::_unsigned_short },
+				{ "int", SimpleType::_int },
+				{ "long", SimpleType::_long },
+
+				{ "signed byte", SimpleType::_unsigned_short },
+				{ "unsigned short", SimpleType::_unsigned_short },
+				{ "unsigned int", SimpleType::_unsigned_int },
+				{ "unsigned long", SimpleType::_unsigned_long },
+
+				{ "single", SimpleType::single },
+				{ "double", SimpleType::_double },
+			} },
+
+			// int
+			{ "int", {
+				{ "char", SimpleType::_int },
+				{ "byte", SimpleType::_int },
+				{ "short", SimpleType::_int },
+				{ "int", SimpleType::_int },
+				{ "long", SimpleType::_long },
+
+				{ "signed byte", SimpleType::_int },
+				{ "unsigned short", SimpleType::_int },
+				{ "unsigned int", SimpleType::_unsigned_int },
+				{ "unsigned long", SimpleType::_unsigned_long },
+
+				{ "double", SimpleType::_double },
+			} },
+			{ "unsigned int", {
+				{ "char", SimpleType::_unsigned_int },
+				{ "byte", SimpleType::_unsigned_int },
+				{ "short", SimpleType::_unsigned_int },
+				{ "int", SimpleType::_unsigned_int },
+				{ "long", SimpleType::_long },
+
+				{ "signed byte", SimpleType::_unsigned_int },
+				{ "unsigned short", SimpleType::_unsigned_int },
+				{ "unsigned int", SimpleType::_unsigned_int },
+				{ "unsigned long", SimpleType::_unsigned_long },
+
+				{ "double", SimpleType::_double },
+			} },
+
+			// long
+			{ "long", {
+				{ "char", SimpleType::_long },
+				{ "byte", SimpleType::_long },
+				{ "short", SimpleType::_long },
+				{ "int", SimpleType::_long },
+				{ "long", SimpleType::_long },
+
+				{ "signed byte", SimpleType::_long },
+				{ "unsigned short", SimpleType::_long },
+				{ "unsigned int", SimpleType::_long },
+				{ "unsigned long", SimpleType::_unsigned_long },
+			} },
+			{ "unsigned long", {
+				{ "char", SimpleType::_unsigned_long },
+				{ "byte", SimpleType::_unsigned_long },
+				{ "short", SimpleType::_unsigned_long },
+				{ "int", SimpleType::_unsigned_long },
+				{ "long", SimpleType::_unsigned_long },
+
+				{ "signed byte", SimpleType::_unsigned_long },
+				{ "unsigned short", SimpleType::_unsigned_long },
+				{ "unsigned int", SimpleType::_unsigned_long },
+				{ "unsigned long", SimpleType::_unsigned_long },
+			} },
+
+			// half
+			{ "half", {
+				{ "char", SimpleType::half },
+				{ "byte", SimpleType::half },
+
+				{ "signed byte", SimpleType::half },
+			} },
+
+			// single
+			{ "single", {
+				{ "char", SimpleType::single },
+				{ "byte", SimpleType::single },
+				{ "short", SimpleType::single },
+
+				{ "signed byte", SimpleType::single },
+				{ "unsigned short", SimpleType::single },
+			} },
+
+			// double
+			{ "double", {
+				{ "char", SimpleType::_double },
+				{ "byte", SimpleType::_double },
+				{ "short", SimpleType::_double },
+				{ "int", SimpleType::_int },
+
+				{ "signed byte", SimpleType::_double },
+				{ "unsigned short", SimpleType::_double },
+				{ "unsigned int", SimpleType::_double },
+			} },
+		};
+
 		switch (op)
 		{
 		case TokenType::plus:
